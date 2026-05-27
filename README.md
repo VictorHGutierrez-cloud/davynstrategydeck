@@ -1,40 +1,51 @@
-# Davyn × Factorial — strategy deck e landing
+# Davyn × Factorial — Partner hub & downloads
 
-Repositório com **material em português** para aumentar conversão com o parceiro **Davyn** (Caribe).
+English-first **partner hub** (GitHub Pages) plus **binary assets** your partner can download: PDF one-pagers, vertical guides, Introw decks, PNG competitive maps, and CSV baselines.
 
-## Documentos principais
+Live site: [https://victorhgutierrez-cloud.github.io/davynstrategydeck/](https://victorhgutierrez-cloud.github.io/davynstrategydeck/)
 
-| Ficheiro | Descrição |
-|----------|-----------|
-| [`PAE_DAVYN_CONVERSAO.md`](PAE_DAVYN_CONVERSAO.md) | Playbook para PAE — plano comercial, checklists, “battlecards”, métricas e leitura dos exports CRM (2026-05-27). |
-| [`LANDING_PAGE_WIREFRAME.md`](LANDING_PAGE_WIREFRAME.md) | Esboço da página (secções e formulário) — referência de desenho. |
+---
 
-## Sítio web (GitHub Pages)
+## What’s in this repo
 
-- **Site público (centro de recursos do parceiro):**  
-  [https://victorhgutierrez-cloud.github.io/davynstrategydeck/](https://victorhgutierrez-cloud.github.io/davynstrategydeck/)
+| Path | Description |
+|------|-------------|
+| [`site/index.html`](site/index.html) | English landing page — **Downloads** section lists every file. |
+| [`site/assets/downloads/`](site/assets/downloads/) | **PDF / PPTX / PNG / CSV** for partners. |
+| [`site/assets/PARTNER_PLAYBOOK_DAVYN_EN.md`](site/assets/PARTNER_PLAYBOOK_DAVYN_EN.md) | Full conversion playbook (English). |
+| [`site/assets/ASSET_INDEX_EN.md`](site/assets/ASSET_INDEX_EN.md) | Inventory of all downloadable files. |
+| [`PARTNER_PLAYBOOK_DAVYN_EN.md`](PARTNER_PLAYBOOK_DAVYN_EN.md) | Same playbook at repo root for quick GitHub viewing. |
+| [`archive/portuguese/`](archive/portuguese/) | Older Portuguese copies (reference only). |
 
-- **Ficheiros em `assets/` (descarga a partir do sítio):**  
-  [https://github.com/VictorHGutierrez-cloud/davynstrategydeck/tree/main/site/assets](https://github.com/VictorHGutierrez-cloud/davynstrategydeck/tree/main/site/assets)
+---
 
-- **Configuração:** no GitHub, em **Settings → Pages**, a origem deve ser **GitHub Actions**.
+## GitHub Pages
 
-- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica o conteúdo da pasta [`site/`](site/) (incluindo `site/assets/`).
+1. **Settings → Pages → Source:** GitHub Actions.  
+2. Workflow: [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publishes folder [`site/`](site/).  
+3. After each push to `main`, wait for the **Deploy GitHub Pages** workflow to finish.
 
-### Alterar o sítio ou os recursos
+### Updating files
 
-1. Edita `site/index.html`, `site/styles.css` ou ficheiros em `site/assets/`.  
-2. Se mudares o guia na raíz (`PAE_DAVYN_CONVERSAO.md`), volta a copiar para `site/assets/PAE_DAVYN_CONVERSAO.md` para o parceiro ver a mesma versão no hub.  
-3. Faz `git push`.  
-4. Espera o workflow “Deploy GitHub Pages” ficar verde nos **Actions**.
+1. Drop new PDF/PPTX into [`site/assets/downloads/`](site/assets/downloads/) (use subfolders; avoid spaces in filenames).  
+2. Add a row to the **Downloads** section in [`site/index.html`](site/index.html) (or regenerate from a manifest later).  
+3. Update [`site/assets/ASSET_INDEX_EN.md`](site/assets/ASSET_INDEX_EN.md) when you add categories.  
+4. `git add`, `git commit`, `git push`.
 
-## Cópia local recomendada (Mac)
+If you regenerate the playbook, update **both** `site/assets/PARTNER_PLAYBOOK_DAVYN_EN.md` and root `PARTNER_PLAYBOOK_DAVYN_EN.md` (or symlink — Git does not symlink well cross-platform).
 
-Para teres os `.md` ao lado dos outros materiais Factorial:
+---
 
-- Pasta: **`Documentos / PAE Frameworks / Davyn /`**
-- Ficheiro guia: **`LEIA-ME.md`** (indica onde está cada coisa neste disco)
+## Local copies on this Mac
 
-## Repo remoto
+If you mirror the project under **Documents › PAE Frameworks › Davyn**, refresh the **`recursos_assets`** folder after pulls so BD/comms always has offline copies:
+
+`Documents / PAE Frameworks / Davyn / recursos_assets /`
+
+*(We’ll keep mirroring downloads there when you sync from Cursor — you can also `git clone` the repo anywhere.)*
+
+---
+
+## Remote
 
 - [VictorHGutierrez-cloud/davynstrategydeck](https://github.com/VictorHGutierrez-cloud/davynstrategydeck)

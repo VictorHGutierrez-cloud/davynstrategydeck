@@ -379,6 +379,12 @@ details.accordion .acc-body {
   color: var(--muted);
 }
 
+h3.dl-h3 {
+  margin: 22px 0 10px;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
 .table-wrap {
   overflow-x: auto;
   margin-top: 12px;
