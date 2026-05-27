@@ -3,662 +3,240 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Partners Content Hub · Davyn × Factorial</title>
+    <title>Davyn · Sales Execution Platform</title>
     <meta
       name="description"
-      content="Partner-facing content hub (English): Introw decks, one-pagers, vertical PDFs, flyers, competitive maps, CRM CSV baselines, and the Davyn conversion playbook."
+      content="Real-time sales execution for Caribbean Microsoft partners — objections, discovery, vertical playbooks, battlecards, and executive messaging."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip" href="#hub-main">Skip to assets</a>
+    <a class="skip" href="#main-content">Skip to content</a>
 
-    <header class="hub-topbar">
-      <button type="button" class="hub-menu-btn" id="sidebar-toggle" aria-expanded="false" aria-controls="hub-sidebar">
-        ☰
-      </button>
+    <header class="topbar">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open navigation">☰</button>
 
-      <div class="hub-brand">
-        <div class="hub-logo" aria-hidden="true">DF</div>
-        <div class="hub-brand-text">
-          <strong>Partners Content Hub</strong>
-          <span>Davyn × Factorial · Caribbean</span>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">D</div>
+        <div class="brand-text">
+          <strong>Davyn</strong>
+          <span>Sales execution · Microsoft · Caribbean</span>
         </div>
       </div>
 
-      <div class="hub-search-wrap">
-        <label for="hub-search">Search</label>
+      <div class="search-wrap">
+        <label for="global-search" class="skip">Search</label>
         <input
           type="search"
-          id="hub-search"
-          class="hub-search-input"
-          placeholder="Search assets, tags, or partners…"
+          id="global-search"
+          class="search-input"
+          placeholder="Search objections, stages, verticals…"
           autocomplete="off"
         />
+        <span class="search-kbd" aria-hidden="true">⌘K</span>
+        <div id="search-results" class="search-results" hidden></div>
       </div>
 
-      <div class="hub-top-actions">
-        <span class="lang-pill" title="All customer-facing copy is in English">English</span>
-        <div class="view-toggle" role="group" aria-label="View mode">
-          <button type="button" id="view-grid" class="is-active" title="Grid view" aria-pressed="true">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path d="M1 1h6v6H1V1zm8 0h6v6H9V1zM1 9h6v6H1V9zm8 0h6v6H9V9z" />
-            </svg>
-          </button>
-          <button type="button" id="view-list" title="List view" aria-pressed="false">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path d="M1 2h14v2H1V2zm0 5h14v2H1V7zm0 5h14v2H1v-2z" />
-            </svg>
-          </button>
-        </div>
-        <button type="button" class="icon-btn" title="Notifications (static demo)">🔔</button>
-        <span class="avatar" title="Signed in (demo chrome only)"></span>
-      </div>
+      <span class="topbar-meta">We Help You Run Your Business Better</span>
     </header>
 
-    <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
-
-    <div class="hub-layout">
-      <aside class="hub-sidebar" id="hub-sidebar" aria-label="Filters">
-        <div class="sidebar-section-label">Partner</div>
-        <div class="partner-card">
-          <span class="dot"></span>
-          <div><strong>Davyn × Factorial</strong><br /><span style="color:var(--muted);font-size:.8rem">Approved assets</span></div>
-        </div>
-
-        <div class="sidebar-section-label">Navigation</div>
-        <a class="nav-item" href="#hub-main">All assets (overview)</a>
-        <button type="button" class="nav-item" disabled title="Planned hub update">Brand guidelines</button>
-        <button type="button" class="nav-item" disabled title="Planned hub update">Use-case stories</button>
-
-        <div class="sidebar-section-label">Asset type</div>
-        <button type="button" class="type-filter is-active" data-type="all">All assets</button>
-        <button type="button" class="type-filter" data-type="presentation">Presentation / deck</button>
-        <button type="button" class="type-filter" data-type="one-pager">One-pager</button>
-        <button type="button" class="type-filter" data-type="vertical">Industry vertical</button>
-        <button type="button" class="type-filter" data-type="flyer">Flyer</button>
-        <button type="button" class="type-filter" data-type="image">Image</button>
-        <button type="button" class="type-filter" data-type="data">Data export</button>
-        <button type="button" class="type-filter" data-type="document">Document</button>
-
-        <div class="sidebar-footer">
-          <button type="button" disabled title="Static demo hub">⚙️ Settings</button>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+        <div class="sidebar-label">Execute</div>
+        <nav id="main-nav"></nav>
+        <div class="sidebar-foot">
+          Microsoft Solution Partner · Dynamics 365 · Azure · Fabric · Copilot · Power Platform · LS Central
         </div>
       </aside>
 
-      <main class="hub-main" id="hub-main">
-        <div class="hub-heading-row">
-          <div>
-            <h1>Davyn <span style="color:var(--muted);font-weight:500">|</span> <span id="asset-count">—</span> assets</h1>
-            <p class="sub">English-only partner library — download PDFs, decks, maps, and CRM baselines.</p>
+      <main class="main" id="main-content">
+        <!-- HOME -->
+        <section data-panel="home">
+          <div class="hero-compact">
+            <h1>What should you do next?</h1>
+            <p>
+              Built for live deals — not document browsing. Answer three questions and get a tactical recommendation. Under
+              pressure on a call? Jump straight to <strong>Objection intelligence</strong>.
+            </p>
           </div>
-          <div>
-            <a href="assets/ASSET_INDEX_EN.md">Full index (Markdown)</a>
-            ·
-            <a href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck" target="_blank" rel="noopener">GitHub</a>
+
+          <div class="triage-block">
+            <h2>1 · What stage is your deal in?</h2>
+            <div class="triage-chips" id="triage-stages"></div>
           </div>
-        </div>
 
-        <div class="banner">
-          <h2 id="banner-title">All assets</h2>
-          <p id="banner-desc">Browse every file available for Davyn partners.</p>
-        </div>
+          <div class="triage-block">
+            <h2>2 · What problem are you facing right now?</h2>
+            <div class="triage-chips" id="triage-problems"></div>
+          </div>
 
-        <div class="filter-toolbar">
-          <span class="fake-dropdown">Intended use ▾</span>
-          <span class="fake-dropdown">Product ▾</span>
-          <span class="fake-dropdown">Use case ▾</span>
-          <span class="fake-dropdown">Asset type ▾</span>
-          <span class="fake-dropdown">Decision maker ▾</span>
-          <span class="fake-dropdown">Industry ▾</span>
-          <span class="fake-dropdown">Language ▾</span>
-        </div>
+          <div class="triage-block">
+            <h2>3 · What type of customer is this?</h2>
+            <div class="triage-chips" id="triage-customers"></div>
+          </div>
 
-        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px">
-          <div id="active-chips" aria-live="polite"></div>
-          <button type="button" id="clear-all-filters" class="clear-all-btn" hidden>Clear all</button>
-        </div>
+          <div id="triage-recommendation">
+            <p class="muted">Select at least one filter above to get a recommended next action.</p>
+          </div>
 
-        <div class="asset-grid" id="asset-grid">
-          <!-- Presentation / deck -->
-          <article
-            class="asset-card"
-            data-type="presentation"
-            data-search="getting started introw onboarding factorial partner english 2026 deck pptx onboarding enablement davyn presentation"
-          >
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PPTX</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="2" width="16" height="20" rx="2" />
-                  <path d="M8 7h8M8 11h8M8 15h6" stroke-linecap="round" />
-                </svg>
-                <strong>DECK</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/introw/getting-started-with-introw-2026-en.pptx" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/introw/getting-started-with-introw-2026-en.pptx" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Getting started with Introw (EN)</h3>
-              <p class="asset-meta">~6 MB · PPTX · 2026</p>
-              <div class="asset-tags"><span>Onboarding</span><span>Internal use</span><span>Presentation</span></div>
-            </div>
-          </article>
+          <div class="quick-actions">
+            <button type="button" class="quick-btn" onclick="davynGo('objections')">
+              <strong>⚡ Live objection</strong>
+              <span>Short + exec + technical answers</span>
+            </button>
+            <button type="button" class="quick-btn" onclick="davynGo('discovery')">
+              <strong>◉ Discovery call</strong>
+              <span>Regional-first question framework</span>
+            </button>
+            <button type="button" class="quick-btn" onclick="davynGo('messaging')">
+              <strong>✦ Executive message</strong>
+              <span>Generate C-level wording</span>
+            </button>
+            <button type="button" class="quick-btn" onclick="davynGo('followups')">
+              <strong>↗ Follow-up email</strong>
+              <span>Templates ready to copy</span>
+            </button>
+            <button type="button" class="quick-btn" onclick="davynGo('security')">
+              <strong>⛨ Security blocker</strong>
+              <span>Compliance answers for Legal/IT</span>
+            </button>
+            <button type="button" class="quick-btn" onclick="davynGo('caribbean')">
+              <strong>◐ Caribbean context</strong>
+              <span>Sovereignty, FX, continuity</span>
+            </button>
+          </div>
+        </section>
 
-          <article
-            class="asset-card"
-            data-type="presentation"
-            data-search="partner quick visual guide introw factorial english 2026 short deck onboarding davyn pptx presentation"
-          >
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PPTX</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="2" width="16" height="20" rx="2" />
-                  <path d="M8 7h8M8 11h8M8 15h6" stroke-linecap="round" />
-                </svg>
-                <strong>DECK</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/introw/partner-quick-guide-visual-en-2026.pptx" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/introw/partner-quick-guide-visual-en-2026.pptx" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Partner visual quick guide (EN)</h3>
-              <p class="asset-meta">~2 MB · PPTX · 2026</p>
-              <div class="asset-tags"><span>Onboarding</span><span>Sales-ready</span><span>Presentation</span></div>
-            </div>
-          </article>
+        <!-- DEAL STAGES -->
+        <section data-panel="stages" hidden>
+          <div class="section-intro">
+            <h1>Deal stage navigator</h1>
+            <p class="lead">Each stage has a goal, actions, risks, and a single recommended next move — not a content library.</p>
+          </div>
+          <div class="split-panel">
+            <div class="list-panel" id="stage-list"></div>
+            <div class="detail-panel" id="stage-detail"></div>
+          </div>
+        </section>
 
-          <!-- One-pagers -->
-          <article class="asset-card" data-type="one-pager" data-search="partner one pager factorial hr pdf summary davyn onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/one-pagers/partner-onepager-factorial-hr.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/one-pagers/partner-onepager-factorial-hr.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Partner one-pager — Factorial HR</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Partner facing</span><span>Overview</span></div>
-            </div>
-          </article>
+        <!-- OBJECTIONS -->
+        <section data-panel="objections" hidden>
+          <div class="section-intro">
+            <h1>Objection intelligence hub</h1>
+            <p class="lead">Structured for live calls: short answer first, then exec, technical, discovery, follow-up, risks, and next action.</p>
+          </div>
+          <div class="split-panel">
+            <div class="list-panel" id="objection-list"></div>
+            <div class="detail-panel" id="objection-detail"></div>
+          </div>
+        </section>
 
-          <article class="asset-card" data-type="one-pager" data-search="factorial hr client facing one pager workforce pdf davyn onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/one-pagers/factorial-hr-client-onepager.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/one-pagers/factorial-hr-client-onepager.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Client-facing HR one-pager</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Client facing</span><span>Value story</span></div>
-            </div>
-          </article>
+        <!-- VERTICALS -->
+        <section data-panel="verticals" hidden>
+          <div class="section-intro">
+            <h1>Vertical playbooks</h1>
+            <p class="lead">Davyn + Microsoft stack positioning by industry — pains, outcomes, discovery prompts, and assets.</p>
+          </div>
+          <div class="split-panel">
+            <div class="list-panel" id="vertical-list"></div>
+            <div class="detail-panel" id="vertical-detail"></div>
+          </div>
+        </section>
 
-          <article class="asset-card" data-type="one-pager" data-search="factorial overview one pager microsoft partnership pdf onboarding davyn onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/one-pagers/factorial-one-pager-overview.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/one-pagers/factorial-one-pager-overview.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Factorial overview one-pager</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Top of funnel</span><span>Product</span></div>
-            </div>
-          </article>
+        <!-- DISCOVERY -->
+        <section data-panel="discovery" hidden>
+          <div class="section-intro">
+            <h1>Discovery frameworks</h1>
+            <p class="lead">Regional-first discovery for Caribbean enterprise sales. Every call ends with stakeholders + risks + dated next step.</p>
+          </div>
+          <div id="discovery-content"></div>
+        </section>
 
-          <article class="asset-card" data-type="one-pager" data-search="factorial microsoft partnership one pager pdf davyn co-sell onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/one-pagers/factorial-microsoft-partnership-onepager.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/one-pagers/factorial-microsoft-partnership-onepager.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Factorial × Microsoft partnership</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Co-sell</span><span>Positioning</span></div>
-            </div>
-          </article>
+        <!-- BATTLECARDS -->
+        <section data-panel="battlecards" hidden>
+          <div class="section-intro">
+            <h1>Competitive battlecards</h1>
+            <p class="lead">When you hear it, win on it, say this — traps to avoid included.</p>
+          </div>
+          <div id="battlecards-content"></div>
+        </section>
 
-          <!-- Verticals -->
-          <article class="asset-card" data-type="vertical" data-search="vertical technology industry tech pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-tech.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-tech.pdf" download>Download</a>
-              </div>
+        <!-- MESSAGING -->
+        <section data-panel="messaging" hidden>
+          <div class="section-intro">
+            <h1>Executive messaging generator</h1>
+            <p class="lead">Persona-specific wording for Davyn's Microsoft portfolio — value, not feature lists.</p>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="msg-persona">Persona</label>
+              <select id="msg-persona"></select>
             </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Technology</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Industry</span><span>Persona</span></div>
+            <div class="form-field">
+              <label for="msg-outcome">Outcome</label>
+              <select id="msg-outcome"></select>
             </div>
-          </article>
+            <div class="form-field">
+              <label for="msg-vertical">Vertical</label>
+              <select id="msg-vertical"></select>
+            </div>
+            <div class="form-field">
+              <label for="msg-product">Product focus</label>
+              <input id="msg-product" type="text" placeholder="e.g. Business Central, Fabric, Copilot" />
+            </div>
+          </div>
+          <div class="msg-output" id="msg-output"></div>
+          <button type="button" class="copy-btn" id="msg-copy" style="margin-top: 12px">Copy message</button>
+        </section>
 
-          <article class="asset-card" data-type="vertical" data-search="vertical retail industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-retail.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-retail.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Retail</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Industry</span><span>Persona</span></div>
-            </div>
-          </article>
+        <!-- FOLLOWUPS -->
+        <section data-panel="followups" hidden>
+          <div class="section-intro">
+            <h1>Follow-up templates</h1>
+            <p class="lead">Copy, personalize placeholders, send — no blank-page paralysis after demos or discovery.</p>
+          </div>
+          <div id="followups-content"></div>
+        </section>
 
-          <article class="asset-card" data-type="vertical" data-search="vertical hospitality industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-hospitality.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-hospitality.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Hospitality</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Industry</span><span>Tourism</span></div>
-            </div>
-          </article>
+        <!-- SECURITY -->
+        <section data-panel="security" hidden>
+          <div class="section-intro">
+            <h1>Security &amp; compliance answers</h1>
+            <p class="lead">For Legal and IT blockers — governance workshops, not marketing PDFs. Caribbean residency and CLOUD Act questions included.</p>
+          </div>
+          <div id="security-content"></div>
+        </section>
 
-          <article class="asset-card" data-type="vertical" data-search="vertical health pharma biomedical industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-health-pharma.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-health-pharma.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Health &amp; pharma</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Regulated</span><span>Hiring ops</span></div>
-            </div>
-          </article>
+        <!-- ROI -->
+        <section data-panel="roi" hidden>
+          <div class="section-intro">
+            <h1>ROI narratives</h1>
+            <p class="lead">Anchor value before price — tool sprawl, legacy ERP risk, manager time, compliance cost.</p>
+          </div>
+          <div id="roi-content"></div>
+        </section>
 
-          <article class="asset-card" data-type="vertical" data-search="vertical nonprofit charity industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-nonprofit.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-nonprofit.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Nonprofit</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Limited budgets</span><span>Volunteers</span></div>
-            </div>
-          </article>
+        <!-- CARIBBEAN -->
+        <section data-panel="caribbean" hidden>
+          <div class="section-intro">
+            <h1>Regional Caribbean insights</h1>
+            <p class="lead">Sovereignty, FX controls, continuity, talent scarcity — and how Davyn's 20+ year Microsoft partnership de-risks delivery.</p>
+          </div>
+          <div id="caribbean-content"></div>
+        </section>
 
-          <article class="asset-card" data-type="vertical" data-search="vertical construction engineered services industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-construction.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-construction.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Construction</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Field crews</span><span>Growth</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="vertical" data-search="vertical professional services consulting industry pdf onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/industry-verticals/vertical-professional-services.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/industry-verticals/vertical-professional-services.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Vertical — Professional services</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Billable workforce</span><span>Partners</span></div>
-            </div>
-          </article>
-
-          <!-- Flyer -->
-          <article class="asset-card" data-type="flyer" data-search="factorial flyer hr it collaboration pdf leaflet davyn onboarding">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">PDF</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="3" width="12" height="18" rx="1" />
-                  <path d="M9 7h6M9 10h6M9 13h6" stroke-linecap="round" />
-                </svg>
-                <strong>PDF</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/flyers/factorial-hr-it-flyer.pdf" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/flyers/factorial-hr-it-flyer.pdf" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>HR × IT collaboration flyer</h3>
-              <p class="asset-meta">~1 MB · PDF</p>
-              <div class="asset-tags"><span>Internal enablement</span><span>Co-selling</span></div>
-            </div>
-          </article>
-
-          <!-- Competitive images -->
-          <article
-            class="asset-card"
-            data-type="image"
-            data-search="competitor map products vs competitive landscape light theme png enablement battlecard"
-          >
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">IMAGE</span>
-              <img
-                src="assets/downloads/competitive/products-vs-competitor-light-2026-02.png"
-                alt="Competitive landscape — light theme"
-                loading="lazy"
-              />
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/competitive/products-vs-competitor-light-2026-02.png" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/competitive/products-vs-competitor-light-2026-02.png" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Products vs competitors — light</h3>
-              <p class="asset-meta">PNG · Feb 2026</p>
-              <div class="asset-tags"><span>Battlecard</span><span>Enablement</span></div>
-            </div>
-          </article>
-
-          <article
-            class="asset-card"
-            data-type="image"
-            data-search="competitor map products vs competitive landscape dark theme png enablement battlecard"
-          >
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">IMAGE</span>
-              <img
-                src="assets/downloads/competitive/products-vs-competitor-dark-2026-02.png"
-                alt="Competitive landscape — dark theme"
-                loading="lazy"
-              />
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/competitive/products-vs-competitor-dark-2026-02.png" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/competitive/products-vs-competitor-dark-2026-02.png" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Products vs competitors — dark</h3>
-              <p class="asset-meta">PNG · Feb 2026</p>
-              <div class="asset-tags"><span>Battlecard</span><span>Enablement</span></div>
-            </div>
-          </article>
-
-          <!-- Data exports -->
-          <article class="asset-card" data-type="data" data-search="closed won mrr over time csv crm export baseline 2026 may internal">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">CSV</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="3" width="16" height="18" rx="1" />
-                  <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>CSV</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/data-exports/Closed_Won_-_MRR_over_time-2026-05-27.csv" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/data-exports/Closed_Won_-_MRR_over_time-2026-05-27.csv" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Closed won — MRR over time</h3>
-              <p class="asset-meta">CSV · 2026-05-27</p>
-              <div class="asset-tags"><span>Internal</span><span>Baseline</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="data" data-search="demos held over time csv crm export baseline 2026 may internal">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">CSV</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="3" width="16" height="18" rx="1" />
-                  <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>CSV</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/data-exports/Demos_Held_Over_Time-2026-05-27.csv" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/data-exports/Demos_Held_Over_Time-2026-05-27.csv" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Demos held over time</h3>
-              <p class="asset-meta">CSV · 2026-05-27</p>
-              <div class="asset-tags"><span>Pipeline</span><span>Funnel</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="data" data-search="average sales cycle csv crm export baseline 2026 may internal">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">CSV</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="3" width="16" height="18" rx="1" />
-                  <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>CSV</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/data-exports/Average_sales_cycle-2026-05-27.csv" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/data-exports/Average_sales_cycle-2026-05-27.csv" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Average sales cycle</h3>
-              <p class="asset-meta">CSV · 2026-05-27</p>
-              <div class="asset-tags"><span>Velocity</span><span>Planning</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="data" data-search="revenue over time csv crm export baseline 2026 may internal">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">CSV</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="3" width="16" height="18" rx="1" />
-                  <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>CSV</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/data-exports/Revenue_over_time-2026-05-27.csv" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/data-exports/Revenue_over_time-2026-05-27.csv" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Revenue over time</h3>
-              <p class="asset-meta">CSV · 2026-05-27</p>
-              <div class="asset-tags"><span>Finance view</span><span>Internal</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="data" data-search="total revenue csv crm export baseline 2026 may internal">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">CSV</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="4" y="3" width="16" height="18" rx="1" />
-                  <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>CSV</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/downloads/data-exports/Total_revenue-2026-05-27.csv" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/downloads/data-exports/Total_revenue-2026-05-27.csv" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Total revenue</h3>
-              <p class="asset-meta">CSV · 2026-05-27</p>
-              <div class="asset-tags"><span>Reporting</span><span>Internal</span></div>
-            </div>
-          </article>
-
-          <!-- Markdown documents -->
-          <article
-            class="asset-card"
-            data-type="document"
-            data-search="partner playbook davyn conversion caribbean strategy markdown onboarding internal"
-          >
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">MD</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="2" width="12" height="20" rx="1" />
-                  <path d="M9 6h6M9 10h9M9 13h9M9 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>MD</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/PARTNER_PLAYBOOK_DAVYN_EN.md" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/PARTNER_PLAYBOOK_DAVYN_EN.md" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Davyn conversion playbook (EN)</h3>
-              <p class="asset-meta">Markdown · strategy + rituals</p>
-              <div class="asset-tags"><span>Playbook</span><span>PAE</span></div>
-            </div>
-          </article>
-
-          <article class="asset-card" data-type="document" data-search="asset index inventory download list markdown english hub">
-            <div class="asset-thumb-wrap">
-              <span class="badge-type">MD</span>
-              <div class="doc-thumb" aria-hidden="true">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                  <rect x="6" y="2" width="12" height="20" rx="1" />
-                  <path d="M9 6h6M9 10h9M9 13h9M9 16h5" stroke-linecap="round" />
-                </svg>
-                <strong>MD</strong>
-              </div>
-              <div class="asset-hover-actions">
-                <a class="act-btn open" href="assets/ASSET_INDEX_EN.md" target="_blank">Open</a>
-                <a class="act-btn dl" href="assets/ASSET_INDEX_EN.md" download>Download</a>
-              </div>
-            </div>
-            <div class="asset-card-body">
-              <h3>Asset index (canonical list)</h3>
-              <p class="asset-meta">Markdown inventory</p>
-              <div class="asset-tags"><span>Reference</span><span>Governance</span></div>
-            </div>
-          </article>
-        </div>
-
-        <footer class="hub-footer-note" role="note">
-          Static GitHub Pages build from
-          <a href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck" target="_blank" rel="noopener">davynstrategydeck</a>. If a link
-          returns 404 locally, add the missing files under <code>site/assets/downloads/</code> and push to <code>main</code>. CSV rows are planning
-          baselines only — refresh from your live CRM before decisions.
-        </footer>
+        <!-- ASSETS -->
+        <section data-panel="assets" hidden>
+          <div class="section-intro">
+            <h1>Related assets</h1>
+            <p class="lead">Files tied to sales motions — send after discovery aligns, not as a substitute for it.</p>
+          </div>
+          <div id="assets-content"></div>
+        </section>
       </main>
     </div>
 
-    <script src="hub.js" defer></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
