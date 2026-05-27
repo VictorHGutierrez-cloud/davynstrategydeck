@@ -3,257 +3,272 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Davyn — Operações resilientes no Caribe (rascunho)</title>
+    <title>Davyn × Factorial — Centro de recursos do parceiro</title>
     <meta
       name="description"
-      content="Rascunho público de landing: diagnóstico, blueprint e implementação para operações de pessoas no Caribe."
+      content="Um só sítio para a equipa Davyn: playbook de conversão, checklists para o mercado caribenho e respostas a objeções — em português."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <div class="nav">
-        <div class="brand">Davyn <span class="badge">rascunho</span></div>
-        <nav class="nav-links" aria-label="Principal">
-          <a href="#problema">Problema</a>
-          <a href="#resultados">Resultados</a>
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#verticais">Verticais</a>
-          <a href="#objeccoes">Objeções</a>
-          <a class="btn btn-primary" href="#contacto">Agendar diagnóstico</a>
+    <a class="skip" href="#conteudo">Saltar para o conteúdo</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <strong>Davyn × Factorial</strong>
+          <span>Centro de recursos para o parceiro</span>
+        </div>
+        <nav class="nav-top" aria-label="Atalhos">
+          <a href="#atalhos">Acesso rápido</a>
+          <a href="#playbook-resumo">Resumo</a>
+          <a href="#apoio-factorial">Apoio</a>
+          <a class="btn btn-solid" href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck/blob/main/PAE_DAVYN_CONVERSAO.md" target="_blank" rel="noopener">Abrir playbook completo</a>
         </nav>
       </div>
     </header>
 
-    <main>
-      <section class="hero" id="topo">
-        <h1>Operações de pessoas resilientes no Caribe — com governança e execução previsível.</h1>
-        <p class="lead">
-          Menos fragmentação entre ilhas, menos risco operacional e mais controlo para RH e liderança — com um método claro de diagnóstico, blueprint e implementação.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contacto">Agendar diagnóstico (30 min)</a>
-          <a class="btn btn-ghost" href="#como-funciona">Ver como funciona (3 passos)</a>
+    <div class="shell" id="conteudo">
+      <aside class="sidebar" aria-label="Índice">
+        <div class="sidebar-inner">
+          <div class="sidebar-card">
+            <h2>Neste sítio</h2>
+            <nav class="sidebar-nav">
+              <a href="#atalhos">Acesso rápido</a>
+              <a href="#playbook-resumo">Resumo do plano</a>
+              <a href="#caribe">Contexto Caribe</a>
+              <a href="#checklist">Checklist — 7 dias</a>
+              <a href="#objeccoes">Objeções típicas</a>
+              <a href="#apoio-factorial">Falar connosco</a>
+              <a href="#ficheiros">Onde estão os ficheiros</a>
+            </nav>
+          </div>
         </div>
-        <p class="hero-note">
-          Conteúdo placeholder — substituir por copy final, logos de clientes e links reais (Calendly / política de privacidade).
-        </p>
-      </section>
+      </aside>
 
-      <section class="section" id="problema">
-        <h2>O que costuma travar a decisão (e a implantação)</h2>
-        <p class="section-intro">
-          No Caribe, compras de tecnologia ligam-se a risco, continuidade e confiança. Esta secção deve espelhar as conversas reais com CFO/Legal/IT.
-        </p>
-        <ul class="clean">
-          <li>Operações <strong>multi-ilha</strong> com processos e ferramentas desligadas.</li>
-          <li><strong>Pressão de dados e auditoria</strong> — perguntas de Legal/IT que param o projeto.</li>
-          <li><strong>Escassez de talento</strong> para operar e sustentar mudanças.</li>
-          <li><strong>Continuidade operacional</strong> — dependências críticas e risco de paragem.</li>
-          <li><strong>Complexidade financeira</strong> em compras internacionais / serviços digitais (quando aplicável).</li>
-        </ul>
-        <p class="section-intro" style="margin-top: 18px">
-          Se isto soa familiar, o diagnóstico de 30 min normalmente já traz um plano de 90 dias.
-        </p>
-      </section>
+      <main class="content">
+        <section class="hero">
+          <span class="hero-tag">Equipa Davyn · Parceria Factorial</span>
+          <h1>Tudo num só lugar para vender melhor na região</h1>
+          <p class="hero-lead">
+            Esta página existe para não terdes de vasculhar vários emails: aqui tens o raciocínio de conversão
+            pensado para o <strong>mercado caribenho</strong>, checklists úteis e ligações diretas para o texto
+            completo do playbook. <strong>Língua:</strong> português.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="btn btn-solid"
+              href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck/blob/main/PAE_DAVYN_CONVERSAO.md"
+              target="_blank"
+              rel="noopener"
+              >Ler playbook (documento principal)</a
+            >
+            <a class="btn btn-outline" href="#checklist">Ver checklist dos primeiros 7 dias</a>
+          </div>
+          <div class="note" style="margin-top: 22px">
+            <strong>Importante:</strong> o documento oficial em Markdown chama-se
+            <code>PAE_DAVYN_CONVERSAO.md</code>. Se preferires trabalhar offline, uma cópia também está na pasta
+            <strong>Documentos › PAE Frameworks › Davyn</strong> neste Mac (ficheiros <code>LEIA-ME.md</code> e playbook).
+          </div>
+        </section>
 
-      <section class="section" id="resultados">
-        <h2>O que muda quando o método está certo</h2>
-        <p class="section-intro">Três outcomes que o decisor consegue “levar para o conselho”.</p>
-        <div class="grid-3">
-          <article class="card">
-            <h3>Menos caos operacional</h3>
-            <p>Processos e dados de RH mais claros entre equipas e locais.</p>
-          </article>
-          <article class="card">
-            <h3>Mais governança</h3>
-            <p>Papéis, permissões e rastreabilidade alinhados com auditoria.</p>
-          </article>
-          <article class="card">
-            <h3>Execução mais rápida</h3>
-            <p>Onboarding e mudanças com cadência semanal e donos definidos.</p>
-          </article>
-        </div>
-      </section>
+        <section class="block" id="atalhos" style="margin-top: 8px">
+          <h2>Acesso rápido</h2>
+          <p class="kicker">Três caminhos — escolhe o que precisas agora.</p>
+          <div class="quick-grid">
+            <article class="quick-card">
+              <div class="icon" aria-hidden="true">📄</div>
+              <h3>Playbook completo</h3>
+              <p>Estratégia PAE, rituais de 90 dias, métricas e leitura do export CRM (2026-05-27).</p>
+              <a
+                class="link"
+                href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck/blob/main/PAE_DAVYN_CONVERSAO.md"
+                target="_blank"
+                rel="noopener"
+                >Abrir no GitHub →</a
+              >
+            </article>
+            <article class="quick-card">
+              <div class="icon" aria-hidden="true">✅</div>
+              <h3>Checklist</h3>
+              <p>Lista curta para a primeira semana com o PAE: pipeline, ICP, objeções e enablement.</p>
+              <a class="link" href="#checklist">Ir para a checklist →</a>
+            </article>
+            <article class="quick-card">
+              <div class="icon" aria-hidden="true">💬</div>
+              <h3>Apoio Factorial</h3>
+              <p>Contacta o teu Partner Account Executive para destravar deals e alinhar narrativa regional.</p>
+              <a class="link" href="#apoio-factorial">Ver como pedir apoio →</a>
+            </article>
+          </div>
+        </section>
 
-      <section class="section" id="como-funciona">
-        <h2>Três passos — simples de explicar internamente</h2>
-        <p class="section-intro">
-          Alinhar expectativas cedo reduz “surpresas” em Legal/IT e acelera a decisão.
-        </p>
-        <div class="steps">
-          <article class="card">
-            <div class="step-num">1</div>
-            <h3>Diagnóstico (30 min)</h3>
-            <p>Mapa de stakeholders, riscos e o que está a falhar hoje.</p>
-          </article>
-          <article class="card">
-            <div class="step-num">2</div>
-            <h3>Blueprint (1–2 semanas)</h3>
-            <p>Rollout por fases, critérios de sucesso e mitigação (dados, talento, financeiro).</p>
-          </article>
-          <article class="card">
-            <div class="step-num">3</div>
-            <h3>Implementação</h3>
-            <p>Execução com checkpoints semanais e métricas de adoção.</p>
-          </article>
-        </div>
-        <p class="section-intro" style="margin-top: 18px">
-          <a class="btn btn-primary" href="#contacto">Quero o blueprint</a>
-        </p>
-      </section>
+        <section class="block" id="playbook-resumo">
+          <h2>Resumo do plano (em 2 minutos)</h2>
+          <p class="kicker">
+            No Caribe, as empresas compram com base em <strong>risco, continuidade e confiança</strong> — não só em
+            lista de funcionalidades. O teu papel é posicionar a Davyn como consultora regional, com método
+            repetível.
+          </p>
+          <ul class="tick">
+            <li><strong>ICP e verticais:</strong> focar (ex.: hotelaria, finanças, grupos multi-ilha) em vez de “qualquer empresa”.</li>
+            <li><strong>Discovery:</strong> perguntar cedo sobre dados, auditoria, operações entre ilhas, capacidade interna e compras internacionais.</li>
+            <li><strong>Playbooks:</strong> guia de perguntas + “battlecards” para objeções (soberania, falta de equipa técnica, preço).</li>
+            <li><strong>Ritual 90 dias:</strong> formação semanal (roleplay + revisão de chamadas), estratégia quinzenal nos maiores deals, revisão mensal do ICP.</li>
+            <li><strong>Métricas:</strong> conversão entre estágios, ciclo médio (definido no CRM), taxa após demonstração, motivos de perda com picklist.</li>
+          </ul>
+        </section>
 
-      <section class="section" id="verticais">
-        <h2>Onde costuma haver encaixe mais rápido</h2>
-        <p class="section-intro">Escolher 2–3 verticais evita dispersão e melhora a taxa de conversão.</p>
-        <div class="grid-3">
-          <article class="card">
-            <h3>Hospedagem & operações sazonais</h3>
-            <p>Turnover, horários, multi-property — menos erro operacional.</p>
-            <p style="margin-top: 10px"><a href="#contacto">Falar com especialista →</a></p>
-          </article>
-          <article class="card">
-            <h3>Finanças & operações reguladas</h3>
-            <p>Auditoria, permissões, rastreio — menos atrito com Legal.</p>
-            <p style="margin-top: 10px"><a href="#contacto">Falar com especialista →</a></p>
-          </article>
-          <article class="card">
-            <h3>Grupos multi-ilha</h3>
-            <p>Consistência de políticas e reporting para sede.</p>
-            <p style="margin-top: 10px"><a href="#contacto">Falar com especialista →</a></p>
-          </article>
-        </div>
-      </section>
+        <section class="block" id="caribe">
+          <h2>O que o mercado costuma preocupar-se</h2>
+          <p class="kicker">
+            Usa isto para alinhar mensagem e não soar “genérico”. Detalhes legais e fiscais cabem sempre ao cliente e
+            aos assessores deles.
+          </p>
+          <ul class="tick">
+            <li><strong>Soberania e dados:</strong> quem controla dados sensíveis; leis locais vs. extraterritorialidade.</li>
+            <li><strong>Continuidade:</strong> operações resilientes, suporte e plano quando algo falha.</li>
+            <li><strong>Talento:</strong> falta de pessoal técnico — precisam de caminho claro de implantação e operação.</li>
+            <li><strong>Financeiro:</strong> fricção em assinaturas internacionais, impostos sobre serviços digitais, câmbio (quando relevante).</li>
+          </ul>
+        </section>
 
-      <section class="section" id="objeccoes">
-        <h2>Perguntas difíceis — respostas directas</h2>
-        <p class="section-intro">
-          Cada caso tem requisitos legais próprios — ajustar sempre com os assessores do cliente.
-        </p>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Objeção</th>
-                <th>Resposta (1 linha)</th>
-                <th>Ver mais</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>“Não queremos dados fora da região.”</td>
-                <td>Passar de “cloud sim/não” para governança, controlos e papéis de dados — Legal/TI cedo.</td>
-                <td><a href="#contacto">Pedir workshop</a></td>
-              </tr>
-              <tr>
-                <td>“Não temos equipa técnica.”</td>
-                <td>Implantação assistida + rituais semanais + donos do lado do cliente.</td>
-                <td><a href="#como-funciona">Ver método</a></td>
-              </tr>
-              <tr>
-                <td>“É caro.”</td>
-                <td>Comparar custo total: ferramentas paralelas + retrabalho + risco operacional.</td>
-                <td><a href="#contacto">Pedir business case</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section" id="casos">
-        <h2>Prova / casos</h2>
-        <p class="section-intro">
-          Placeholder: inserir 2–3 cases com logo e resultado (ou “sob NDA” com métricas agregadas).
-        </p>
-        <div class="grid-3">
-          <article class="card">
-            <h3>Case A (TBD)</h3>
-            <p>Setor + resultado mensurável.</p>
-          </article>
-          <article class="card">
-            <h3>Case B (TBD)</h3>
-            <p>Setor + resultado mensurável.</p>
-          </article>
-          <article class="card">
-            <h3>Case C (TBD)</h3>
-            <p>Setor + resultado mensurável.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="contacto">
-        <h2>Agendar diagnóstico (30 min)</h2>
-        <p class="section-intro">
-          Formulário estático (não envia dados). Substituir por HubSpot / Typeform / endpoint seguro.
-        </p>
-        <form action="#" method="get" onsubmit="return false;">
-          <div class="form-row">
-            <div>
-              <label for="nome">Nome completo</label>
-              <input id="nome" name="nome" type="text" autocomplete="name" />
+        <section class="block" id="checklist">
+          <h2>Checklist — primeiros 7 dias (com o PAE)</h2>
+          <p class="kicker">Marca com a tua equipa o que já está feito; o resto vira plano de trabalho.</p>
+          <details class="accordion" open>
+            <summary>Pipeline e previsibilidade</summary>
+            <div class="acc-body">
+              <ul class="tick">
+                <li>Lista dos <strong>10 negócios activos</strong> com estágio, próximo passo e dono.</li>
+                <li><strong>ICP</strong> escrito (sector, dimensão, geografia) — não pode ser “todas as empresas”.</li>
+                <li>Taxa de conversão por estágio (mesmo que manual, numa folha).</li>
+                <li>Principais <strong>motivos de perda</strong> registados de forma consistente.</li>
+              </ul>
             </div>
-            <div>
-              <label for="email">Email corporativo</label>
-              <input id="email" name="email" type="email" autocomplete="email" />
+          </details>
+          <details class="accordion">
+            <summary>Capacidade comercial</summary>
+            <div class="acc-body">
+              <ul class="tick">
+                <li>A equipa faz <strong>descoberta de negócio</strong> estruturada ou só fala de produto?</li>
+                <li>Consegue mapear <strong>quem decide</strong> (RH, finanças, TI, jurídico)?</li>
+                <li>Sabe pedir o <strong>próximo passo</strong> com data (plano mútuo simples)?</li>
+              </ul>
+            </div>
+          </details>
+          <details class="accordion">
+            <summary>Enablement mínimo</summary>
+            <div class="acc-body">
+              <ul class="tick">
+                <li>Três provas (casos, referências ou números) prontas a usar.</li>
+                <li>Cinco objeções mais frequentes com resposta curta — ver secção abaixo.</li>
+              </ul>
+            </div>
+          </details>
+        </section>
+
+        <section class="block" id="objeccoes">
+          <h2>Objeções típicas — respostas curtas</h2>
+          <p class="kicker">Para aprofundar, abre as “battlecards” no playbook completo.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>O cliente diz…</th>
+                  <th>O que responder (ideia‑chave)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>«Não queremos dados fora da região.»</td>
+                  <td>Mudar de “nuvem sim/não” para <strong>governança</strong>: controlos, responsabilidades, registos; envolver jurídico e TI cedo.</td>
+                </tr>
+                <tr>
+                  <td>«Não temos equipa técnica.»</td>
+                  <td>Propor <strong>implantação acompanhada</strong>, rituais semanais e donos do lado do cliente.</td>
+                </tr>
+                <tr>
+                  <td>«É caro.»</td>
+                  <td>Comparar <strong>custo total</strong>: várias ferramentas, retrabalho, auditoria, risco operacional — pedir três números ao cliente.</td>
+                </tr>
+                <tr>
+                  <td>«Já temos Microsoft / Google.»</td>
+                  <td>Separar <strong>produtividade</strong> de <strong>processos de RH</strong>: políticas, fluxos, relatórios para liderança.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="block" id="apoio-factorial">
+          <h2>Precisas de ajuda da Factorial?</h2>
+          <p class="kicker">O canal certo é sempre o teu Partner Account Executive (PAE): estratégia de conta, revisão de negócios e conteúdo de enablement.</p>
+          <div class="apoio">
+            <h3>O que pedir ao PAE</h3>
+            <ul class="tick">
+              <li>Revisão de uma chamada de descoberta (gravação ou notas).</li>
+              <li>Definição de <strong>plano mútuo</strong> para um negócio estratégico.</li>
+              <li>Alinhamento de mensagem para um sector (ex.: hotelaria multi‑ilha).</li>
+              <li>Roteiro de perguntas para jurídico / TI sem prometer segurança legal.</li>
+            </ul>
+            <p style="margin-top: 14px; color: var(--muted); font-size: 0.95rem">
+              O formulário electrónico abaixo é só um modelo — até ligares CRM ou email, usa o canal que já utilizas com o teu PAE.
+            </p>
+            <div style="margin-top: 16px">
+              <strong>Contacto rápido (preenche e envia por email ao PAE)</strong>
+            </div>
+            <div class="table-wrap" style="margin-top: 10px; border: none">
+              <table>
+                <tbody>
+                  <tr>
+                    <th style="width: 140px">Empresa</th>
+                    <td>Davyn — preencher no email</td>
+                  </tr>
+                  <tr>
+                    <th>Assunto sugerido</th>
+                    <td>Pedido de apoio — narrativa regional / negócio [nome]</td>
+                  </tr>
+                  <tr>
+                    <th>Corpo</th>
+                    <td>
+                      Negócio, estágio, decisores conhecidos, objeção principal, próxima data de follow‑up —
+                      <strong>em português ou inglês</strong>, consoante combinado com o PAE.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div class="form-row">
-            <div>
-              <label for="empresa">Empresa</label>
-              <input id="empresa" name="empresa" type="text" autocomplete="organization" />
-            </div>
-            <div>
-              <label for="pais">País / ilha principal</label>
-              <input id="pais" name="pais" type="text" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div>
-              <label for="sector">Sector</label>
-              <select id="sector" name="sector">
-                <option>Hospedagem</option>
-                <option>Finanças</option>
-                <option>Telecom</option>
-                <option>Saúde</option>
-                <option>Educação</option>
-                <option>Outro</option>
-              </select>
-            </div>
-            <div>
-              <label for="colab">Nº de colaboradores (faixa)</label>
-              <select id="colab" name="colab">
-                <option>1–50</option>
-                <option>51–250</option>
-                <option>251–1000</option>
-                <option>1000+</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div style="grid-column: 1 / -1">
-              <label for="meta">O que queres resolver nos próximos 90 dias?</label>
-              <textarea id="meta" name="meta"></textarea>
-            </div>
-          </div>
-          <div class="checkbox">
-            <input id="consent" name="consent" type="checkbox" />
-            <label for="consent" style="margin: 0; color: var(--text)">
-              Aceito ser contactado com base na política de privacidade (link TBD).
-            </label>
-          </div>
-          <button class="btn btn-primary" type="button">Enviar (placeholder)</button>
-        </form>
-      </section>
-    </main>
+        </section>
 
-    <footer>
-      <div class="inner">
-        <div>© Davyn — rascunho estático. Playbook interno: ver repositório <code>PAE_DAVYN_CONVERSAO.md</code>.</div>
-        <div>
-          <a href="#">Privacidade (TBD)</a> · <a href="#">Termos (TBD)</a> ·
-          <a href="#">LinkedIn (TBD)</a>
-        </div>
-      </div>
+        <section class="block" id="ficheiros">
+          <h2>Onde encontrar os ficheiros Markdown</h2>
+          <p class="kicker">Se não encontras o .md no computador, usa estes endereços.</p>
+          <ul class="tick">
+            <li>
+              <strong>No GitHub (sempre actualizado depois de cada atualização):</strong>
+              <a href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck/blob/main/PAE_DAVYN_CONVERSAO.md" target="_blank" rel="noopener">PAE_DAVYN_CONVERSAO.md</a>
+            </li>
+            <li>
+              <strong>Esboço da página (estrutura / wireframe):</strong>
+              <a href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck/blob/main/LANDING_PAGE_WIREFRAME.md" target="_blank" rel="noopener">LANDING_PAGE_WIREFRAME.md</a>
+            </li>
+            <li>
+              <strong>Nesta máquina (cópia local):</strong>
+              pasta <code>Documentos / PAE Frameworks / Davyn /</code> — vê também <code>LEIA-ME.md</code>.
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Sítio estático ligado ao repositório
+        <a href="https://github.com/VictorHGutierrez-cloud/davynstrategydeck" target="_blank" rel="noopener">VictorHGutierrez-cloud/davynstrategydeck</a>.
+        Actualizações: faz <em>commit</em> na pasta do site e o GitHub Pages publica a nova versão.
+      </p>
     </footer>
   </body>
 </html>

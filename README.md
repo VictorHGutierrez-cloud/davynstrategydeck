@@ -1,29 +1,36 @@
-# Davyn — strategy deck & landing (rascunho)
+# Davyn × Factorial — strategy deck e landing
 
-Repositório para:
+Repositório com **material em português** para aumentar conversão com o parceiro **Davyn** (Caribe).
 
-- **Playbook interno (PAE)** em Português: [`PAE_DAVYN_CONVERSAO.md`](PAE_DAVYN_CONVERSAO.md)
-- **Wireframe da landing** pública: [`LANDING_PAGE_WIREFRAME.md`](LANDING_PAGE_WIREFRAME.md)
-- **Site estático** (GitHub Pages): pasta [`site/`](site/)
+## Documentos principais
 
-## GitHub Pages (GitHub Actions)
+| Ficheiro | Descrição |
+|----------|-----------|
+| [`PAE_DAVYN_CONVERSAO.md`](PAE_DAVYN_CONVERSAO.md) | Playbook para PAE — plano comercial, checklists, “battlecards”, métricas e leitura dos exports CRM (2026-05-27). |
+| [`LANDING_PAGE_WIREFRAME.md`](LANDING_PAGE_WIREFRAME.md) | Esboço da página (secções e formulário) — referência de desenho. |
 
-1. No GitHub: **Settings → Pages → Build and deployment**  
-   - **Source:** GitHub Actions (não “Deploy from a branch”).
+## Sítio web (GitHub Pages)
 
-2. Faz push da branch **`main`** (o workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica o conteúdo de `site/`).
+- **Site público (centro de recursos do parceiro):**  
+  [https://victorhgutierrez-cloud.github.io/davynstrategydeck/](https://victorhgutierrez-cloud.github.io/davynstrategydeck/)
 
-3. Depois do primeiro deploy com sucesso, o site fica disponível em:
+- **Configuração:** no GitHub, em **Settings → Pages**, a origem deve ser **GitHub Actions**.
 
-   `https://victorhgutierrez-cloud.github.io/davynstrategydeck/`
+- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica o conteúdo da pasta [`site/`](site/).
 
-   (URL padrão para repositório público `VictorHGutierrez-cloud/davynstrategydeck`.)
+### Alterar o sítio
 
-## Desenvolvimento local
+1. Edita `site/index.html` ou `site/styles.css` na branch `main`.  
+2. Faz `git push`.  
+3. Espera o workflow “Deploy GitHub Pages” ficar verde nos **Actions**.
 
-Abre `site/index.html` no browser (duplo clique) ou serve com qualquer servidor estático.
+## Cópia local recomendada (Mac)
 
-## Próximos passos de conteúdo
+Para teres os `.md` ao lado dos outros materiais Factorial:
 
-- Substituir placeholders no `site/index.html` (copy, logos, links Calendly/LinkedIn/privacidade).
-- Ligar o formulário a HubSpot/Typeform ou endpoint seguro.
+- Pasta: **`Documentos / PAE Frameworks / Davyn /`**
+- Ficheiro guia: **`LEIA-ME.md`** (indica onde está cada coisa neste disco)
+
+## Repo remoto
+
+- [VictorHGutierrez-cloud/davynstrategydeck](https://github.com/VictorHGutierrez-cloud/davynstrategydeck)
