@@ -1,0 +1,325 @@
+ Muitos provedores de serviços gerenciados locais em Barbados operam como Indirect Resellers devido ao custo inicial reduzido. No entanto, conforme as operações desses parceiros se expandem e ultrapassam a marca de 50 clientes ativos, o rastreamento manual de margens financeiras se torna propenso a falhas administrativas graves. Isso ocorre porque os distribuidores consolidam transações de múltiplos canais em relatórios agregados sem discriminação clara por usuário final, obrigando os parceiros a adotar ferramentas de automação de faturamento de terceiros para garantir precisão contábil.
+
+Mapeamento de Distribuidores e Parceiros Oficiais no Caribe e Barbados
+O fornecimento de licenciamento de software e serviços avançados de tecnologia na região de Barbados e no restante do Caribe é estruturado por uma rede de distribuidores multinacionais e provedores regionais de serviços gerenciados.
+
+Distribuidores Oficiais de Tecnologia
+Ingram Micro: Atua como o maior parceiro de distribuição CSP da Microsoft em escala mundial, estendendo suas operações robustas para o mercado caribenho. Detentora da credencial Frontier Distributor dentro do programa Microsoft AI Cloud Partner, a distribuidora é o principal canal de viabilização comercial de inteligência artificial de escala (como o Copilot) e infraestrutura em nuvem Azure para canais locais. Ela opera via plataforma inteligente Ingram Micro Xvantage, que utiliza inteligência artificial para automatizar processos de cotação de hardware, renovação de software e faturamento unificado para provedores de serviços gerenciados. A empresa detém qualificações formais em especialidades como migração de bancos de dados para Azure, virtualização de desktops (Azure Virtual Desktop) e segurança de identidade e acesso.
+
+Noventiq: Importante provedor global focado em transformação digital e segurança cibernética, atuando como distribuidor e parceiro oficial da Microsoft, AWS, Google Cloud, Adobe, Apple e Check Point no território caribenho. Possui alta especialização no gerenciamento de ecossistemas híbridos de licenciamento de software de grande escala e conformidade regulatória de ativos.
+
+Parceiros Regionais e Integradores Locais de Nuvem e Software
+Inova Solutions: Sediada em Willemstad, Curaçao, e com escritórios locais na Jamaica, Porto Rico e Trinidad e Tobago, a Inova Solutions é reconhecida como a maior parceira regional confiável da Microsoft para serviços gerenciados de nuvem e licenciamento corporativo no Caribe. Sob a liderança executiva de Hans Kruithof e Harrie Geerings, e com suporte comercial regional de Jeroen Nederkoorn, a empresa é focada no atendimento direto a clientes de grande porte, mantendo um contrato de fornecimento de tecnologia com a Comunidade do Caribe (Caricom) há mais de dez anos. A Inova gerencia a transição de licenciamento de Office 365, Teams, Power BI e segurança avançada para o modelo CSP, agregando serviços pós-venda estruturados e treinamento corporativo de TI.
+
+Productive Business Solutions (PBS) Barbados Limited: Com sede física no Facey House, 42 Warrens Industrial Park, St. Michael, Barbados, a PBS é uma das maiores integradoras de tecnologia e distribuidora pública do Caribe e da América Central. Fundada originalmente em 2010 a partir de fusões iniciadas em 2005, a PBS é uma empresa de capital aberto com cerca de 1.600 colaboradores na região e faturamento recorrente anual superior a US$ 387 milhões. A PBS atua fortemente no fornecimento de soluções corporativas integradas de TI que combinam hardware (impressoras Xerox e caixas eletrônicos) com licenciamento de software, gestão de dados, serviços de conectividade Cisco e sistemas de triagem de segurança. Possui qualificação e experiência consolidadas em licitações públicas internacionais financiadas pelo Banco Mundial, Banco Mundial de Desenvolvimento (WB) e pelo Banco Interamericano de Desenvolvimento (BID) para sistemas de segurança nacional e controle de fronteiras.
+
+Cloud Carib: Baseada em Nassau, Bahamas, a Cloud Carib consolidou sua posição como a principal provedora de nuvem soberana e segurança gerenciada para o Caribe e a América Latina, possuindo pods de data centers locais e seguros em Barbados, Jamaica, Panamá e Equador. Fundada em 2013 como provedora de infraestrutura híbrida baseada em tecnologia VMware/Broadcom, a empresa realiza investimentos pesados na região. Em 2025, a Cloud Carib investiu mais de US$ 7 milhões em parceria com fundos de investimento do Vale do Silício para expandir seus pods de dados soberanos nas Bermudas, Curaçao e Guiana, além de inaugurar um laboratório focado no desenvolvimento de inteligência artificial de jurisdição puramente caribenha. Seu portfólio inclui o Carib365, uma solução gerida de produtividade do Microsoft 365 hospedada localmente dentro de seus próprios data centers no Caribe. A empresa é a única na região a deter a conformidade de segurança CSA STAR Levels 1 & 2 e certificação SOC 2 Type II, oferecendo suporte 24/7 de segurança através de seu Command & Control Centre (C3).
+
+Promotech Inc. (Promotech Business Solutions): Fundada em Barbados em 1999 e sediada comercialmente em Vauxhall, Christ Church, a Promotech evoluiu de uma fornecedora tradicional de computadores para um grupo tecnológico diversificado com operações em Barbados, Guiana e St. Lucia. A estrutura corporativa da Promotech é dividida em cinco pilares fundamentais: Promotech Retail (com quatro lojas modernas em Barbados, duas na Guiana e uma em St. Lucia), iShop (uma revendedora e assistência técnica autorizada da Apple adquirida em 2026 localizada no Sheraton Mall), Serviços de TIC, Soluções B2B para Governos e Sistemas de Segurança e Hospitalidade. O braço de Serviços de TIC realiza projetos complexos de design de redes físicas (cabeamento estruturado), migração em nuvem, licenciamento de antivírus ESET e gerenciamento de servidores locais. No segmento B2B, a Promotech desenha e implementa arquiteturas completas de TI, segurança eletrônica avançada (CCTV orientado por IA e controle de acessos) e sistemas integrados para grandes redes hoteleiras e resorts. Possui contratos e credenciamentos de serviço estabelecidos com HP (desde 2008), APC (2019) e Lenovo (2020).
+
+Digicel Business Barbados: O braço de TI corporativa da gigante de telecomunicações móveis Digicel é um integrador de nuvem com forte capilaridade em Barbados, oferecendo planos comerciais de computação em nuvem Microsoft 365 e Teams integrados com seus pacotes de dados protegidos por sistemas móveis como o Lookout Mobile Security. A Digicel comercializa soluções integradas de Backup em Nuvem Azure, serviços gerenciados de recuperação de desastres (DRaaS) e serviços de colocalização física de servidores dentro de suas estruturas imunes a desastres naturais com suporte e monitoramento 24/7 realizados por seus SOCs (Security Operations Centres) locais.
+
+Flow Business (Cable & Wireless Barbados): Controlada corporativamente pela Liberty Latin America, a Flow atende ao segmento de micro, pequenas e médias empresas barbadenses, vendendo soluções unificadas de conectividade e o pacote de serviços digitais "Smart Solutions". Esse ecossistema engloba ferramentas de criação e hospedagem de portais de e-commerce e o serviço de e-mail profissional Business Email Pro (com filtros antimalware e backup diário automático em nuvem contra perda acidental de dados), além de disponibilizar armazenamento em nuvem criptografada de 2TB de alta segurança.
+
+Fujitsu Caribbean: Subsidiária integral da Fujitsu North America, a empresa opera no mercado caribenho com foco nas verticais de serviços financeiros, telecomunicações e grandes projetos de modernização do setor público. A Fujitsu oferece soluções de modernização de software corporativo por meio de inteligência artificial geradora de código (Takara AI e Fujitsu Kozuchi), permitindo estender os recursos de grandes plataformas como SAP, Oracle, Microsoft, Salesforce e ServiceNow. A infraestrutura da integradora no Caribe apoia-se em um data center de alta resiliência com certificação Tier III em Trinidad, além de possuir uma rede de suporte regional (helpdesk centralizado e centros de preparação técnica) projetada sob as normas operacionais do Mercado Único e Economia da Caricom (CSME).
+
+Systems Consulting Limited (SCL): Consultoria tradicional barbadense com mais de 30 anos de atuação no desenvolvimento sob medida de softwares empresariais, auditoria de processos de TI, pesquisas analíticas de mercado e terceirização de equipes corporativas para os governos e corporações de Barbados, Jamaica, Bahamas, Guiana e Trinidad e Tobago.
+
+As Objeções de Mercado e os Entraves do Território Barbadense
+O avanço de projetos de tecnologia e a venda de pacotes de software de nuvem pública em Barbados enfrentam resistências e objeções estruturadas, divididas em categorias de conformidade de soberania, limitações de capital humano e restrições financeiras locais.
+
+Soberania Digital e Conflito Legislativo Extraterritorial
+A objeção mais contundente enfrentada pelos fornecedores de nuvem pública baseada nos Estados Unidos (como as regiões nativas de dados do Microsoft Azure, AWS ou Salesforce) relaciona-se à perda de soberania nacional sobre ativos de dados e ao impacto de legislações estrangeiras coercitivas. O governo de Barbados implementou a Lei de Proteção de Dados (Data Protection Act 2019-29), promulgada em 2019 e em pleno vigor desde março de 2021 sob a supervisão administrativa de um Comissário de Proteção de Dados nomeado oficialmente. Esta legislação impõe normas rígidas para a coleta, processamento e guarda de informações confidenciais de cidadãos locais, estipulando que a transferência internacional desses ativos digitais para fora das fronteiras de Barbados é estritamente ilegal, a menos que o país de destino garanta salvaguardas equivalentes aprovadas pelo comissariado.
+
+Essa regulação entra em conflito com o US CLOUD Act (Clarifying Lawful Overseas Use of Data Act), aprovado pelo congresso dos Estados Unidos em 2018. O CLOUD Act garante às agências de segurança nacional e aplicação da lei norte-americanas o poder legal de exigir a interceptação e entrega de dados armazenados por empresas de tecnologia sediadas nos Estados Unidos, independentemente de os servidores físicos estarem localizados no exterior ou sob leis de privacidade locais.
+
+Essa extraterritorialidade jurídica representa um risco de conformidade e segurança nacional para o governo barbadense e para instituições financeiras locais reguladas. Como os dados sensíveis dos sistemas públicos (como registros fiscais, bases de dados de imigração, identidades nacionais e prontuários médicos) são frequentemente hospedados em infraestruturas pertencentes a gigantes de tecnologia norte-americanas, a soberania nacional de Barbados é diretamente ameaçada. Diante disso, o Ministro de Tecnologia de Barbados, Senador Jonathan Reid, estabeleceu o projeto GovTech Barbados, direcionando o país para uma estratégia soberana baseada em "computação local, dados locais e talentos locais", de forma a evitar novas formas de dependência tecnológica.
+
+Ademais, as discussões regionais sobre segurança digital em Barbados e no Caribe são marcadas por outras tendências e resistências globais :
+
+Tendência de Desvinculação Tecnológica: Governos europeus (como a França através de seu plano Suite Numérique) têm substituído ativamente plataformas norte-americanas como Microsoft Teams e Zoom pela ferramenta colaborativa soberana local Visio (desenvolvida com inteligência artificial francesa da Pyannote e hospedada na nuvem nacional da Outscale, pertencente à Dassault Systèmes) para garantir controle e sigilo absoluto de comunicações de Estado. Essa busca por autonomia inspira a liderança política de Barbados.
+
+Políticas Regionais de IA: A Primeira-Ministra de Barbados, Mia Amor Mottley, tem liderado apelos públicos pela urgente criação de uma política regional caribenha de inteligência artificial corporativa de forma a blindar os processos democráticos, a segurança nacional e impedir golpes de engenharia social profunda baseados em cópias não autorizadas de voz e imagem de líderes políticos locales.
+
+Preocupações com Obsolescência de Projetos: Diversos países caribenhos, como Jamaica, Bahamas e Barbados, concentram esforços na emissão de cartões físicos de eID inteligentes. Críticos apontam que esses investimentos robustos correm o risco de nascer obsoletos diante do avanço rápido das tecnologias móveis globais de identificação descentralizada em dispositivos smartphones (m-IDs).
+
+Esse contexto fortalece as objeções comerciais contra a nuvem tradicional da Microsoft e gera demanda por provedores caribenhos de nuvem soberana (como a Cloud Carib) ou soluções de custódia sediadas em países neutros (como a empresa suíça de CRM InvestGlass, imune à jurisdição do CLOUD Act e operada em servidores certificados ISO 27001).
+
+Escassez Crônica de Recursos Humanos e a Lacuna de Competência
+A escassez de engenheiros de TI qualificados e certificados em ambientes de nuvem e segurança cibernética representa um gargalo crítico para a implementação bem-sucedida de novos sistemas de software em Barbados. Embora existam bons currículos acadêmicos de computação nas instituições secundárias e terciárias de Barbados, o mercado sofre de evasão profissional crônica.
+
+Existe uma relutância corporativa histórica no empresariado local caribenho em pagar remunerações justas e equivalentes ao nível de complexidade técnica exigido para a gestão de nuvens avançadas. 1  Esse paradoxo salarial gera uma fuga de cérebros (brain drain) em massa para as economias norte-americanas ou para posições de teletrabalho de multinacionais fora da jurisdição nacional. 1  Consequentemente, as micro, pequenas e médias empresas (MPMEs), que constituem de 70% a 80% das organizações de Barbados, operam sem recursos e sem orçamento para atrair especialistas ou treinar suas equipes locais. 1
+The Caribbean region's productivity puzzle: Bridging the skills gap | ICT Pulse
+Source icon
+ict-pulse.com/2025/09/the-caribbean-regions-productivity-puzzle-bridging-the-skills-gap
+
+A nível regional, o deficit de capacitação gera atrasos estruturais. Em 2020, por exemplo, cerca de 50% de todas as vagas técnicas de emprego qualificado em São Vicente e Granadinas permaneceram não preenchidas por falta de competência real de candidatos. No ecossistema Microsoft de canais e clientes finais, as pesquisas de mercado revelam que a escassez de recursos humanos gera impactos diretos nas operações corporativas :
+
+Impacto da Lacuna de Habilidades (Microsoft Ecosystem)	Percentual de Incidência	Implicações Práticas para Projetos de TI	Fonte
+Existência Reconhecida de Lacuna de TI	51%	Mais da metade dos gerentes de contratação identifica um gap técnico ativo em sistemas modernos de nuvem.
+Tempo Excessivo de Recrutamento	56%	Principal obstáculo apontado para o fechamento de posições de tecnologia dentro das corporações.
+Atrasos em Prazos de Entrega (Missed Deadlines)	53%	O maior impacto prático sofrido pelas empresas, afetando a execução de projetos estratégicos de software.
+Redução do Ritmo de Crescimento Esperado	40%	Perda de produtividade e atrasos no lançamento de produtos e serviços digitais corporativos.
+Sobrecarga de Equipes Existentes	40%	Aumento direto no esgotamento físico e mental de colaboradores de TI atualmente empregados.
+Subcontratação de Consultorias Terceirizadas	27%	Elevação de custos imprevistos devido à dependência extrema de integradores ou terceirizados especializados.
+
+Diante desse cenário, cerca de 60% das organizações têm concentrado esforços em capacitações internas de seu próprio pessoal como principal estratégia para mitigar o gap técnico. Paralelamente, a valorização de certificações internacionais específicas (como o portfólio Microsoft Level Up) cresceu significativamente, com mais de 90% dos gestores de TI afirmando que a qualificação técnica formal de equipes resulta em aumentos de produtividade e redução de falhas de segurança de dados.
+
+Barreiras Tributárias, Fiscais e de Controles Cambiais em Barbados
+A repatriação de capitais decorrente de investimentos diretos e o pagamento regular de assinaturas de software a fornecedores localizados fora do território barbadense dependem das diretrizes financeiras estabelecidas pelo Ministério das Finanças e executadas pela Divisão de Controle Cambial do Banco Central de Barbados, em conformidade com a lei Exchange Control Act, Cap. 71. O governo adota regras cambiais rígidas para monitorar e conter a saída indesejada de moedas estrangeiras para proteger suas reservas internacionais.
+
+Pessoas físicas e empresas residentes em Barbados são obrigadas por lei a declarar e entregar moedas estrangeiras ou ouro em sua posse a um Revendedor Autorizado para conversão cambial local. A conversão cambial direta para viagens pessoais sem solicitação de licença é limitada a apenas BBD 20.000 por ano civil (equivalente a USD 3.750), enquanto a cota permitida para viagens internacionais de negócios é limitada a BBD 60.000 por ano (equivalente a USD 25.000). Valores que ultrapassem esses tetos exigem aprovação manual do Banco Central de Barbados, requerendo o preenchimento de formulários específicos e justificativas corporativas plausíveis via portal Forex Online.
+
+Para a importação regular de serviços de software e nuvem fornecidos por empresas internacionais, as empresas de Barbados devem registrar e submeter contratos comerciais pelo portal Forex Online utilizando o formulário FC (Not for Imports). No caso de importações de mercadorias físicas (como servidores ou caixas de software), o faturamento internacional e a liberação de moeda estrangeira são condicionados à apresentação de faturas e comprovantes de desembaraço aduaneiro aprovados pela Alfândega através do formulário FC(1). O Banco Central retém o poder discricionário de limitar, atrasar ou negar temporariamente a conversão de moedas estrangeiras dependendo do nível global das reservas sob seu controle institucional, gerando riscos de suspensão de serviços de nuvem de faturamento recorrente internacional.
+
+No âmbito dos tributos corporativos, a legislação barbadense impõe encargos sobre operações de software e serviços relacionados:
+
+IVA sobre Serviços Digitais: Desde 1º de dezembro de 2019, Barbados implementou a incidência de 17,5% de IVA (Value-Added Tax) sobre serviços digitais fornecidos por empresas não residentes a consumidores locais na ilha. Essa regra aplica-se tanto a transações entre empresas (B2B) quanto para consumidores finais (B2C), exigindo que fornecedores estrangeiros de software registrem-se perante a Administração Tributária de Barbados a partir da sua primeira venda (sem teto mínimo de faturamento exigido) e realizem repasses trimestrais de impostos.
+
+Imposto sobre Serviços de Voz e Dados: O tráfego de dados móveis e serviços associados de telecomunicações — essenciais para o uso contínuo de plataformas de colaboração em nuvem e softwares móveis — é taxado com uma alíquota elevada de 22% de IVA.
+
+Impostos de Importação e Desembaraço: Historicamente, as alíquotas de importação ad valorem flutuam amplamente entre 0% e 20% para mercadorias padrão, atingindo até 60% para bens considerados supérfluos, além de taxas acessórias como o Customs Service Charge e taxas ambientais.
+
+Legislação Orçamentária de 2026: A partir de 1º de abril de 2026, as regras tributárias aduaneiras de Barbados foram reajustadas, elevando a cota de isenção total de taxas de importação para encomendas eletrônicas internacionais de USD 60 para USD 150. Encomendas com valores entre USD 150,01 e USD 199,99 contam com isenção de tarifas de importação e taxas alfandegárias ad valorem, incidindo unicamente a alíquota padrão de 17,5% de IVA sobre o valor declarado da remessa.
+
+Exceções e Concessões Fiscais: Equipamentos de computação e informática listados especificamente na seção Part II-B da Tarifa Aduaneira contam com isenção total de tarifas de importação e impostos alfandegários. De forma semelhante, empresas que operam sob o regime especial de incentivo Fiscal Incentives Act e as registradas sob as regras de International Business Companies (IBCs) no segmento de serviços de TI contam com isenção de IVA, taxas de importação de maquinários e computadores e reduções especiais de impostos sobre lucros corporativos (fixados em 2,5%), além de isenção total de impostos de repatriação de dividendos.
+
+Recomendações Estratégicas e Conclusões
+O mercado de software e o ecossistema de canais da Microsoft em Barbados e no Caribe revelam um cenário de alto potencial, impulsionado pela urgência governamental de modernização, mas simultaneamente restringido por severas barreiras de conformidade de soberania de dados, controles estritos de saída de divisas cambiais e escassez crônica de pessoal qualificado de TI. Para corporações de software, integradores de sistemas e investidores de tecnologia que desejam consolidar sua participação neste mercado com êxito, recomendam-se as seguintes ações de posicionamento estratégico:
+
+Desenho de Modelos de Nuvem Soberana e Custódia Local: Para mitigar as objeções de soberania de dados alimentadas pelas leis de privacidade locais de Barbados e o receio da extraterritorialidade do US CLOUD Act, os fornecedores de software de grande porte devem desenvolver ofertas de implantação híbrida, parcerias com data centers certificados locais do Caribe (como a infraestrutura soberana da Cloud Carib com selos CSA STAR) ou propor integrações com plataformas de países neutros que garantam blindagem jurídica internacional.
+
+Parcerias com Canais Físicos de Forte Penetração Local: A complexidade burocrática dos controles cambiais do Banco Central de Barbados e as obrigações regulatórias do IVA de serviços digitais demandam a realização de alianças operacionais com grandes integradores consolidados de TI que possuam infraestrutura local, capilaridade de marcas e facilidades de faturamento (como a PBS Barbados ou a Promotech). Essas entidades atuam como facilitadoras de faturamento local em Barbados Dollars (BBD), mitigando os riscos de atraso cambial nas transações internacionais de seus parceiros estrangeiros.
+
+Investimento Estratégico em Programas de Capacitação Técnica: A escassez de recursos técnicos qualificados pode ser contornada se os grandes fabricantes de software oferecerem ativamente programas estruturados de capacitação em parceria com centros locais e universidades, priorizando a certificação ágil e a distribuição de micro-credenciais técnicas focadas em nuvem e segurança cibernética. Isso atrai novos talentos caribenhos e fideliza as empresas de TI na ilha perante a dependência de suporte técnico qualificado de retaguarda.
+
+Estruturação de Faturamento e Conformidade Fiscal Desde a Entrada: O fornecimento de soluções de SaaS na região deve contemplar a parametrização de faturamento de 17,5% do IVA digital desde a primeira venda, de forma a manter conformidade irrestrita com a Receita de Barbados, evitando riscos reputacionais e custos retroativos imprevistos em caso de auditorias fiscais futuras.
+
+
+caribank.org
+Harnessing Digital Transformation to Boost Socio-Economic Development in the Caribbean
+Opens in a new window
+
+youtube.com
+Launch of the Caribbean Digital Transformation Institute (CDTI) - YouTube
+Opens in a new window
+
+iadb.org
+How Barbados is Bridging its Digital Infrastructure Gap - Inter-American Development Bank
+Opens in a new window
+
+businessbarbados.com
+Appealing ICT Investment Opportunities - Business Barbados
+Opens in a new window
+
+investglass.com
+Barbados Digital Sovereignty: A Critical Overview | InvestGlass
+Opens in a new window
+
+nigelfrank.com
+The Digital Skills Gap in the Microsoft Cloud ecosystem | Nigel Frank Careers and Hiring Guide
+Opens in a new window
+
+centralbank.org.bb
+Foreign Exchange - Central Bank of Barbados
+Opens in a new window
+
+pwc.com
+Caribbean Digital Readiness Survey 2024 - PwC
+Opens in a new window
+
+careers.microsoft.com
+Jobs in Costa Rica - Microsoft Careers
+Opens in a new window
+
+theglobaleconomics.com
+Florida: Microsoft Corporation in the Brickell neighborhood will benefit Miami's technology sector - The Global Economics
+Opens in a new window
+
+devoteam.com
+Microsoft Cloud Solution Provider Licensing - CSP - Devoteam
+Opens in a new window
+
+softwareone.com
+Solve the Microsoft licensing puzzle | SoftwareOne blog
+Opens in a new window
+
+intercept.cloud
+What is the Microsoft CSP Program and Why Do You Need It? - Intercept.cloud
+Opens in a new window
+
+cloudcockpit.com
+Microsoft CSP Program: Enrollment Guide for Partners - CloudCockpit
+Opens in a new window
+
+cloudblue.com
+Microsoft Cloud Solution Provider (CSP) Program | Glossary - CloudBlue
+Opens in a new window
+
+main.prod.marketplacepartnerdirectory.azure.com
+Ingram Micro - Partner directory
+Opens in a new window
+
+promotechbarbados.com
+About Us - Promotech Business Solutions - Barbados
+Opens in a new window
+
+pitchbook.com
+Productive Business Solutions 2026 Company Profile: Stock Performance & Earnings
+Opens in a new window
+
+ir.ingrammicro.com
+Ingram Micro Earns Microsoft Frontier Distributor Designation and Enables AI-First Channel Partners Worldwide
+Opens in a new window
+
+ingrammicro.com
+Ingram Micro - The business behind the world's brands
+Opens in a new window
+
+noventiq.com
+Noventiq – a global provider of IT solutions and services
+Opens in a new window
+
+inovacorporation.com
+About Us - Inova Solutions
+Opens in a new window
+
+inovacorporation.com
+Cloud Solutions For Your Enterprise - Inova Solutions
+Opens in a new window
+
+caribbeanjobs.com
+Inova Solutions NV - Caribbean Jobs
+Opens in a new window
+
+developmentaid.org
+️Productive Business Solutions[PBS] (Barbados) Limited - Development Aid
+Opens in a new window
+
+productivebusinesssolutionsbarbados.yolasite.com
+Productive Business Solutions Barbados
+Opens in a new window
+
+medium.com
+Productive Business Solutions Barbados - Medium
+Opens in a new window
+
+pbs.group
+PBS Group
+Opens in a new window
+
+expert.broadcom.com
+Cloud Carib Limited Provider | Broadcom Inc. | Connecting Everything
+Opens in a new window
+
+cloudcarib.com
+Why Cloud Carib? - Cloud Carib
+Opens in a new window
+
+cloudcarib.com
+Cloud Carib Signals Major Regional Commitment with $7M USD Investment in Caribbean Digital Sovereignty
+Opens in a new window
+
+cloudcarib.com
+Cloud Carib | Regional leader in trusted cloud services
+Opens in a new window
+
+eset.com
+Barbados - ESET
+Opens in a new window
+
+digicelbusiness.com
+Digicel | Microsoft 365 & Teams | Barbados - Digicel Business
+Opens in a new window
+
+digicelbusiness.com
+Barbados - Digicel | Small & Medium Business
+Opens in a new window
+
+digicelbusiness.com
+Digicel | Business Continuity | Barbados
+Opens in a new window
+
+flowbusiness.co
+Packages | Flow Business Barbados
+Opens in a new window
+
+flowbusiness.co
+Smart solutions | Flow Business Barbados
+Opens in a new window
+
+flowbusiness.co
+Business Digital Solutions | Flow Business Barbados
+Opens in a new window
+
+flowbusiness.co
+SECURE CLOUD STORAGE | Flow Business Barbados
+Opens in a new window
+
+global.fujitsu
+About us | Fujitsu Caribbean
+Opens in a new window
+
+global.fujitsu
+Application development and integration | Fujitsu Caribbean
+Opens in a new window
+
+systemsconsulting-ltd.com
+System Consulting Ltd
+Opens in a new window
+
+info.cloudcarib.com
+Crown to Control: The Caribbean escaped colonial rule; can it avoid ...
+Opens in a new window
+
+dlapiperdataprotection.com
+Data protection laws in Barbados
+Opens in a new window
+
+worldbank.org
+Closing the Skills Gap to Create More Jobs in the Caribbean - World Bank
+Opens in a new window
+
+ict-pulse.com
+The Caribbean region's productivity puzzle: Bridging the skills gap | ICT Pulse
+Opens in a new window
+
+pulse.microsoft.com
+Global Knowledge study reveals present and future skills issues facing IT departments worldwide - Microsoft Pulse
+Opens in a new window
+
+centralbank.org.bb
+Exchange Control FAQs - Central Bank of Barbados
+Opens in a new window
+
+2009-2017.state.gov
+Barbados - State.gov - State Department
+Opens in a new window
+
+2009-2017.state.gov
+Barbados - State.gov - State Department
+Opens in a new window
+
+taxsummaries.pwc.com
+Barbados - Corporate - Other taxes - Worldwide Tax Summaries - PwC
+Opens in a new window
+
+globalvatcompliance.com
+Barbados will levy VAT on Digital Services
+Opens in a new window
+
+anrok.com
+Barbados VAT guide for digital businesses | The VAT index for digital services - Anrok
+Opens in a new window
+
+odooskillz.com
+Customs Duties in Barbados: Complete Guide & Calculator - Odoo Skillz
+Opens in a new window
+
+reddit.com
+Amazon, Customs & VAT : r/Barbados - Reddit
+Opens in a new window
+
+coursera.org
+3 Essential Lessons from Microsoft on Closing the Technical Skills Gap | Coursera
+Opens in a new window

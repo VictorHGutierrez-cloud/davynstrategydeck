@@ -14,15 +14,19 @@ Repositório com **material em português** para aumentar conversão com o parce
 - **Site público (centro de recursos do parceiro):**  
   [https://victorhgutierrez-cloud.github.io/davynstrategydeck/](https://victorhgutierrez-cloud.github.io/davynstrategydeck/)
 
+- **Ficheiros em `assets/` (descarga a partir do sítio):**  
+  [https://github.com/VictorHGutierrez-cloud/davynstrategydeck/tree/main/site/assets](https://github.com/VictorHGutierrez-cloud/davynstrategydeck/tree/main/site/assets)
+
 - **Configuração:** no GitHub, em **Settings → Pages**, a origem deve ser **GitHub Actions**.
 
-- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica o conteúdo da pasta [`site/`](site/).
+- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica o conteúdo da pasta [`site/`](site/) (incluindo `site/assets/`).
 
-### Alterar o sítio
+### Alterar o sítio ou os recursos
 
-1. Edita `site/index.html` ou `site/styles.css` na branch `main`.  
-2. Faz `git push`.  
-3. Espera o workflow “Deploy GitHub Pages” ficar verde nos **Actions**.
+1. Edita `site/index.html`, `site/styles.css` ou ficheiros em `site/assets/`.  
+2. Se mudares o guia na raíz (`PAE_DAVYN_CONVERSAO.md`), volta a copiar para `site/assets/PAE_DAVYN_CONVERSAO.md` para o parceiro ver a mesma versão no hub.  
+3. Faz `git push`.  
+4. Espera o workflow “Deploy GitHub Pages” ficar verde nos **Actions**.
 
 ## Cópia local recomendada (Mac)
 
