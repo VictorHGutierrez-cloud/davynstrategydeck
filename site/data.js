@@ -13,9 +13,9 @@ window.DAVYN = {
     proposalApiFallback: "https://davynstrategydeck.vercel.app/api/proposal",
   },
 
-  proposalAgent: {
+  data.js: {
     intro:
-      "Build a proposal pack from real Davyn assets: master deck sections (by page range), product pitches, and Microsoft attachments. Compose on screen, then download and send — optional AI draft for cover email only.",
+      "See real Factorial master deck slides as cards. Click to add sections to your proposal strip — reorder left to right. Microsoft attachments preview below.",
     accessKeyDefault: "davyn-proposal-2026",
     vercelGuide: [
       { name: "OPENAI_API_KEY", where: "Vercel only — never paste in this site", example: "sk-proj-… (from platform.openai.com)" },

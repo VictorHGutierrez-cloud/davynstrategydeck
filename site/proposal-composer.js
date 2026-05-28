@@ -1,5 +1,5 @@
 /**
- * Proposal Pack Composer — reorder cards, pick assets, copy checklist (no auto-PDF).
+ * Proposal Pack Composer — visual slide cards, Microsoft attachments only.
  */
 (function () {
   const STORAGE_PREFIX = "davyn_composer_";
@@ -71,37 +71,6 @@
       items.push(item);
     }
 
-    add({
-      category: "Master deck",
-      label: "Master split guide (page map)",
-      path: "assets/master-files-splitted/README.md",
-      type: "MD",
-      suggested: true,
-      note: "Use page ranges on each card when pulling slides from master_en.pdf",
-    });
-
-    add({
-      category: "Master deck",
-      label: "Component manifest",
-      path: "assets/master-files-splitted/manifest.json",
-      type: "JSON",
-      suggested: true,
-    });
-
-    normalizeArray(form.moduleIds).forEach((moduleId) => {
-      const deck = D.productPitches && D.productPitches.decks.find((d) => d.id === moduleId);
-      if (deck) {
-        add({
-          category: "Product pitch",
-          label: deck.title + " (.pptx)",
-          path: deck.path,
-          type: "PPTX",
-          suggested: true,
-          moduleId: deck.id,
-        });
-      }
-    });
-
     const enh = D.packs && D.packs.objectionEnhancements;
     const catalog = D.packs && D.packs.attachmentCatalog;
     normalizeArray(form.objectionIds).forEach((objId) => {
@@ -111,7 +80,7 @@
           const a = catalog[key];
           if (a) {
             add({
-              category: "Microsoft / integration",
+              category: "Microsoft",
               label: a.label,
               path: a.path,
               type: pathType(a.path),
@@ -130,7 +99,7 @@
       const bc = catalog && catalog["bc-one-pager"];
       if (bc) {
         add({
-          category: "Microsoft / integration",
+          category: "Microsoft",
           label: bc.label,
           path: bc.path,
           type: "PDF",
@@ -139,58 +108,37 @@
       }
     }
 
-    if (D.assets) {
-      D.assets.forEach((a) => {
-        add({
-          category: "Library",
-          label: a.title,
-          path: a.path,
-          type: a.type || pathType(a.path),
-          suggested: false,
-        });
-      });
-    }
-
     return items;
   }
 
   function pathType(path) {
     const ext = (path || "").split(".").pop().toUpperCase();
-    if (ext.length <= 5) return ext;
-    return "FILE";
+    return ext.length <= 5 ? ext : "FILE";
   }
 
   function normalizeArray(arr) {
     return Array.isArray(arr) ? arr.filter(Boolean) : [];
   }
 
-  function buildChecklistText(form, components, assets, assetChecks) {
+  function buildSlideListText(form, components, slideIndex) {
     const lines = [];
-    const date = new Date().toISOString().slice(0, 10);
-    lines.push(`Davyn proposal pack — ${form.clientName || "Client"}`);
-    lines.push(`Date: ${date}`);
-    if (form.country) lines.push(`Market: ${form.country}`);
-    if (form.employeeCount) lines.push(`Headcount: ${form.employeeCount}`);
+    lines.push(`Proposal slides — ${form.clientName || "Client"}`);
+    lines.push(`Date: ${new Date().toISOString().slice(0, 10)}`);
     lines.push("");
-    lines.push("=== MASTER DECK SECTIONS (pull slides from master_en.pdf) ===");
     components
       .filter((c) => c.included)
       .forEach((c) => {
-        lines.push(`[${String(c.order).padStart(2, "0")}] ${c.title} — pages ${c.page_range || "?"}`);
-        if (c.summary) lines.push(`    ${c.summary}`);
+        const comp = slideIndex && slideIndex.components.find((x) => x.id === c.id);
+        lines.push(`## ${c.title} (pages ${c.page_range || "?"})`);
+        if (comp && comp.pages) {
+          comp.pages.forEach((p) => {
+            lines.push(`  - Slide ${p.page}: ${p.label}${p.image ? "" : " [add JPG]"}`);
+          });
+        } else if (c.pages && c.pages.length) {
+          c.pages.forEach((p) => lines.push(`  - Slide ${p}`));
+        }
+        lines.push("");
       });
-    lines.push("");
-    lines.push("=== FILES TO ATTACH / SEND ===");
-    assets.forEach((a) => {
-      const id = assetId(a);
-      if (assetChecks[id] === false) return;
-      lines.push(`[ ] ${a.label} (${a.type || "file"})`);
-      lines.push(`    ${a.path}`);
-    });
-    if (form.nextStep) {
-      lines.push("");
-      lines.push(`Next step: ${form.nextStep}`);
-    }
     return lines.join("\n");
   }
 
@@ -204,7 +152,7 @@
     mergeWithSaved,
     orderedComponents,
     buildSuggestedAssets,
-    buildChecklistText,
+    buildSlideListText,
     assetId,
   };
 })();

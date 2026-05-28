@@ -70,8 +70,8 @@
               <span>Follow-up email + attachments in 1 minute</span>
             </button>
             <button type="button" class="pack-mode-btn accent" onclick="davynGo('proposal')">
-              <strong>Proposal agent</strong>
-              <span>AI draft from discovery notes — internal</span>
+              <strong>Proposal composer</strong>
+              <span>Visual slide cards — build client deck</span>
             </button>
           </div>
 
@@ -182,24 +182,13 @@
           <div id="postcall-output" class="pack-output"></div>
         </section>
 
-        <!-- PROPOSAL AGENT -->
+        <!-- PROPOSAL COMPOSER -->
         <section data-panel="proposal" hidden>
           <div class="section-intro">
-            <h1>Proposal agent</h1>
+            <h1>Proposal composer</h1>
             <p class="lead" id="proposal-intro"></p>
           </div>
-          <div class="proposal-access" id="proposal-access-wrap">
-            <h3 class="proposal-access-title">Step 1 — Internal password (not your OpenAI key)</h3>
-            <p class="muted">On the site you only enter <strong>PROPOSAL_ACCESS_KEY</strong>. The OpenAI key stays in Vercel.</p>
-            <div class="vercel-vars-guide" id="vercel-vars-guide"></div>
-            <label for="proposal-access-key">Paste here: value of <code>PROPOSAL_ACCESS_KEY</code> from Vercel</label>
-            <div class="proposal-access-row">
-              <input type="text" id="proposal-access-key" placeholder="davyn-proposal-2026" autocomplete="off" />
-              <button type="button" class="btn-secondary" id="proposal-save-key">Save for session</button>
-            </div>
-            <p class="muted">Default if you never changed Vercel: <strong>davyn-proposal-2026</strong> — then click Save, then generate.</p>
-          </div>
-          <div class="pack-form proposal-form">
+          <div class="pack-form proposal-form proposal-form-compact">
             <div class="form-grid">
               <div class="form-field">
                 <label for="proposal-client">Client name *</label>
@@ -207,96 +196,70 @@
               </div>
               <div class="form-field">
                 <label for="proposal-country">Country / market</label>
-                <input id="proposal-country" type="text" placeholder="e.g. Trinidad, Barbados, Curaçao" />
+                <input id="proposal-country" type="text" placeholder="e.g. Trinidad, Barbados" />
               </div>
               <div class="form-field">
                 <label for="proposal-headcount">Employees</label>
                 <input id="proposal-headcount" type="text" placeholder="e.g. 85" />
               </div>
               <div class="form-field">
-                <label for="proposal-vertical">Vertical</label>
-                <select id="proposal-vertical"></select>
-              </div>
-              <div class="form-field">
-                <label for="proposal-stage">Deal stage</label>
-                <select id="proposal-stage"></select>
-              </div>
-              <div class="form-field">
-                <label for="proposal-persona">Primary persona</label>
-                <select id="proposal-persona"></select>
-              </div>
-              <div class="form-field">
-                <label for="proposal-erp">ERP / Microsoft footprint</label>
+                <label for="proposal-erp">ERP / Microsoft</label>
                 <select id="proposal-erp"></select>
               </div>
-              <div class="form-field">
-                <label for="proposal-type">Proposal type</label>
-                <select id="proposal-type"></select>
-              </div>
             </div>
             <div class="form-field proposal-selection-block">
-              <label>Factorial modules in scope</label>
-              <p class="muted proposal-help-text">Select only modules that will be in the signed scope and implementation timeline.</p>
+              <label>Modules in scope</label>
               <div class="checkbox-grid proposal-selection-grid" id="proposal-modules"></div>
             </div>
-            <div class="proposal-component-preview" id="proposal-components-preview">
-              <p class="muted">Select modules and objections — then click <strong>Build proposal pack</strong> to compose cards and download assets.</p>
-            </div>
             <div class="form-field proposal-selection-block">
-              <label>Objections to address in proposal</label>
-              <p class="muted proposal-help-text">Pick the blockers that must be addressed in executive, technical, or commercial sections.</p>
+              <label>Objections to cover</label>
               <div class="checkbox-grid proposal-selection-grid" id="proposal-objections"></div>
             </div>
-            <div class="form-field">
-              <label for="proposal-discovery">Discovery notes *</label>
-              <textarea id="proposal-discovery" rows="6" placeholder="Paste call notes: pains, stakeholders, timeline, budget signals, BC environment, risks…"></textarea>
-            </div>
-            <div class="form-field">
-              <label for="proposal-pricing">Commercial notes (internal)</label>
-              <textarea id="proposal-pricing" rows="3" placeholder="Ballpark pricing, discount authority, pilot vs full rollout — or leave blank for placeholders"></textarea>
-            </div>
-            <div class="form-field">
-              <label for="proposal-next">Next step to propose</label>
-              <input id="proposal-next" type="text" placeholder="e.g. Commercial review call — June 12 with CFO + IT" />
-            </div>
             <div class="proposal-action-row">
-              <button type="button" class="btn-primary" id="proposal-open-composer">Build proposal pack</button>
-              <button type="button" class="btn-secondary" id="proposal-generate">AI draft (optional)</button>
+              <button type="button" class="btn-primary" id="proposal-refresh-composer">Update proposal</button>
             </div>
-            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">
-              Compose master-deck sections + product pitches + Microsoft assets. Download each file yourself — no auto-PDF.
-            </p>
-            <p class="muted proposal-api-hint" id="proposal-api-hint"></p>
           </div>
 
-          <div id="proposal-composer" class="proposal-composer" hidden>
-            <div class="composer-header">
-              <div>
-                <h2>Proposal pack composer</h2>
-                <p class="muted" id="composer-subtitle">Reorder components, pick attachments, copy checklist for the team.</p>
-              </div>
-              <button type="button" class="btn-secondary composer-close" id="composer-close" aria-label="Close composer">Close</button>
+          <div id="proposal-composer" class="proposal-composer visual-composer">
+            <div class="composer-deal-bar" id="composer-deal-bar">
+              <p class="muted">Enter client name and modules — your visual proposal appears below.</p>
             </div>
-            <div class="composer-deal-bar" id="composer-deal-bar"></div>
+            <section class="composer-strip-section">
+              <h2>Your proposal <span class="composer-client-name" id="composer-client-label"></span></h2>
+              <p class="muted">These sections go to the client, in this order. Use arrows to reorder.</p>
+              <div id="composer-strip" class="composer-strip" aria-label="Selected proposal sections"></div>
+            </section>
+            <section class="composer-picker-section">
+              <h3>Add or remove sections</h3>
+              <p class="muted">Click a card to add/remove. Each card shows slides from the master deck.</p>
+              <div id="composer-picker" class="slide-card-grid"></div>
+            </section>
+            <section class="composer-ms-section">
+              <h3>Microsoft attachments</h3>
+              <div id="composer-ms-assets" class="ms-asset-gallery"></div>
+            </section>
             <div class="composer-toolbar">
-              <button type="button" class="btn-primary" id="composer-copy-checklist">Copy pack checklist</button>
-              <button type="button" class="btn-secondary" id="composer-reset">Reset to auto-selection</button>
-            </div>
-            <div class="composer-grid">
-              <section class="composer-panel">
-                <h3>Master deck components</h3>
-                <p class="muted composer-panel-hint">Use <strong>page ranges</strong> when pulling slides from <code>master_en.pdf</code>. Open briefs for talking points.</p>
-                <div id="composer-cards-list" class="composer-cards-list"></div>
-              </section>
-              <section class="composer-panel">
-                <h3>Attachments &amp; downloads</h3>
-                <p class="muted composer-panel-hint">Check what you will send. Click to download or open in a new tab.</p>
-                <div id="composer-assets-list" class="composer-assets-list"></div>
-              </section>
+              <button type="button" class="btn-primary" id="composer-copy-slides">Copy slide list</button>
+              <button type="button" class="btn-secondary" id="composer-reset">Reset selection</button>
             </div>
           </div>
 
-          <div id="proposal-output" class="pack-output proposal-output" hidden></div>
+          <details class="proposal-ai-fold">
+            <summary>AI email draft (optional — needs Vercel password)</summary>
+            <div class="proposal-access" id="proposal-access-wrap">
+              <label for="proposal-access-key">Internal password</label>
+              <div class="proposal-access-row">
+                <input type="text" id="proposal-access-key" placeholder="davyn-proposal-2026" autocomplete="off" />
+                <button type="button" class="btn-secondary" id="proposal-save-key">Save</button>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="proposal-discovery">Discovery notes</label>
+              <textarea id="proposal-discovery" rows="4" placeholder="Call notes for AI draft only…"></textarea>
+            </div>
+            <button type="button" class="btn-secondary" id="proposal-generate">Generate AI draft</button>
+            <div id="proposal-output" class="pack-output proposal-output" hidden></div>
+          </details>
         </section>
 
         <!-- DEAL STAGES -->
@@ -422,16 +385,17 @@
           <div id="caribbean-content"></div>
         </section>
 
-        <!-- PRODUCT PITCHES -->
-        <section data-panel="product-pitches" hidden>
+        <!-- MASTER DECK SLIDES -->
+        <section data-panel="master-deck" hidden>
           <div class="section-intro">
-            <h1>Product pitch decks</h1>
-            <p class="lead" id="product-pitches-intro"></p>
+            <h1>Master deck slides</h1>
+            <p class="lead">All Factorial master deck sections as visual slides — use in Proposal composer or download JPGs.</p>
           </div>
-          <div class="pitch-filters" id="pitch-category-filters"></div>
-          <div class="split-panel pitch-split">
-            <div class="list-panel" id="pitch-list"></div>
-            <div class="detail-panel" id="pitch-detail"></div>
+          <div class="master-deck-filters" id="master-deck-filters"></div>
+          <div id="master-deck-gallery" class="master-deck-gallery"></div>
+          <div id="slide-lightbox" class="slide-lightbox" hidden>
+            <button type="button" class="slide-lightbox-close" id="slide-lightbox-close" aria-label="Close">×</button>
+            <div class="slide-lightbox-body" id="slide-lightbox-body"></div>
           </div>
         </section>
 
@@ -447,9 +411,9 @@
     </div>
 
     <script src="data.js"></script>
+    <script src="master-slides.js"></script>
     <script src="proposal-composer.js"></script>
     <script src="proposal-agent.js"></script>
-    <script src="pitch-viewer.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

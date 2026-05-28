@@ -17,11 +17,11 @@
     { id: "home", label: "Command center", icon: "⌂" },
     { id: "precall", label: "Pre-call pack", icon: "◷" },
     { id: "postcall", label: "Post-call pack", icon: "✉" },
-    { id: "proposal", label: "Proposal agent", icon: "✎" },
+    { id: "proposal", label: "Proposal composer", icon: "✎" },
+    { id: "master-deck", label: "Master deck slides", icon: "▣" },
     { id: "stages", label: "Deal stage navigator", icon: "◎" },
     { id: "objections", label: "Objection intelligence", icon: "⚡" },
     { id: "msft-factorial", label: "Microsoft × Factorial", icon: "⊞" },
-    { id: "product-pitches", label: "Product pitch decks", icon: "▣" },
     { id: "verticals", label: "Vertical playbooks", icon: "▦" },
     { id: "discovery", label: "Discovery frameworks", icon: "◉" },
     { id: "battlecards", label: "Competitive battlecards", icon: "⬡" },
@@ -70,12 +70,12 @@
       if (section === "objections") selectObjection(param);
       if (section === "stages") selectStage(param);
       if (section === "verticals") selectVertical(param);
-      if (section === "product-pitches") selectProductPitch(param);
+      if (section === "master-deck") masterDeckFilter = param || "all";
     }
     if (section === "objections") renderObjection();
     if (section === "stages") renderStage();
     if (section === "verticals") renderVertical();
-    if (section === "product-pitches") renderProductPitches();
+    if (section === "master-deck") renderMasterDeck();
     if (section === "messaging") updateMessage();
     if (section === "precall") initPreCallForm();
     if (section === "postcall") initPostCallForm();
@@ -452,24 +452,186 @@
   function buildAssets() {
     const el = document.getElementById("assets-content");
     if (!el) return;
+
+    const catalog = (D.packs && D.packs.attachmentCatalog) || {};
+    const msItems = Object.keys(catalog).map((k) => ({
+      title: catalog[k].label,
+      path: catalog[k].path,
+      type: assetTypeFromPath(catalog[k].path),
+      tags: ["microsoft"],
+    }));
+
+    const all = [...msItems, ...(D.assets || [])];
+
     el.innerHTML = `
-      <p class="lead">Downloadable files linked to sales motions — not a file dump. Use after discovery aligns.</p>
-      <p class="muted">For Factorial product decks, use <button type="button" class="link-btn" data-go="product-pitches">Product pitch decks →</button> to view .pptx in browser.</p>
-      <div class="asset-table">${D.assets
-        .map(
-          (a) => `
-        <div class="asset-row">
-          <span class="asset-type">${esc(a.type)}</span>
-          <a href="${a.path}" target="_blank" rel="noopener">${esc(a.title)}</a>
-          <span class="tags">${a.tags.join(", ")}</span>
-          <a class="dl-link" href="${a.path}" download>Download</a>
-        </div>`
-        )
-        .join("")}</div>
-      <p class="muted" style="margin-top:16px">Full index: <a href="assets/ASSET_INDEX_EN.md">ASSET_INDEX_EN.md</a></p>`;
-    el.querySelectorAll("[data-go]").forEach((btn) => {
-      btn.addEventListener("click", () => go(btn.getAttribute("data-go")));
+      <p class="lead">Preview and download — Microsoft integration files, competitive maps, vertical PDFs.</p>
+      <div class="asset-gallery">${all.map((a) => renderAssetCard(a)).join("")}</div>`;
+
+    el.querySelectorAll("[data-asset-preview]").forEach((btn) => {
+      btn.addEventListener("click", () => openSlideLightbox(btn.getAttribute("data-asset-preview"), "asset"));
     });
+  }
+
+  function assetTypeFromPath(path) {
+    const ext = (path || "").split(".").pop().toLowerCase();
+    if (ext === "pdf") return "PDF";
+    if (ext === "mp4") return "VIDEO";
+    if (ext === "png" || ext === "jpg" || ext === "jpeg") return "IMAGE";
+    if (ext === "pptx") return "PPTX";
+    return ext.toUpperCase();
+  }
+
+  function renderAssetCard(a) {
+    const type = a.type || assetTypeFromPath(a.path);
+    let preview = "";
+    if (type === "IMAGE" || (a.path && /\.(png|jpe?g|webp)$/i.test(a.path))) {
+      preview = `<img class="asset-card-img" src="${esc(a.path)}" alt="" loading="lazy" />`;
+    } else if (type === "PDF") {
+      preview = `<div class="asset-card-pdf-wrap"><iframe src="${esc(a.path)}" title="${esc(a.title)}"></iframe></div>`;
+    } else if (type === "VIDEO") {
+      preview = `<video class="asset-card-video" src="${esc(a.path)}" controls preload="metadata"></video>`;
+    } else {
+      preview = `<div class="asset-card-placeholder">${esc(type)}</div>`;
+    }
+    return `
+      <article class="asset-card">
+        ${preview}
+        <div class="asset-card-foot">
+          <strong>${esc(a.title)}</strong>
+          <span class="muted">${esc(type)}</span>
+          <a class="dl-link" href="${esc(a.path)}" download target="_blank" rel="noopener">Download</a>
+        </div>
+      </article>`;
+  }
+
+  let masterDeckFilter = "all";
+  let slideIndexCache = null;
+
+  async function getSlideIndex() {
+    if (!slideIndexCache && window.DavynMasterSlides) {
+      slideIndexCache = await DavynMasterSlides.loadIndex();
+    }
+    return slideIndexCache;
+  }
+
+  async function renderMasterDeck() {
+    const gallery = document.getElementById("master-deck-gallery");
+    const filters = document.getElementById("master-deck-filters");
+    if (!gallery) return;
+
+    gallery.innerHTML = '<p class="muted">Loading slides…</p>';
+    const index = await getSlideIndex();
+
+    if (filters && !filters.dataset.bound) {
+      filters.dataset.bound = "1";
+      filters.innerHTML =
+        `<button type="button" class="triage-chip is-selected" data-mdf="all">All sections</button>` +
+        index.components
+          .map(
+            (c) =>
+              `<button type="button" class="triage-chip" data-mdf="${esc(c.id)}">${String(c.order).padStart(2, "0")} ${esc(c.title)}</button>`
+          )
+          .join("");
+      filters.querySelectorAll("[data-mdf]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          masterDeckFilter = btn.getAttribute("data-mdf");
+          filters.querySelectorAll("[data-mdf]").forEach((b) => b.classList.toggle("is-selected", b === btn));
+          renderMasterDeck();
+        });
+      });
+    }
+
+    const comps =
+      masterDeckFilter === "all"
+        ? index.components
+        : index.components.filter((c) => c.id === masterDeckFilter);
+
+    gallery.innerHTML = comps
+      .map((comp) => {
+        const slides = (comp.pages || [])
+          .map(
+            (p) => `
+          <figure class="slide-thumb" data-slide-page="${p.page}" tabindex="0">
+            <img src="${esc(DavynMasterSlides.slideSrc(p))}" alt="Slide ${p.page}" loading="lazy" />
+            <figcaption><span class="slide-num">${p.page}</span> ${esc(p.label)}</figcaption>
+          </figure>`
+          )
+          .join("");
+        return `
+          <section class="master-deck-section">
+            <h3>${String(comp.order).padStart(2, "0")} · ${esc(comp.title)} <span class="muted">pp. ${esc(comp.page_range)}</span></h3>
+            <div class="slide-thumb-row">${slides}</div>
+          </section>`;
+      })
+      .join("");
+
+    gallery.querySelectorAll(".slide-thumb").forEach((fig) => {
+      fig.addEventListener("click", () => openSlideLightbox(fig.getAttribute("data-slide-page"), "page"));
+    });
+  }
+
+  async function openSlideLightbox(id, mode) {
+    const box = document.getElementById("slide-lightbox");
+    const body = document.getElementById("slide-lightbox-body");
+    if (!box || !body) return;
+
+    const index = await getSlideIndex();
+    if (mode === "page") {
+      const pageNum = parseInt(id, 10);
+      const p = index.pages.find((x) => x.page === pageNum);
+      if (!p) return;
+      body.innerHTML = `
+        <p class="slide-lightbox-title">Slide ${p.page} — ${esc(p.label)}</p>
+        <img class="slide-lightbox-img" src="${esc(DavynMasterSlides.slideSrc(p))}" alt="" />
+        <a class="dl-link" href="${esc(p.image || "#")}" ${p.image ? "download" : ""} target="_blank" rel="noopener">${p.image ? "Download JPG" : "JPG not uploaded yet"}</a>`;
+    } else if (mode === "component") {
+      const comp = index.components.find((c) => c.id === id);
+      if (!comp) return;
+      body.innerHTML = `
+        <p class="slide-lightbox-title">${esc(comp.title)} (pages ${esc(comp.page_range)})</p>
+        <div class="slide-lightbox-grid">${(comp.pages || [])
+          .map(
+            (p) => `
+          <figure>
+            <img src="${esc(DavynMasterSlides.slideSrc(p))}" alt="Slide ${p.page}" />
+            <figcaption>${p.page} — ${esc(p.label)}</figcaption>
+          </figure>`
+          )
+          .join("")}</div>`;
+    } else if (mode === "asset") {
+      const path = id;
+      if (/\.(mp4)$/i.test(path)) {
+        body.innerHTML = `<video class="slide-lightbox-img" src="${esc(path)}" controls autoplay></video>`;
+      } else if (/\.(pdf)$/i.test(path)) {
+        body.innerHTML = `<iframe class="slide-lightbox-pdf" src="${esc(path)}"></iframe>`;
+      } else {
+        body.innerHTML = `<img class="slide-lightbox-img" src="${esc(path)}" alt="" />`;
+      }
+    }
+
+    box.hidden = false;
+    document.body.classList.add("lightbox-open");
+  }
+
+  function closeSlideLightbox() {
+    const box = document.getElementById("slide-lightbox");
+    if (box) box.hidden = true;
+    document.body.classList.remove("lightbox-open");
+  }
+
+  function initLightbox() {
+    const closeBtn = document.getElementById("slide-lightbox-close");
+    const box = document.getElementById("slide-lightbox");
+    if (closeBtn && !closeBtn.dataset.bound) {
+      closeBtn.dataset.bound = "1";
+      closeBtn.addEventListener("click", closeSlideLightbox);
+    }
+    if (box && !box.dataset.bound) {
+      box.dataset.bound = "1";
+      box.addEventListener("click", (e) => {
+        if (e.target === box) closeSlideLightbox();
+      });
+    }
   }
 
   /* ——— Product pitch decks ——— */
@@ -579,203 +741,202 @@
     renderProductPitchDetail();
   }
 
-  /* ——— Proposal agent ——— */
+  /* ——— Proposal composer (visual) ——— */
   let proposalFormInitialized = false;
   let composerSession = null;
 
-  function modulePitchIdForComponent(componentId) {
-    const map = {
-      "talent-acquisition-and-recruitment": "recruitment",
-      "performance-training-and-learning": "performance",
-      "compensation-payroll-and-compliance-sync": "compensation",
-      "engagement-and-employee-retention": "engagement",
-      "time-attendance-absence-and-shifts": "time-planning",
-      "expenses-projects-and-invoicing": "expense-management",
-      "procurement-it-and-device-lifecycle": "procurement",
-      "workspace-and-hybrid-operations": "spaces",
-    };
-    return map[componentId] || null;
+  function renderVisualSlideCard(comp, slideIndex, opts) {
+    const thumb = slideIndex ? DavynMasterSlides.getComponentById(slideIndex, comp.id) : null;
+    const src = thumb ? DavynMasterSlides.componentThumbSrc(thumb) : DavynMasterSlides.componentThumbSrc(comp);
+    const included = opts && opts.included;
+    const selected = opts && opts.selected;
+    return `
+      <article class="slide-pick-card ${included ? "is-in-proposal" : ""} ${selected ? "is-selected" : ""}" data-component-id="${esc(comp.id)}" tabindex="0">
+        <img class="slide-pick-img" src="${esc(src)}" alt="${esc(comp.title)}" loading="lazy" />
+        <div class="slide-pick-foot">
+          <strong>${String(comp.order).padStart(2, "0")} · ${esc(comp.title)}</strong>
+          <span class="slide-pick-pages">Slides ${esc(comp.page_range)}</span>
+        </div>
+      </article>`;
   }
 
-  function renderComposerPageLinks(c) {
-    const pages = c.pages && c.pages.length ? c.pages : [];
-    if (!pages.length && c.source_page_paths && c.source_page_paths.length) {
-      return c.source_page_paths
-        .map((href, i) => `<a href="${esc(href)}" target="_blank" rel="noopener">Page ${i + 1} ↗</a>`)
-        .join("");
-    }
-    return pages
-      .map((p) => {
-        const num = String(p).padStart(3, "0");
-        const href = `assets/master-files-splitted/pages/page-${num}.md`;
-        return `<a href="${href}" target="_blank" rel="noopener">p.${p} ↗</a>`;
-      })
-      .join("");
-  }
-
-  async function openProposalComposer() {
-    if (!window.DavynProposalAgent || !window.DavynProposalComposer) return;
+  async function refreshProposalComposer() {
+    if (!window.DavynProposalAgent || !window.DavynProposalComposer || !window.DavynMasterSlides) return;
 
     const form = collectProposalForm();
+    const labelEl = document.getElementById("composer-client-label");
+    if (labelEl) labelEl.textContent = form.clientName ? `— ${form.clientName}` : "";
+
     if (!form.clientName) {
-      alert("Client name is required.");
+      const dealBar = document.getElementById("composer-deal-bar");
+      if (dealBar) dealBar.innerHTML = '<p class="muted">Enter <strong>client name</strong> and select modules above.</p>';
       return;
     }
 
-    const composerEl = document.getElementById("proposal-composer");
-    const cardsEl = document.getElementById("composer-cards-list");
-    if (!composerEl || !cardsEl) return;
+    const [resolved, slideIndex] = await Promise.all([
+      DavynProposalAgent.resolveProposalComponents(form, D),
+      DavynMasterSlides.loadIndex(),
+    ]);
 
-    composerEl.hidden = false;
-    cardsEl.innerHTML = '<p class="muted">Loading component plan…</p>';
-    composerEl.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    const resolved = await DavynProposalAgent.resolveProposalComponents(form, D);
     if (!resolved.selected.length) {
-      cardsEl.innerHTML =
-        '<p class="muted">No components matched. Select at least one Factorial module or objection above, then try again.</p>';
+      document.getElementById("composer-strip").innerHTML =
+        '<p class="muted">Select at least one module or objection.</p>';
+      document.getElementById("composer-picker").innerHTML = '<p class="muted">No sections matched.</p>';
       return;
     }
 
     const saved = DavynProposalComposer.loadState(form);
-    const composerState = DavynProposalComposer.mergeWithSaved(resolved, saved);
+    let composerState = DavynProposalComposer.mergeWithSaved(resolved, saved);
+    const allIds = slideIndex.components.map((c) => c.id);
+    const autoIds = new Set(resolved.selected.map((c) => c.id));
+    if (!saved || !saved.cards || !saved.cards.length) {
+      composerState.cards = allIds.map((id) => ({ id, included: autoIds.has(id) }));
+    } else {
+      const have = new Set(composerState.cards.map((c) => c.id));
+      allIds.forEach((id) => {
+        if (!have.has(id)) composerState.cards.push({ id, included: false });
+      });
+    }
     const assets = DavynProposalComposer.buildSuggestedAssets(form, D);
 
-    composerSession = { form, resolved, composerState, assets };
+    composerSession = { form, resolved, composerState, assets, slideIndex };
     DavynProposalComposer.saveState(form, composerState);
-    renderProposalComposer();
+    renderVisualComposer();
   }
 
-  function renderProposalComposer() {
-    if (!composerSession || !window.DavynProposalComposer) return;
-
-    const { form, resolved, composerState, assets } = composerSession;
-    const components = DavynProposalComposer.orderedComponents(resolved, composerState);
-    const includedCount = components.filter((c) => c.included).length;
+  function renderVisualComposer() {
+    if (!composerSession) return;
+    const { form, resolved, composerState, assets, slideIndex } = composerSession;
+    const MS = DavynMasterSlides;
+    const allComps = slideIndex.components || [];
+    const ordered = DavynProposalComposer.orderedComponents(
+      { selected: slideIndex.components.filter((c) => composerState.cards.some((s) => s.id === c.id)) },
+      composerState
+    );
+    const included = ordered.filter((c) => c.included);
+    const includedIds = new Set(included.map((c) => c.id));
 
     const dealBar = document.getElementById("composer-deal-bar");
     if (dealBar) {
       dealBar.innerHTML = `
         <span class="proposal-summary-pill"><strong>${esc(form.clientName)}</strong></span>
         ${form.country ? `<span class="proposal-summary-pill">${esc(form.country)}</span>` : ""}
-        ${form.employeeCount ? `<span class="proposal-summary-pill">${esc(form.employeeCount)} emp.</span>` : ""}
-        <span class="proposal-summary-pill">${includedCount} / ${components.length} sections</span>
-        <span class="proposal-summary-pill">${assets.length} assets</span>`;
+        <span class="proposal-summary-pill">${included.length} sections · ${slideIndex.images_available.length} JPGs on server</span>`;
     }
 
-    const cardsEl = document.getElementById("composer-cards-list");
-    if (cardsEl) {
-      cardsEl.innerHTML = components
-        .map((c, idx) => {
-          const pitchId = modulePitchIdForComponent(c.id);
-          const pitchBtn = pitchId
-            ? `<button type="button" class="link-btn" data-composer-pitch="${esc(pitchId)}">Open product pitch →</button>`
-            : "";
-          const actions = (c.ae_actions || [])
-            .slice(0, 2)
-            .map((a) => `<li>${esc(a)}</li>`)
-            .join("");
-          return `
-            <article class="composer-card ${c.included ? "" : "is-excluded"}" data-component-id="${esc(c.id)}">
-              <div class="composer-card-controls">
-                <label class="composer-include-label" title="Include in pack">
-                  <input type="checkbox" class="composer-include" ${c.included ? "checked" : ""} />
-                </label>
-                <div class="composer-order-btns">
-                  <button type="button" class="composer-order-btn" data-dir="up" ${idx === 0 ? "disabled" : ""} aria-label="Move up">↑</button>
-                  <button type="button" class="composer-order-btn" data-dir="down" ${idx === components.length - 1 ? "disabled" : ""} aria-label="Move down">↓</button>
+    const strip = document.getElementById("composer-strip");
+    if (strip) {
+      if (!included.length) {
+        strip.innerHTML = '<p class="muted">Click cards below to add sections to your proposal.</p>';
+      } else {
+        strip.innerHTML = included
+          .map((c, idx) => {
+            const comp = MS.getComponentById(slideIndex, c.id) || c;
+            const src = MS.componentThumbSrc(comp);
+            return `
+              <div class="strip-card" data-component-id="${esc(c.id)}">
+                <div class="strip-card-order">
+                  <button type="button" class="composer-order-btn" data-dir="up" ${idx === 0 ? "disabled" : ""}>↑</button>
+                  <button type="button" class="composer-order-btn" data-dir="down" ${idx === included.length - 1 ? "disabled" : ""}>↓</button>
+                  <button type="button" class="strip-remove" title="Remove">×</button>
                 </div>
-              </div>
-              <div class="composer-card-body">
-                <header>
-                  <strong>${String(c.order).padStart(2, "0")} · ${esc(c.title)}</strong>
-                  <span class="composer-page-badge">Pages ${esc(c.page_range || "")}</span>
-                </header>
-                <p class="composer-card-summary">${esc(c.summary || "")}</p>
-                ${c.reasons && c.reasons[0] ? `<p class="muted composer-why">${esc(c.reasons[0])}</p>` : ""}
-                ${actions ? `<ul class="composer-ae-actions">${actions}</ul>` : ""}
-                <div class="composer-card-links">
-                  ${c.component_path ? `<a href="${esc(c.component_path)}" target="_blank" rel="noopener">Component brief ↗</a>` : ""}
-                  ${renderComposerPageLinks(c)}
-                  ${pitchBtn}
-                </div>
-              </div>
-            </article>`;
+                <img src="${esc(src)}" alt="" />
+                <p><strong>${esc(comp.title)}</strong></p>
+                <span class="muted">pp. ${esc(comp.page_range)}</span>
+                <button type="button" class="link-btn strip-expand" data-expand-id="${esc(c.id)}">View slides</button>
+              </div>`;
+          })
+          .join("");
+      }
+    }
+
+    const picker = document.getElementById("composer-picker");
+    if (picker) {
+      picker.innerHTML = allComps
+        .map((comp) => {
+          const isIn = includedIds.has(comp.id);
+          return renderVisualSlideCard(comp, slideIndex, { included: isIn });
         })
         .join("");
     }
 
-    const assetsEl = document.getElementById("composer-assets-list");
-    if (assetsEl) {
-      const checks = composerState.assets || {};
-      const grouped = {};
-      assets.forEach((a) => {
-        const cat = a.category || "Other";
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(a);
-      });
-
-      assetsEl.innerHTML = Object.keys(grouped)
-        .map((cat) => {
-          const rows = grouped[cat]
-            .map((a) => {
-              const id = DavynProposalComposer.assetId(a);
-              const checked = checks[id] !== false;
-              const sug = a.suggested ? '<span class="composer-suggested">Suggested</span>' : "";
-              return `
-                <label class="composer-asset-row ${checked ? "" : "is-unchecked"}">
-                  <input type="checkbox" class="composer-asset-check" data-asset-id="${escAttr(id)}" ${checked ? "checked" : ""} />
-                  <span class="composer-asset-meta">
-                    <span class="composer-asset-label">${esc(a.label)} ${sug}</span>
-                    <span class="muted">${esc(a.type || "")}${a.note ? " · " + esc(a.note) : ""}</span>
-                  </span>
-                  <a class="dl-link" href="${esc(a.path)}" download target="_blank" rel="noopener">Download</a>
-                </label>`;
-            })
-            .join("");
-          return `<div class="composer-asset-group"><h4>${esc(cat)}</h4>${rows}</div>`;
-        })
-        .join("");
+    const msEl = document.getElementById("composer-ms-assets");
+    if (msEl) {
+      if (!assets.length) {
+        msEl.innerHTML = '<p class="muted">No Microsoft attachments for this deal — select BC ERP or objections.</p>';
+      } else {
+        msEl.innerHTML = assets
+          .map((a) => {
+            let preview = "";
+            if (/\.(pdf)$/i.test(a.path)) {
+              preview = `<iframe class="ms-asset-preview" src="${esc(a.path)}"></iframe>`;
+            } else if (/\.(mp4)$/i.test(a.path)) {
+              preview = `<video class="ms-asset-preview" src="${esc(a.path)}" muted preload="metadata"></video>`;
+            }
+            return `
+              <article class="ms-asset-card">
+                ${preview}
+                <p>${esc(a.label)}</p>
+                <a class="dl-link" href="${esc(a.path)}" download target="_blank" rel="noopener">Download</a>
+              </article>`;
+          })
+          .join("");
+      }
     }
 
-    bindComposerCardEvents();
+    bindVisualComposerEvents();
   }
 
-  function bindComposerCardEvents() {
-    const cardsEl = document.getElementById("composer-cards-list");
-    const assetsEl = document.getElementById("composer-assets-list");
-    if (!cardsEl || !composerSession) return;
+  function bindVisualComposerEvents() {
+    if (!composerSession) return;
 
-    cardsEl.querySelectorAll(".composer-card").forEach((card) => {
+    document.getElementById("composer-picker")?.querySelectorAll(".slide-pick-card").forEach((card) => {
+      card.addEventListener("click", () => toggleComposerComponent(card.getAttribute("data-component-id")));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleComposerComponent(card.getAttribute("data-component-id"));
+        }
+      });
+    });
+
+    document.getElementById("composer-strip")?.querySelectorAll(".strip-card").forEach((card) => {
       const id = card.getAttribute("data-component-id");
-      card.querySelector(".composer-include")?.addEventListener("change", (e) => {
-        const row = composerSession.composerState.cards.find((x) => x.id === id);
-        if (row) row.included = e.target.checked;
-        persistComposer();
-        renderProposalComposer();
-      });
       card.querySelectorAll(".composer-order-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const dir = btn.getAttribute("data-dir");
-          moveComposerCard(id, dir);
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          moveComposerCard(id, btn.getAttribute("data-dir"));
         });
       });
-      card.querySelectorAll("[data-composer-pitch]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          go("product-pitches", btn.getAttribute("data-composer-pitch"));
-        });
+      card.querySelector(".strip-remove")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setComposerIncluded(id, false);
+      });
+      card.querySelector(".strip-expand")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openSlideLightbox(id, "component");
       });
     });
+  }
 
-    assetsEl?.querySelectorAll(".composer-asset-check").forEach((input) => {
-      input.addEventListener("change", () => {
-        const aid = input.getAttribute("data-asset-id");
-        if (!composerSession.composerState.assets) composerSession.composerState.assets = {};
-        composerSession.composerState.assets[aid] = input.checked;
-        persistComposer();
-        renderProposalComposer();
-      });
-    });
+  function toggleComposerComponent(id) {
+    if (!composerSession) return;
+    const row = composerSession.composerState.cards.find((c) => c.id === id);
+    if (row) {
+      row.included = !row.included;
+    } else {
+      composerSession.composerState.cards.push({ id, included: true });
+    }
+    persistComposer();
+    renderVisualComposer();
+  }
+
+  function setComposerIncluded(id, included) {
+    if (!composerSession) return;
+    const row = composerSession.composerState.cards.find((c) => c.id === id);
+    if (row) row.included = included;
+    persistComposer();
+    renderVisualComposer();
   }
 
   function moveComposerCard(id, dir) {
@@ -789,7 +950,7 @@
     cards[i] = cards[j];
     cards[j] = tmp;
     persistComposer();
-    renderProposalComposer();
+    renderVisualComposer();
   }
 
   function persistComposer() {
@@ -805,66 +966,41 @@
       assets: {},
     };
     persistComposer();
-    renderProposalComposer();
+    renderVisualComposer();
   }
 
-  function copyComposerChecklist(btn) {
-    if (!composerSession || !window.DavynProposalComposer) return;
+  function copyComposerSlideList(btn) {
+    if (!composerSession) return;
     const components = DavynProposalComposer.orderedComponents(
-      composerSession.resolved,
+      { selected: composerSession.slideIndex.components.filter((c) =>
+          composerSession.composerState.cards.some((s) => s.id === c.id)
+        ) },
       composerSession.composerState
     );
-    const text = DavynProposalComposer.buildChecklistText(
+    const text = DavynProposalComposer.buildSlideListText(
       composerSession.form,
       components,
-      composerSession.assets,
-      composerSession.composerState.assets || {}
+      composerSession.slideIndex
     );
     copyText(text, btn);
   }
 
   function initComposerToolbar() {
-    const copyBtn = document.getElementById("composer-copy-checklist");
+    const copyBtn = document.getElementById("composer-copy-slides");
     const resetBtn = document.getElementById("composer-reset");
-    const closeBtn = document.getElementById("composer-close");
     if (copyBtn && !copyBtn.dataset.bound) {
       copyBtn.dataset.bound = "1";
-      copyBtn.addEventListener("click", () => copyComposerChecklist(copyBtn));
+      copyBtn.addEventListener("click", () => copyComposerSlideList(copyBtn));
     }
     if (resetBtn && !resetBtn.dataset.bound) {
       resetBtn.dataset.bound = "1";
       resetBtn.addEventListener("click", resetComposerToAuto);
-    }
-    if (closeBtn && !closeBtn.dataset.bound) {
-      closeBtn.dataset.bound = "1";
-      closeBtn.addEventListener("click", () => {
-        const el = document.getElementById("proposal-composer");
-        if (el) el.hidden = true;
-      });
     }
   }
 
   function initProposalForm() {
     const intro = document.getElementById("proposal-intro");
     if (intro && D.proposalAgent) intro.textContent = D.proposalAgent.intro;
-
-    const hint = document.getElementById("proposal-api-hint");
-    if (hint && window.DavynProposalAgent) {
-      hint.textContent = "Optional AI draft API: " + DavynProposalAgent.getApiUrl();
-    }
-
-    const guideEl = document.getElementById("vercel-vars-guide");
-    if (guideEl && D.proposalAgent && D.proposalAgent.vercelGuide) {
-      guideEl.innerHTML =
-        "<table class='vercel-vars-table'><thead><tr><th>Vercel variable</th><th>Where it goes</th><th>Example</th></tr></thead><tbody>" +
-        D.proposalAgent.vercelGuide
-          .map(
-            (r) =>
-              `<tr><td><code>${esc(r.name)}</code></td><td>${esc(r.where)}</td><td>${esc(r.example)}</td></tr>`
-          )
-          .join("") +
-        "</tbody></table>";
-    }
 
     const keyInput = document.getElementById("proposal-access-key");
     const saveKeyBtn = document.getElementById("proposal-save-key");
@@ -876,43 +1012,26 @@
           DavynProposalAgent.setAccessKey(keyInput.value.trim());
           saveKeyBtn.textContent = "Saved ✓";
           setTimeout(() => {
-            saveKeyBtn.textContent = "Save for session";
+            saveKeyBtn.textContent = "Save";
           }, 1500);
         });
       }
     }
 
-    if (proposalFormInitialized) return;
+    if (proposalFormInitialized) {
+      refreshProposalComposer();
+      return;
+    }
     proposalFormInitialized = true;
 
-    const vertSel = document.getElementById("proposal-vertical");
-    const stageSel = document.getElementById("proposal-stage");
-    const personaSel = document.getElementById("proposal-persona");
     const erpSel = document.getElementById("proposal-erp");
-    const typeSel = document.getElementById("proposal-type");
     const modEl = document.getElementById("proposal-modules");
     const objEl = document.getElementById("proposal-objections");
     const btn = document.getElementById("proposal-generate");
-    const composerBtn = document.getElementById("proposal-open-composer");
+    const refreshBtn = document.getElementById("proposal-refresh-composer");
 
-    if (vertSel) {
-      vertSel.innerHTML = D.verticals.map((v) => `<option value="${v.id}">${esc(v.name)}</option>`).join("");
-      if (vertSel.querySelector('[value="finance"]')) vertSel.value = "finance";
-    }
-    if (stageSel) {
-      stageSel.innerHTML = D.dealStages.map((s) => `<option value="${s.id}">${esc(s.label)}</option>`).join("");
-      if (stageSel.querySelector('[value="alignment"]')) stageSel.value = "alignment";
-    }
-    if (personaSel) {
-      personaSel.innerHTML = (D.packs.personas || ["CFO", "HR Director", "IT Director"]).map(
-        (p) => `<option value="${esc(p)}">${esc(p)}</option>`
-      ).join("");
-    }
     if (erpSel && D.proposalAgent) {
       erpSel.innerHTML = D.proposalAgent.erpOptions.map((o) => `<option value="${o.id}">${esc(o.label)}</option>`).join("");
-    }
-    if (typeSel && D.proposalAgent) {
-      typeSel.innerHTML = D.proposalAgent.proposalTypes.map((t) => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
     }
     if (modEl && D.productPitches) {
       modEl.innerHTML = D.productPitches.decks
@@ -923,14 +1042,13 @@
               <span class="check-card-body">
                 <span class="check-card-title">${esc(d.title)}</span>
                 <span class="check-card-meta">${esc(d.tags.slice(0, 3).join(" · "))}</span>
-                <span class="check-card-note">${esc(d.useWhen)}</span>
               </span>
             </label>`
         )
         .join("");
       decorateProposalChecks(modEl);
       modEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
-        input.addEventListener("change", refreshProposalComponentPreview);
+        input.addEventListener("change", refreshProposalComposer);
       });
     }
     if (objEl) {
@@ -941,27 +1059,37 @@
               <input type="checkbox" name="proposal-obj" value="${o.id}" />
               <span class="check-card-body">
                 <span class="check-card-title">${esc(o.title)}</span>
-                <span class="check-card-meta">${esc(o.tags.slice(0, 3).join(" · "))}</span>
               </span>
             </label>`
         )
         .join("");
       decorateProposalChecks(objEl);
       objEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
-        input.addEventListener("change", refreshProposalComponentPreview);
+        input.addEventListener("change", refreshProposalComposer);
       });
     }
-    [vertSel, stageSel, personaSel, erpSel, typeSel].forEach((el) => {
-      if (el) el.addEventListener("change", refreshProposalComponentPreview);
+    ["proposal-client", "proposal-country", "proposal-headcount", "proposal-erp"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("input", debounce(refreshProposalComposer, 400));
+      if (el && el.tagName === "SELECT") el.addEventListener("change", refreshProposalComposer);
     });
-    if (btn) {
-      btn.addEventListener("click", runProposalGeneration);
-    }
-    if (composerBtn) {
-      composerBtn.addEventListener("click", openProposalComposer);
-    }
+    if (btn) btn.addEventListener("click", runProposalGeneration);
+    if (refreshBtn) refreshBtn.addEventListener("click", refreshProposalComposer);
     initComposerToolbar();
-    refreshProposalComponentPreview();
+    initLightbox();
+    refreshProposalComposer();
+  }
+
+  function debounce(fn, ms) {
+    let t;
+    return function () {
+      clearTimeout(t);
+      t = setTimeout(fn, ms);
+    };
+  }
+
+  async function refreshProposalComponentPreview() {
+    return refreshProposalComposer();
   }
 
   function collectProposalForm() {
@@ -970,20 +1098,26 @@
     const objectionIds = [];
     document.querySelectorAll('input[name="proposal-obj"]:checked').forEach((el) => objectionIds.push(el.value));
 
+    const vertEl = document.getElementById("proposal-vertical");
+    const stageEl = document.getElementById("proposal-stage");
+    const personaEl = document.getElementById("proposal-persona");
+    const typeEl = document.getElementById("proposal-type");
+    const discEl = document.getElementById("proposal-discovery");
+
     return {
-      clientName: (document.getElementById("proposal-client").value || "").trim(),
-      country: (document.getElementById("proposal-country").value || "").trim(),
-      employeeCount: (document.getElementById("proposal-headcount").value || "").trim(),
-      vertical: document.getElementById("proposal-vertical").value,
-      stage: document.getElementById("proposal-stage").value,
-      persona: document.getElementById("proposal-persona").value,
-      erpEnvironment: document.getElementById("proposal-erp").value,
-      proposalType: document.getElementById("proposal-type").value,
+      clientName: (document.getElementById("proposal-client")?.value || "").trim(),
+      country: (document.getElementById("proposal-country")?.value || "").trim(),
+      employeeCount: (document.getElementById("proposal-headcount")?.value || "").trim(),
+      vertical: vertEl ? vertEl.value : "finance",
+      stage: stageEl ? stageEl.value : "alignment",
+      persona: personaEl ? personaEl.value : "CFO",
+      erpEnvironment: document.getElementById("proposal-erp")?.value || "bc-cloud",
+      proposalType: typeEl ? typeEl.value : "full",
       moduleIds,
       objectionIds,
-      discoveryNotes: (document.getElementById("proposal-discovery").value || "").trim(),
-      pricingNotes: (document.getElementById("proposal-pricing").value || "").trim(),
-      nextStep: (document.getElementById("proposal-next").value || "").trim(),
+      discoveryNotes: discEl ? discEl.value.trim() : "",
+      pricingNotes: "",
+      nextStep: "",
     };
   }
 
@@ -998,7 +1132,7 @@
       return;
     }
     if (!form.discoveryNotes) {
-      alert("Add discovery notes so the draft is grounded in the call.");
+      alert("Add discovery notes in the optional AI section below.");
       return;
     }
 
@@ -1055,21 +1189,6 @@
         btn.textContent = "AI draft (optional)";
       }
     }
-  }
-
-  async function refreshProposalComponentPreview() {
-    const wrap = document.getElementById("proposal-components-preview");
-    if (!wrap || !window.DavynProposalAgent) return;
-    const form = collectProposalForm();
-    wrap.innerHTML = '<p class="muted">Building proposal component plan from master split…</p>';
-    const resolved = await DavynProposalAgent.resolveProposalComponents(form, D);
-    if (!resolved || !resolved.selected || !resolved.selected.length) {
-      wrap.innerHTML = '<p class="muted">No components matched yet. Select at least one module, then click <strong>Build proposal pack</strong>.</p>';
-      return;
-    }
-    wrap.innerHTML =
-      `<p class="muted">${resolved.selected.length} components ready — click <strong>Build proposal pack</strong> to compose and download assets.</p>` +
-      renderComponentPlanInner(resolved);
   }
 
   /* ——— Pre-call / Post-call packs ——— */
