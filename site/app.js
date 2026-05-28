@@ -443,6 +443,55 @@
 
     const navSetup = "<ol>" + m.integration.nav.setup.map((s) => `<li>${esc(s)}</li>`).join("") + "</ol>";
 
+    const enable = m.enablementAssets;
+    const onePager =
+      enable && enable.onePagerPdf
+        ? `<div class="asset-callout">
+            <div>
+              <div class="muted" style="font-family:var(--mono);font-size:11px">ONE-PAGER</div>
+              <div style="font-weight:600">${esc(enable.onePagerPdf.title)}</div>
+              <div class="muted">Send to AE/CFO after discovery aligns.</div>
+            </div>
+            <div class="asset-actions">
+              <a class="copy-btn" href="${enable.onePagerPdf.path}" target="_blank" rel="noopener">Open</a>
+              <a class="copy-btn" href="${enable.onePagerPdf.path}" download>Download</a>
+            </div>
+          </div>`
+        : "";
+
+    const videos =
+      enable && enable.videos && enable.videos.length
+        ? `<div class="media-grid">
+            ${enable.videos
+              .map(
+                (v) => `
+              <div class="media-card">
+                <div class="media-title">${esc(v.title)}</div>
+                <video controls preload="metadata" src="${v.path}"></video>
+                <div class="media-links">
+                  <a href="${v.path}" target="_blank" rel="noopener">Open ↗</a>
+                  <a href="${v.path}" download>Download</a>
+                </div>
+              </div>`
+              )
+              .join("")}
+          </div>`
+        : "";
+
+    const images =
+      enable && enable.images && enable.images.length
+        ? `<div class="img-grid">
+            ${enable.images
+              .map(
+                (img) => `
+              <a class="img-tile" href="${img.path}" target="_blank" rel="noopener" title="${esc(img.title)}">
+                <img src="${img.path}" alt="${esc(img.title)}" loading="lazy" />
+              </a>`
+              )
+              .join("")}
+          </div>`
+        : "";
+
     el.innerHTML = `
       <div class="section-intro">
         <h1>${esc(m.title)}</h1>
@@ -452,6 +501,7 @@
       <div class="action-banner">${esc(m.salesUse[0])}</div>
 
       <div class="intel-grid">
+        ${block("Enablement assets (for Davyn AEs)", onePager + videos)}
         ${block("Executive proof points", `<div class="kpi-grid">${proof}</div>`, "accent")}
         ${block(
           "Executive quote (credibility)",
@@ -474,6 +524,7 @@
            <div class="mini-card"><h4>Setup</h4>${navSetup}</div>`
         )}
         ${block("How to use this in a live deal", listItems(m.salesUse))}
+        ${block("Integration screenshots (quick visual)", images)}
       </div>
     `;
   }

@@ -646,6 +646,35 @@ window.DAVYN = {
       "When IT asks: show 'cloud-only BC' constraint early; route on-prem to NAV connector path.",
       "When exec sponsor asks: use Satya quote + Azure-native + Teams-integrated AI story.",
     ],
+    enablementAssets: {
+      onePagerPdf: {
+        title: "Business Central integration — one-pager (PT)",
+        path: "assets/downloads/msft-factorial/pdf/PT_-_BC_one_pager.pdf",
+        type: "PDF",
+      },
+      videos: [
+        {
+          title: "Employee sync (demo)",
+          path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_EmployeeSYNC_ENG.mp4",
+        },
+        {
+          title: "New project (demo)",
+          path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_NewProject_ENG.mp4",
+        },
+        {
+          title: "Time tracking (demo)",
+          path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_TimeTracking_ENG.mp4",
+        },
+        {
+          title: "Expenses (demo)",
+          path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_Expenses_ENG.mp4",
+        },
+      ],
+      images: Array.from({ length: 13 }, (_, i) => ({
+        title: `Integration screenshot ${i + 1}`,
+        path: `assets/downloads/msft-factorial/images/bc-integration-${i + 1}.png`,
+      })),
+    },
   },
 
   roiNarratives: [
