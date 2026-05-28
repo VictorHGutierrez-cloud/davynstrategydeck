@@ -588,7 +588,8 @@
 
     const hint = document.getElementById("proposal-api-hint");
     if (hint && window.DavynProposalAgent) {
-      hint.textContent = "API endpoint: " + DavynProposalAgent.getApiUrl();
+      hint.textContent =
+        "API: " + DavynProposalAgent.getApiUrl() + " · PDF: " + DavynProposalAgent.getPdfApiUrl();
     }
 
     const guideEl = document.getElementById("vercel-vars-guide");
