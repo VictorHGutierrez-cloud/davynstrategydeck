@@ -839,11 +839,238 @@ textarea {
   position: relative;
   z-index: 10000;
 }
+
+.proposal-pdf-success {
   padding: 20px;
   border: 1px solid #86efac;
   border-radius: var(--radius);
   background: #f0fdf4;
   margin-bottom: 16px;
+}
+
+/* ——— Proposal pack composer ——— */
+.proposal-composer {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.composer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.composer-header h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.composer-deal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.composer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.composer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .composer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.composer-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  background: var(--bg);
+}
+
+.composer-panel h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.composer-panel-hint {
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+
+.composer-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.composer-card {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.composer-card.is-excluded {
+  opacity: 0.55;
+  background: var(--bg);
+}
+
+.composer-card-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.composer-include-label {
+  cursor: pointer;
+}
+
+.composer-order-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.composer-order-btn {
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+.composer-order-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.composer-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.composer-card-body header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.composer-page-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.composer-card-summary {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.composer-why {
+  margin: 4px 0 0;
+  font-size: 11px;
+}
+
+.composer-ae-actions {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.composer-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  align-items: center;
+}
+
+.composer-assets-list {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.composer-asset-group {
+  margin-bottom: 14px;
+}
+
+.composer-asset-group h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.composer-asset-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  cursor: pointer;
+  background: var(--bg-elevated);
+}
+
+.composer-asset-row.is-unchecked {
+  opacity: 0.5;
+}
+
+.composer-asset-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.composer-suggested {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-radius: 4px;
+}
+
+.composer-asset-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .proposal-output {

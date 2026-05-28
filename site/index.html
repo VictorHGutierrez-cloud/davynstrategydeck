@@ -240,7 +240,7 @@
               <div class="checkbox-grid proposal-selection-grid" id="proposal-modules"></div>
             </div>
             <div class="proposal-component-preview" id="proposal-components-preview">
-              <p class="muted">Select modules and objections to auto-build your proposal component plan from the master split.</p>
+              <p class="muted">Select modules and objections — then click <strong>Build proposal pack</strong> to compose cards and download assets.</p>
             </div>
             <div class="form-field proposal-selection-block">
               <label>Objections to address in proposal</label>
@@ -260,12 +260,42 @@
               <input id="proposal-next" type="text" placeholder="e.g. Commercial review call — June 12 with CFO + IT" />
             </div>
             <div class="proposal-action-row">
-              <button type="button" class="btn-primary" id="proposal-generate">Generate proposal draft</button>
-              <button type="button" class="btn-secondary" id="proposal-download-pdf">Download PDF</button>
+              <button type="button" class="btn-primary" id="proposal-open-composer">Build proposal pack</button>
+              <button type="button" class="btn-secondary" id="proposal-generate">AI draft (optional)</button>
             </div>
-            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">PDF is built in your browser (no server Chrome) — includes AI narrative, master split components, and Sources appendix.</p>
+            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">
+              Compose master-deck sections + product pitches + Microsoft assets. Download each file yourself — no auto-PDF.
+            </p>
             <p class="muted proposal-api-hint" id="proposal-api-hint"></p>
           </div>
+
+          <div id="proposal-composer" class="proposal-composer" hidden>
+            <div class="composer-header">
+              <div>
+                <h2>Proposal pack composer</h2>
+                <p class="muted" id="composer-subtitle">Reorder components, pick attachments, copy checklist for the team.</p>
+              </div>
+              <button type="button" class="btn-secondary composer-close" id="composer-close" aria-label="Close composer">Close</button>
+            </div>
+            <div class="composer-deal-bar" id="composer-deal-bar"></div>
+            <div class="composer-toolbar">
+              <button type="button" class="btn-primary" id="composer-copy-checklist">Copy pack checklist</button>
+              <button type="button" class="btn-secondary" id="composer-reset">Reset to auto-selection</button>
+            </div>
+            <div class="composer-grid">
+              <section class="composer-panel">
+                <h3>Master deck components</h3>
+                <p class="muted composer-panel-hint">Use <strong>page ranges</strong> when pulling slides from <code>master_en.pdf</code>. Open briefs for talking points.</p>
+                <div id="composer-cards-list" class="composer-cards-list"></div>
+              </section>
+              <section class="composer-panel">
+                <h3>Attachments &amp; downloads</h3>
+                <p class="muted composer-panel-hint">Check what you will send. Click to download or open in a new tab.</p>
+                <div id="composer-assets-list" class="composer-assets-list"></div>
+              </section>
+            </div>
+          </div>
+
           <div id="proposal-output" class="pack-output proposal-output" hidden></div>
         </section>
 
@@ -416,8 +446,8 @@
       </main>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
     <script src="data.js"></script>
+    <script src="proposal-composer.js"></script>
     <script src="proposal-agent.js"></script>
     <script src="pitch-viewer.js"></script>
     <script src="app.js"></script>

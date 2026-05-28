@@ -15,7 +15,7 @@ window.DAVYN = {
 
   proposalAgent: {
     intro:
-      "Internal only — turn discovery notes into a client-ready proposal draft. Uses your deal inputs plus Davyn playbooks (vertical, objections, BC integration). Review before sending.",
+      "Build a proposal pack from real Davyn assets: master deck sections (by page range), product pitches, and Microsoft attachments. Compose on screen, then download and send — optional AI draft for cover email only.",
     accessKeyDefault: "davyn-proposal-2026",
     vercelGuide: [
       { name: "OPENAI_API_KEY", where: "Vercel only — never paste in this site", example: "sk-proj-… (from platform.openai.com)" },

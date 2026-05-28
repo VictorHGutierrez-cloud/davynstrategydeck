@@ -581,6 +581,268 @@
 
   /* ——— Proposal agent ——— */
   let proposalFormInitialized = false;
+  let composerSession = null;
+
+  function modulePitchIdForComponent(componentId) {
+    const map = {
+      "talent-acquisition-and-recruitment": "recruitment",
+      "performance-training-and-learning": "performance",
+      "compensation-payroll-and-compliance-sync": "compensation",
+      "engagement-and-employee-retention": "engagement",
+      "time-attendance-absence-and-shifts": "time-planning",
+      "expenses-projects-and-invoicing": "expense-management",
+      "procurement-it-and-device-lifecycle": "procurement",
+      "workspace-and-hybrid-operations": "spaces",
+    };
+    return map[componentId] || null;
+  }
+
+  function renderComposerPageLinks(c) {
+    const pages = c.pages && c.pages.length ? c.pages : [];
+    if (!pages.length && c.source_page_paths && c.source_page_paths.length) {
+      return c.source_page_paths
+        .map((href, i) => `<a href="${esc(href)}" target="_blank" rel="noopener">Page ${i + 1} ↗</a>`)
+        .join("");
+    }
+    return pages
+      .map((p) => {
+        const num = String(p).padStart(3, "0");
+        const href = `assets/master-files-splitted/pages/page-${num}.md`;
+        return `<a href="${href}" target="_blank" rel="noopener">p.${p} ↗</a>`;
+      })
+      .join("");
+  }
+
+  async function openProposalComposer() {
+    if (!window.DavynProposalAgent || !window.DavynProposalComposer) return;
+
+    const form = collectProposalForm();
+    if (!form.clientName) {
+      alert("Client name is required.");
+      return;
+    }
+
+    const composerEl = document.getElementById("proposal-composer");
+    const cardsEl = document.getElementById("composer-cards-list");
+    if (!composerEl || !cardsEl) return;
+
+    composerEl.hidden = false;
+    cardsEl.innerHTML = '<p class="muted">Loading component plan…</p>';
+    composerEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const resolved = await DavynProposalAgent.resolveProposalComponents(form, D);
+    if (!resolved.selected.length) {
+      cardsEl.innerHTML =
+        '<p class="muted">No components matched. Select at least one Factorial module or objection above, then try again.</p>';
+      return;
+    }
+
+    const saved = DavynProposalComposer.loadState(form);
+    const composerState = DavynProposalComposer.mergeWithSaved(resolved, saved);
+    const assets = DavynProposalComposer.buildSuggestedAssets(form, D);
+
+    composerSession = { form, resolved, composerState, assets };
+    DavynProposalComposer.saveState(form, composerState);
+    renderProposalComposer();
+  }
+
+  function renderProposalComposer() {
+    if (!composerSession || !window.DavynProposalComposer) return;
+
+    const { form, resolved, composerState, assets } = composerSession;
+    const components = DavynProposalComposer.orderedComponents(resolved, composerState);
+    const includedCount = components.filter((c) => c.included).length;
+
+    const dealBar = document.getElementById("composer-deal-bar");
+    if (dealBar) {
+      dealBar.innerHTML = `
+        <span class="proposal-summary-pill"><strong>${esc(form.clientName)}</strong></span>
+        ${form.country ? `<span class="proposal-summary-pill">${esc(form.country)}</span>` : ""}
+        ${form.employeeCount ? `<span class="proposal-summary-pill">${esc(form.employeeCount)} emp.</span>` : ""}
+        <span class="proposal-summary-pill">${includedCount} / ${components.length} sections</span>
+        <span class="proposal-summary-pill">${assets.length} assets</span>`;
+    }
+
+    const cardsEl = document.getElementById("composer-cards-list");
+    if (cardsEl) {
+      cardsEl.innerHTML = components
+        .map((c, idx) => {
+          const pitchId = modulePitchIdForComponent(c.id);
+          const pitchBtn = pitchId
+            ? `<button type="button" class="link-btn" data-composer-pitch="${esc(pitchId)}">Open product pitch →</button>`
+            : "";
+          const actions = (c.ae_actions || [])
+            .slice(0, 2)
+            .map((a) => `<li>${esc(a)}</li>`)
+            .join("");
+          return `
+            <article class="composer-card ${c.included ? "" : "is-excluded"}" data-component-id="${esc(c.id)}">
+              <div class="composer-card-controls">
+                <label class="composer-include-label" title="Include in pack">
+                  <input type="checkbox" class="composer-include" ${c.included ? "checked" : ""} />
+                </label>
+                <div class="composer-order-btns">
+                  <button type="button" class="composer-order-btn" data-dir="up" ${idx === 0 ? "disabled" : ""} aria-label="Move up">↑</button>
+                  <button type="button" class="composer-order-btn" data-dir="down" ${idx === components.length - 1 ? "disabled" : ""} aria-label="Move down">↓</button>
+                </div>
+              </div>
+              <div class="composer-card-body">
+                <header>
+                  <strong>${String(c.order).padStart(2, "0")} · ${esc(c.title)}</strong>
+                  <span class="composer-page-badge">Pages ${esc(c.page_range || "")}</span>
+                </header>
+                <p class="composer-card-summary">${esc(c.summary || "")}</p>
+                ${c.reasons && c.reasons[0] ? `<p class="muted composer-why">${esc(c.reasons[0])}</p>` : ""}
+                ${actions ? `<ul class="composer-ae-actions">${actions}</ul>` : ""}
+                <div class="composer-card-links">
+                  ${c.component_path ? `<a href="${esc(c.component_path)}" target="_blank" rel="noopener">Component brief ↗</a>` : ""}
+                  ${renderComposerPageLinks(c)}
+                  ${pitchBtn}
+                </div>
+              </div>
+            </article>`;
+        })
+        .join("");
+    }
+
+    const assetsEl = document.getElementById("composer-assets-list");
+    if (assetsEl) {
+      const checks = composerState.assets || {};
+      const grouped = {};
+      assets.forEach((a) => {
+        const cat = a.category || "Other";
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(a);
+      });
+
+      assetsEl.innerHTML = Object.keys(grouped)
+        .map((cat) => {
+          const rows = grouped[cat]
+            .map((a) => {
+              const id = DavynProposalComposer.assetId(a);
+              const checked = checks[id] !== false;
+              const sug = a.suggested ? '<span class="composer-suggested">Suggested</span>' : "";
+              return `
+                <label class="composer-asset-row ${checked ? "" : "is-unchecked"}">
+                  <input type="checkbox" class="composer-asset-check" data-asset-id="${escAttr(id)}" ${checked ? "checked" : ""} />
+                  <span class="composer-asset-meta">
+                    <span class="composer-asset-label">${esc(a.label)} ${sug}</span>
+                    <span class="muted">${esc(a.type || "")}${a.note ? " · " + esc(a.note) : ""}</span>
+                  </span>
+                  <a class="dl-link" href="${esc(a.path)}" download target="_blank" rel="noopener">Download</a>
+                </label>`;
+            })
+            .join("");
+          return `<div class="composer-asset-group"><h4>${esc(cat)}</h4>${rows}</div>`;
+        })
+        .join("");
+    }
+
+    bindComposerCardEvents();
+  }
+
+  function bindComposerCardEvents() {
+    const cardsEl = document.getElementById("composer-cards-list");
+    const assetsEl = document.getElementById("composer-assets-list");
+    if (!cardsEl || !composerSession) return;
+
+    cardsEl.querySelectorAll(".composer-card").forEach((card) => {
+      const id = card.getAttribute("data-component-id");
+      card.querySelector(".composer-include")?.addEventListener("change", (e) => {
+        const row = composerSession.composerState.cards.find((x) => x.id === id);
+        if (row) row.included = e.target.checked;
+        persistComposer();
+        renderProposalComposer();
+      });
+      card.querySelectorAll(".composer-order-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const dir = btn.getAttribute("data-dir");
+          moveComposerCard(id, dir);
+        });
+      });
+      card.querySelectorAll("[data-composer-pitch]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          go("product-pitches", btn.getAttribute("data-composer-pitch"));
+        });
+      });
+    });
+
+    assetsEl?.querySelectorAll(".composer-asset-check").forEach((input) => {
+      input.addEventListener("change", () => {
+        const aid = input.getAttribute("data-asset-id");
+        if (!composerSession.composerState.assets) composerSession.composerState.assets = {};
+        composerSession.composerState.assets[aid] = input.checked;
+        persistComposer();
+        renderProposalComposer();
+      });
+    });
+  }
+
+  function moveComposerCard(id, dir) {
+    if (!composerSession) return;
+    const cards = composerSession.composerState.cards;
+    const i = cards.findIndex((c) => c.id === id);
+    if (i < 0) return;
+    const j = dir === "up" ? i - 1 : i + 1;
+    if (j < 0 || j >= cards.length) return;
+    const tmp = cards[i];
+    cards[i] = cards[j];
+    cards[j] = tmp;
+    persistComposer();
+    renderProposalComposer();
+  }
+
+  function persistComposer() {
+    if (composerSession && window.DavynProposalComposer) {
+      DavynProposalComposer.saveState(composerSession.form, composerSession.composerState);
+    }
+  }
+
+  function resetComposerToAuto() {
+    if (!composerSession) return;
+    composerSession.composerState = {
+      cards: composerSession.resolved.selected.map((c) => ({ id: c.id, included: true })),
+      assets: {},
+    };
+    persistComposer();
+    renderProposalComposer();
+  }
+
+  function copyComposerChecklist(btn) {
+    if (!composerSession || !window.DavynProposalComposer) return;
+    const components = DavynProposalComposer.orderedComponents(
+      composerSession.resolved,
+      composerSession.composerState
+    );
+    const text = DavynProposalComposer.buildChecklistText(
+      composerSession.form,
+      components,
+      composerSession.assets,
+      composerSession.composerState.assets || {}
+    );
+    copyText(text, btn);
+  }
+
+  function initComposerToolbar() {
+    const copyBtn = document.getElementById("composer-copy-checklist");
+    const resetBtn = document.getElementById("composer-reset");
+    const closeBtn = document.getElementById("composer-close");
+    if (copyBtn && !copyBtn.dataset.bound) {
+      copyBtn.dataset.bound = "1";
+      copyBtn.addEventListener("click", () => copyComposerChecklist(copyBtn));
+    }
+    if (resetBtn && !resetBtn.dataset.bound) {
+      resetBtn.dataset.bound = "1";
+      resetBtn.addEventListener("click", resetComposerToAuto);
+    }
+    if (closeBtn && !closeBtn.dataset.bound) {
+      closeBtn.dataset.bound = "1";
+      closeBtn.addEventListener("click", () => {
+        const el = document.getElementById("proposal-composer");
+        if (el) el.hidden = true;
+      });
+    }
+  }
 
   function initProposalForm() {
     const intro = document.getElementById("proposal-intro");
@@ -588,8 +850,7 @@
 
     const hint = document.getElementById("proposal-api-hint");
     if (hint && window.DavynProposalAgent) {
-      hint.textContent =
-        "API: " + DavynProposalAgent.getApiUrl() + " · PDF: " + DavynProposalAgent.getPdfApiUrl();
+      hint.textContent = "Optional AI draft API: " + DavynProposalAgent.getApiUrl();
     }
 
     const guideEl = document.getElementById("vercel-vars-guide");
@@ -632,7 +893,7 @@
     const modEl = document.getElementById("proposal-modules");
     const objEl = document.getElementById("proposal-objections");
     const btn = document.getElementById("proposal-generate");
-    const pdfBtn = document.getElementById("proposal-download-pdf");
+    const composerBtn = document.getElementById("proposal-open-composer");
 
     if (vertSel) {
       vertSel.innerHTML = D.verticals.map((v) => `<option value="${v.id}">${esc(v.name)}</option>`).join("");
@@ -696,80 +957,11 @@
     if (btn) {
       btn.addEventListener("click", runProposalGeneration);
     }
-    if (pdfBtn) {
-      pdfBtn.addEventListener("click", runProposalPdfDownload);
+    if (composerBtn) {
+      composerBtn.addEventListener("click", openProposalComposer);
     }
+    initComposerToolbar();
     refreshProposalComponentPreview();
-  }
-
-  function triggerBlobDownload(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  async function runProposalPdfDownload() {
-    const out = document.getElementById("proposal-output");
-    const pdfBtn = document.getElementById("proposal-download-pdf");
-    const statusEl = document.getElementById("proposal-pdf-status");
-    if (!window.DavynProposalAgent) return;
-
-    const form = collectProposalForm();
-    if (!form.clientName) {
-      alert("Client name is required.");
-      return;
-    }
-    if (!form.discoveryNotes) {
-      alert("Add discovery notes so the PDF is grounded in the call.");
-      return;
-    }
-
-    const accessKey = DavynProposalAgent.getAccessKey();
-    if (!accessKey) {
-      alert(
-        "Paste the internal password first (PROPOSAL_ACCESS_KEY from Vercel — not your OpenAI key).\n\nDefault: davyn-proposal-2026\n\nClick Save for session, then try again."
-      );
-      return;
-    }
-
-    if (out) out.hidden = false;
-    if (statusEl) statusEl.remove();
-    const loading = document.createElement("div");
-    loading.id = "proposal-pdf-status";
-    loading.className = "proposal-loading proposal-pdf-loading";
-    loading.innerHTML =
-      "<p><strong>Building PDF proposal…</strong></p><p class=\"muted\">Step 1: AI writes your proposal (20–45s). Step 2: your browser saves the PDF (15–30s). Keep this tab open — do not switch tabs.</p>";
-    if (out) out.prepend(loading);
-    else if (pdfBtn && pdfBtn.parentElement) pdfBtn.parentElement.after(loading);
-
-    if (pdfBtn) {
-      pdfBtn.disabled = true;
-      pdfBtn.textContent = "Building PDF…";
-    }
-
-    try {
-      const { blob, filename, masterComponents } = await DavynProposalAgent.generateProposalPdf(form, D);
-      triggerBlobDownload(blob, filename);
-      loading.className = "proposal-pdf-success";
-      loading.innerHTML = `<p><strong>PDF downloaded:</strong> ${esc(filename)}</p><p class="muted">${masterComponents.selected_count || 0} master split components included · Sources appendix attached.</p>`;
-    } catch (err) {
-      let msg = err.message || "Unknown error";
-      if (err.status === 401) msg += " — Check your internal access key above.";
-      if (err.status === 503) msg += " — Ask admin to set OPENAI_API_KEY on Vercel.";
-      loading.className = "proposal-error";
-      loading.innerHTML = `<strong>Could not generate PDF</strong><p>${esc(msg)}</p><p class="muted">Try Generate proposal draft first, or retry after a minute if the server was cold-starting.</p>`;
-    } finally {
-      if (pdfBtn) {
-        pdfBtn.disabled = false;
-        pdfBtn.textContent = "Download PDF";
-      }
-    }
   }
 
   function collectProposalForm() {
@@ -860,7 +1052,7 @@
     } finally {
       if (btn) {
         btn.disabled = false;
-        btn.textContent = "Generate proposal draft";
+        btn.textContent = "AI draft (optional)";
       }
     }
   }
@@ -872,10 +1064,12 @@
     wrap.innerHTML = '<p class="muted">Building proposal component plan from master split…</p>';
     const resolved = await DavynProposalAgent.resolveProposalComponents(form, D);
     if (!resolved || !resolved.selected || !resolved.selected.length) {
-      wrap.innerHTML = '<p class="muted">No components matched yet. Select at least one module.</p>';
+      wrap.innerHTML = '<p class="muted">No components matched yet. Select at least one module, then click <strong>Build proposal pack</strong>.</p>';
       return;
     }
-    wrap.innerHTML = renderComponentPlanInner(resolved);
+    wrap.innerHTML =
+      `<p class="muted">${resolved.selected.length} components ready — click <strong>Build proposal pack</strong> to compose and download assets.</p>` +
+      renderComponentPlanInner(resolved);
   }
 
   /* ——— Pre-call / Post-call packs ——— */
