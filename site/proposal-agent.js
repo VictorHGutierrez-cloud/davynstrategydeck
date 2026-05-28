@@ -323,6 +323,35 @@
     };
   }
 
+  async function convertHtmlToPdfBlob(html, filename) {
+    if (typeof html2pdf === "undefined") {
+      throw new Error("PDF library failed to load. Hard refresh the page and try again.");
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+    wrapper.style.cssText =
+      "position:fixed;left:0;top:0;width:210mm;min-height:297mm;background:#fff;z-index:-1;opacity:0;pointer-events:none;";
+    document.body.appendChild(wrapper);
+
+    try {
+      const blob = await html2pdf()
+        .set({
+          margin: [12, 12, 14, 12],
+          filename,
+          image: { type: "jpeg", quality: 0.92 },
+          html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          pagebreak: { mode: ["css", "legacy"] },
+        })
+        .from(wrapper)
+        .outputPdf("blob");
+      return blob;
+    } finally {
+      wrapper.remove();
+    }
+  }
+
   async function generateProposalPdf(form, D) {
     const { payload, masterComponents } = await buildProposalPayload(form, D);
 
@@ -336,17 +365,20 @@
       body: JSON.stringify(payload),
     });
 
+    const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
       const err = new Error(data.error || "PDF generation failed.");
       err.status = res.status;
       throw err;
     }
 
-    const blob = await res.blob();
-    const disposition = res.headers.get("Content-Disposition") || "";
-    const match = disposition.match(/filename="([^"]+)"/);
-    const filename = match ? match[1] : `Davyn_Proposal_${(form.clientName || "Client").replace(/\s+/g, "_")}.pdf`;
+    if (!data.html) {
+      throw new Error("Server did not return proposal HTML.");
+    }
+
+    const filename =
+      data.filename || `Davyn_Proposal_${(form.clientName || "Client").replace(/\s+/g, "_")}.pdf`;
+    const blob = await convertHtmlToPdfBlob(data.html, filename);
 
     return { blob, filename, masterComponents };
   }
@@ -361,5 +393,6 @@
     buildProposalPayload,
     generateProposal,
     generateProposalPdf,
+    convertHtmlToPdfBlob,
   };
 })();

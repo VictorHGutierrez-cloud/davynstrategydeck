@@ -6,8 +6,12 @@ const {
   sanitizeFilename,
 } = require("./_lib/proposal-shared");
 const { enrichComponentWithSources } = require("./_lib/master-loader");
-const { buildProposalHtml, htmlToPdfBuffer } = require("./_lib/pdf-render");
+const { buildProposalHtml } = require("./_lib/pdf-render");
 
+/**
+ * Returns proposal HTML for client-side PDF conversion (no headless Chrome on Vercel).
+ * Response: JSON { html, filename }
+ */
 module.exports = async function handler(req, res) {
   setCors(req, res);
 
@@ -51,14 +55,12 @@ module.exports = async function handler(req, res) {
       components: enrichedComponents,
     });
 
-    const pdfBuffer = await htmlToPdfBuffer(html);
     const date = new Date().toISOString().slice(0, 10);
     const filename = `Davyn_Proposal_${sanitizeFilename(form.clientName)}_${date}.pdf`;
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Content-Type", "application/json");
     res.setHeader("Cache-Control", "no-store");
-    return res.status(200).send(Buffer.from(pdfBuffer));
+    return res.status(200).json({ html, filename, componentCount: enrichedComponents.length });
   } catch (err) {
     console.error("proposal-pdf error:", err);
     return res.status(500).json({

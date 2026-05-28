@@ -263,7 +263,7 @@
               <button type="button" class="btn-primary" id="proposal-generate">Generate proposal draft</button>
               <button type="button" class="btn-secondary" id="proposal-download-pdf">Download PDF</button>
             </div>
-            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">PDF includes AI narrative plus master split components and a Sources used appendix.</p>
+            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">PDF is built in your browser (no server Chrome) — includes AI narrative, master split components, and Sources appendix.</p>
             <p class="muted proposal-api-hint" id="proposal-api-hint"></p>
           </div>
           <div id="proposal-output" class="pack-output proposal-output" hidden></div>
@@ -416,6 +416,7 @@
       </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
     <script src="data.js"></script>
     <script src="proposal-agent.js"></script>
     <script src="pitch-viewer.js"></script>

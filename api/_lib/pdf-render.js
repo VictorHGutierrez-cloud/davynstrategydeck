@@ -1,5 +1,3 @@
-const chromium = require("@sparticuz/chromium");
-const puppeteer = require("puppeteer-core");
 const { markdownToHtml, escapeHtml } = require("./proposal-shared");
 
 const PDF_STYLES = `
@@ -192,59 +190,6 @@ function buildProposalHtml({ form, proposalMarkdown, components }) {
 </html>`;
 }
 
-async function resolveExecutablePath() {
-  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
-    return chromium.executablePath();
-  }
-
-  const candidates = [
-    process.env.PUPPETEER_EXECUTABLE_PATH,
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/usr/bin/google-chrome",
-    "/usr/bin/chromium",
-    "/usr/bin/chromium-browser",
-  ].filter(Boolean);
-
-  const fs = require("fs");
-  for (const candidate of candidates) {
-    try {
-      if (fs.existsSync(candidate)) return candidate;
-    } catch {
-      /* ignore */
-    }
-  }
-
-  return chromium.executablePath();
-}
-
-async function htmlToPdfBuffer(html) {
-  let browser;
-
-  try {
-    const executablePath = await resolveExecutablePath();
-    browser = await puppeteer.launch({
-      args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
-      defaultViewport: chromium.defaultViewport,
-      executablePath,
-      headless: true,
-      timeout: 90000,
-    });
-
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: "load", timeout: 60000 });
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      margin: { top: "0", right: "0", bottom: "0", left: "0" },
-    });
-    return pdfBuffer;
-  } finally {
-    if (browser) await browser.close();
-  }
-}
-
 module.exports = {
   buildProposalHtml,
-  htmlToPdfBuffer,
 };
