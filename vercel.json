@@ -3,7 +3,12 @@
   "outputDirectory": "site",
   "functions": {
     "api/**/*.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "api/proposal-pdf.js": {
+      "maxDuration": 60,
+      "memory": 3008
     }
   }
 }

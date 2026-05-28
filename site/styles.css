@@ -822,6 +822,27 @@ textarea {
   font-size: 11px;
 }
 
+.proposal-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.proposal-pdf-hint {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.proposal-pdf-success {
+  padding: 20px;
+  border: 1px solid #86efac;
+  border-radius: var(--radius);
+  background: #f0fdf4;
+  margin-bottom: 16px;
+}
+
 .proposal-output {
   margin-top: 16px;
 }

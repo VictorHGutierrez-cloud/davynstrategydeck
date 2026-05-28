@@ -259,7 +259,11 @@
               <label for="proposal-next">Next step to propose</label>
               <input id="proposal-next" type="text" placeholder="e.g. Commercial review call — June 12 with CFO + IT" />
             </div>
-            <button type="button" class="btn-primary" id="proposal-generate">Generate proposal draft</button>
+            <div class="proposal-action-row">
+              <button type="button" class="btn-primary" id="proposal-generate">Generate proposal draft</button>
+              <button type="button" class="btn-secondary" id="proposal-download-pdf">Download PDF</button>
+            </div>
+            <p class="muted proposal-pdf-hint" id="proposal-pdf-hint">PDF includes AI narrative plus master split components and a Sources used appendix.</p>
             <p class="muted proposal-api-hint" id="proposal-api-hint"></p>
           </div>
           <div id="proposal-output" class="pack-output proposal-output" hidden></div>

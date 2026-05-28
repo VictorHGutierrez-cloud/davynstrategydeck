@@ -46,6 +46,14 @@
     return D.meta.proposalApiFallback || "/api/proposal";
   }
 
+  function getPdfApiUrl() {
+    const D = window.DAVYN;
+    if (D && D.meta && D.meta.proposalPdfApiUrl) return D.meta.proposalPdfApiUrl;
+    const base = getApiUrl();
+    if (base.endsWith("/api/proposal")) return base.replace(/\/api\/proposal$/, "/api/proposal-pdf");
+    return "/api/proposal-pdf";
+  }
+
   function getAccessKey() {
     try {
       return sessionStorage.getItem(STORAGE_KEY) || "";
@@ -261,29 +269,35 @@
       .map((a) => ({ label: a.label, path: a.path }));
   }
 
-  async function generateProposal(form, D) {
+  async function buildProposalPayload(form, D) {
     const vertical = D.verticals.find((v) => v.id === form.vertical);
     const stage = D.dealStages.find((s) => s.id === form.stage);
     const type = (D.proposalAgent.proposalTypes || []).find((t) => t.id === form.proposalType);
-
     const masterComponents = await resolveProposalComponents(form);
 
-    const payload = {
-      form: {
-        ...form,
-        verticalLabel: vertical ? vertical.name : form.vertical,
-        stageLabel: stage ? stage.label : form.stage,
-        modules: (form.moduleIds || [])
-          .map((id) => {
-            const m = D.productPitches && D.productPitches.decks.find((d) => d.id === id);
-            return m ? m.title : id;
-          })
-          .filter(Boolean),
-        proposalType: type ? type.label : form.proposalType,
-        selectedComponentIds: normalizeArray(masterComponents.selected).map((c) => c.id),
+    return {
+      payload: {
+        form: {
+          ...form,
+          verticalLabel: vertical ? vertical.name : form.vertical,
+          stageLabel: stage ? stage.label : form.stage,
+          modules: (form.moduleIds || [])
+            .map((id) => {
+              const m = D.productPitches && D.productPitches.decks.find((d) => d.id === id);
+              return m ? m.title : id;
+            })
+            .filter(Boolean),
+          proposalType: type ? type.label : form.proposalType,
+          selectedComponentIds: normalizeArray(masterComponents.selected).map((c) => c.id),
+        },
+        context: buildContext({ ...form, masterComponents }, D),
       },
-      context: buildContext({ ...form, masterComponents }, D),
+      masterComponents,
     };
+  }
+
+  async function generateProposal(form, D) {
+    const { payload, masterComponents } = await buildProposalPayload(form, D);
 
     const headers = { "Content-Type": "application/json" };
     const accessKey = getAccessKey();
@@ -309,12 +323,43 @@
     };
   }
 
+  async function generateProposalPdf(form, D) {
+    const { payload, masterComponents } = await buildProposalPayload(form, D);
+
+    const headers = { "Content-Type": "application/json" };
+    const accessKey = getAccessKey();
+    if (accessKey) headers["X-Davyn-Access-Key"] = accessKey;
+
+    const res = await fetch(getPdfApiUrl(), {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const err = new Error(data.error || "PDF generation failed.");
+      err.status = res.status;
+      throw err;
+    }
+
+    const blob = await res.blob();
+    const disposition = res.headers.get("Content-Disposition") || "";
+    const match = disposition.match(/filename="([^"]+)"/);
+    const filename = match ? match[1] : `Davyn_Proposal_${(form.clientName || "Client").replace(/\s+/g, "_")}.pdf`;
+
+    return { blob, filename, masterComponents };
+  }
+
   window.DavynProposalAgent = {
     getApiUrl,
+    getPdfApiUrl,
     getAccessKey,
     setAccessKey,
     buildContext,
     resolveProposalComponents,
+    buildProposalPayload,
     generateProposal,
+    generateProposalPdf,
   };
 })();

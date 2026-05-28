@@ -1,0 +1,18 @@
+<!--
+  Reference template for PDF proposal layout.
+  Actual rendering is performed server-side in api/_lib/pdf-render.js (buildProposalHtml).
+  Sections: cover, AI proposal body, scoped components, Sources used appendix.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Proposal template</title>
+</head>
+<body>
+  <section class="cover"><!-- Client, market, date --></section>
+  <div class="proposal-body"><!-- AI markdown sections --></div>
+  <section><!-- Master split component blocks --></section>
+  <section class="sources"><!-- Sources used table --></section>
+</body>
+</html>

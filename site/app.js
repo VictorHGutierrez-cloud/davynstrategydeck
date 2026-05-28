@@ -631,6 +631,7 @@
     const modEl = document.getElementById("proposal-modules");
     const objEl = document.getElementById("proposal-objections");
     const btn = document.getElementById("proposal-generate");
+    const pdfBtn = document.getElementById("proposal-download-pdf");
 
     if (vertSel) {
       vertSel.innerHTML = D.verticals.map((v) => `<option value="${v.id}">${esc(v.name)}</option>`).join("");
@@ -694,7 +695,80 @@
     if (btn) {
       btn.addEventListener("click", runProposalGeneration);
     }
+    if (pdfBtn) {
+      pdfBtn.addEventListener("click", runProposalPdfDownload);
+    }
     refreshProposalComponentPreview();
+  }
+
+  function triggerBlobDownload(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function runProposalPdfDownload() {
+    const out = document.getElementById("proposal-output");
+    const pdfBtn = document.getElementById("proposal-download-pdf");
+    const statusEl = document.getElementById("proposal-pdf-status");
+    if (!window.DavynProposalAgent) return;
+
+    const form = collectProposalForm();
+    if (!form.clientName) {
+      alert("Client name is required.");
+      return;
+    }
+    if (!form.discoveryNotes) {
+      alert("Add discovery notes so the PDF is grounded in the call.");
+      return;
+    }
+
+    const accessKey = DavynProposalAgent.getAccessKey();
+    if (!accessKey) {
+      alert(
+        "Paste the internal password first (PROPOSAL_ACCESS_KEY from Vercel — not your OpenAI key).\n\nDefault: davyn-proposal-2026\n\nClick Save for session, then try again."
+      );
+      return;
+    }
+
+    if (out) out.hidden = false;
+    if (statusEl) statusEl.remove();
+    const loading = document.createElement("div");
+    loading.id = "proposal-pdf-status";
+    loading.className = "proposal-loading";
+    loading.innerHTML =
+      "<p><strong>Building PDF proposal…</strong></p><p class=\"muted\">AI narrative + master split components. This can take 30–60 seconds on first run.</p>";
+    if (out) out.prepend(loading);
+    else if (pdfBtn && pdfBtn.parentElement) pdfBtn.parentElement.after(loading);
+
+    if (pdfBtn) {
+      pdfBtn.disabled = true;
+      pdfBtn.textContent = "Building PDF…";
+    }
+
+    try {
+      const { blob, filename, masterComponents } = await DavynProposalAgent.generateProposalPdf(form, D);
+      triggerBlobDownload(blob, filename);
+      loading.className = "proposal-pdf-success";
+      loading.innerHTML = `<p><strong>PDF downloaded:</strong> ${esc(filename)}</p><p class="muted">${masterComponents.selected_count || 0} master split components included · Sources appendix attached.</p>`;
+    } catch (err) {
+      let msg = err.message || "Unknown error";
+      if (err.status === 401) msg += " — Check your internal access key above.";
+      if (err.status === 503) msg += " — Ask admin to set OPENAI_API_KEY on Vercel.";
+      loading.className = "proposal-error";
+      loading.innerHTML = `<strong>Could not generate PDF</strong><p>${esc(msg)}</p><p class="muted">Try Generate proposal draft first, or retry after a minute if the server was cold-starting.</p>`;
+    } finally {
+      if (pdfBtn) {
+        pdfBtn.disabled = false;
+        pdfBtn.textContent = "Download PDF";
+      }
+    }
   }
 
   function collectProposalForm() {
