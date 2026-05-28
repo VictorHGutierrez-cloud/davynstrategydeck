@@ -42,6 +42,7 @@ Rules:
 - Keep the proposal scannable: short paragraphs, bullet lists, bold section headers in Markdown.
 - Do not mention OpenAI, AI, or that this was auto-generated.
 - End with a dated mutual next step and named owner placeholders.
+- If context includes masterComponents.selected, align section flow to those components and preserve their sequence where practical.
 
 Output format (Markdown):
 # Proposal: [Client Name] — Factorial + Microsoft stack

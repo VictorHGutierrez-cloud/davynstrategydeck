@@ -666,6 +666,9 @@
         )
         .join("");
       decorateProposalChecks(modEl);
+      modEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+        input.addEventListener("change", refreshProposalComponentPreview);
+      });
     }
     if (objEl) {
       objEl.innerHTML = D.objections
@@ -681,10 +684,17 @@
         )
         .join("");
       decorateProposalChecks(objEl);
+      objEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+        input.addEventListener("change", refreshProposalComponentPreview);
+      });
     }
+    [vertSel, stageSel, personaSel, erpSel, typeSel].forEach((el) => {
+      if (el) el.addEventListener("change", refreshProposalComponentPreview);
+    });
     if (btn) {
       btn.addEventListener("click", runProposalGeneration);
     }
+    refreshProposalComponentPreview();
   }
 
   function collectProposalForm() {
@@ -745,6 +755,7 @@
       const proposal = data.proposal || "";
       const moduleCount = form.moduleIds.length;
       const objectionCount = form.objectionIds.length;
+      const masterAuto = data.automation && data.automation.masterComponents;
       out.innerHTML = `
         <div class="action-banner">Review before sending — AI draft uses your notes + Davyn playbooks. You own accuracy and pricing.</div>
         <div class="proposal-summary-row">
@@ -753,6 +764,7 @@
           <span class="proposal-summary-pill">Modules: ${moduleCount}</span>
           <span class="proposal-summary-pill">Objections: ${objectionCount}</span>
         </div>
+        ${renderComponentPlanBlock(masterAuto)}
         <div class="proposal-result-header">
           <span class="muted">Model: ${esc(data.model || "OpenAI")}</span>
           <button type="button" class="copy-btn" id="proposal-copy">Copy full proposal</button>
@@ -776,6 +788,19 @@
         btn.textContent = "Generate proposal draft";
       }
     }
+  }
+
+  async function refreshProposalComponentPreview() {
+    const wrap = document.getElementById("proposal-components-preview");
+    if (!wrap || !window.DavynProposalAgent) return;
+    const form = collectProposalForm();
+    wrap.innerHTML = '<p class="muted">Building proposal component plan from master split…</p>';
+    const resolved = await DavynProposalAgent.resolveProposalComponents(form, D);
+    if (!resolved || !resolved.selected || !resolved.selected.length) {
+      wrap.innerHTML = '<p class="muted">No components matched yet. Select at least one module.</p>';
+      return;
+    }
+    wrap.innerHTML = renderComponentPlanInner(resolved);
   }
 
   /* ——— Pre-call / Post-call packs ——— */
@@ -1191,6 +1216,48 @@
 
   function block(title, body, mod) {
     return `<section class="intel-block ${mod || ""}"><h3>${esc(title)}</h3><div class="intel-body">${body}</div></section>`;
+  }
+
+  function renderComponentPlanBlock(masterAuto) {
+    if (!masterAuto || !masterAuto.selected || !masterAuto.selected.length) return "";
+    return `
+      <section class="proposal-component-preview proposal-component-preview-result">
+        <h3>Auto-selected proposal components (master split)</h3>
+        ${renderComponentPlanInner(masterAuto)}
+      </section>`;
+  }
+
+  function renderComponentPlanInner(masterAuto) {
+    const selected = (masterAuto && masterAuto.selected) || [];
+    const chips = selected
+      .map((c) => `<span class="proposal-summary-pill">#${String(c.order).padStart(2, "0")} ${esc(c.title)}</span>`)
+      .join("");
+
+    const cards = selected
+      .map((c) => {
+        const reason = c.reasons && c.reasons.length ? `<p class="muted">Why included: ${esc(c.reasons[0])}</p>` : "";
+        const componentHref = c.component_path || "";
+        const pageHref = c.source_page_paths && c.source_page_paths[0] ? c.source_page_paths[0] : "";
+        return `
+          <article class="proposal-component-card">
+            <header>
+              <strong>${String(c.order).padStart(2, "0")} · ${esc(c.title)}</strong>
+              <span class="muted">Pages ${esc(c.page_range || "")}</span>
+            </header>
+            <p>${esc(c.summary || "")}</p>
+            ${reason}
+            <div class="proposal-component-links">
+              ${componentHref ? `<a href="${componentHref}" target="_blank" rel="noopener">Open component ↗</a>` : ""}
+              ${pageHref ? `<a href="${pageHref}" target="_blank" rel="noopener">Open first source page ↗</a>` : ""}
+            </div>
+          </article>`;
+      })
+      .join("");
+
+    return `
+      <p class="muted">Plan built from ${selected.length} matched components.</p>
+      <div class="proposal-summary-row">${chips}</div>
+      <div class="proposal-component-grid">${cards}</div>`;
   }
 
   function decorateProposalChecks(container) {

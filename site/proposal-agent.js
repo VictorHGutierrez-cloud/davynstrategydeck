@@ -3,6 +3,37 @@
  */
 (function () {
   const STORAGE_KEY = "davyn_proposal_access_key";
+  const MASTER_MANIFEST_PATH = "assets/master-files-splitted/manifest.json";
+  let masterManifestPromise = null;
+
+  const MODULE_COMPONENT_MAP = {
+    recruitment: ["talent-acquisition-and-recruitment"],
+    performance: ["performance-training-and-learning"],
+    "compensation-en": ["compensation-payroll-and-compliance-sync"],
+    compensation: ["compensation-payroll-and-compliance-sync"],
+    engagement: ["engagement-and-employee-retention"],
+    "time-planning": ["time-attendance-absence-and-shifts"],
+    "automatic-shifts": ["time-attendance-absence-and-shifts"],
+    "expense-management": ["expenses-projects-and-invoicing"],
+    procurement: ["procurement-it-and-device-lifecycle"],
+    projects: ["expenses-projects-and-invoicing"],
+    lms: ["performance-training-and-learning"],
+    training: ["performance-training-and-learning"],
+    spaces: ["workspace-and-hybrid-operations"],
+    "it-inventory": ["procurement-it-and-device-lifecycle"],
+    "trust-channel": ["security-compliance-and-demo-cta", "compensation-payroll-and-compliance-sync"],
+  };
+
+  const OBJECTION_COMPONENT_MAP = {
+    "data-sovereignty": ["security-compliance-and-demo-cta"],
+    "hurricane-continuity": ["security-compliance-and-demo-cta", "customer-proof-integrations-and-support"],
+    "audit-trail": ["security-compliance-and-demo-cta", "compensation-payroll-and-compliance-sync"],
+    "bc-integration-proof": ["customer-proof-integrations-and-support", "expenses-projects-and-invoicing"],
+    "no-it-staff": ["customer-proof-integrations-and-support", "procurement-it-and-device-lifecycle"],
+    "already-microsoft": ["customer-proof-integrations-and-support", "expenses-projects-and-invoicing"],
+    "too-expensive": ["commercial-packages-and-plan-fit", "quote-templates-and-commercial-examples"],
+    "budget-cycle": ["commercial-packages-and-plan-fit", "quote-templates-and-commercial-examples"],
+  };
 
   function getApiUrl() {
     const D = window.DAVYN;
@@ -29,6 +60,133 @@
       else sessionStorage.removeItem(STORAGE_KEY);
     } catch {
       /* ignore */
+    }
+  }
+
+  async function loadMasterManifest() {
+    if (!masterManifestPromise) {
+      masterManifestPromise = fetch(MASTER_MANIFEST_PATH)
+        .then((res) => {
+          if (!res.ok) throw new Error("Could not load master split manifest.");
+          return res.json();
+        })
+        .catch((err) => {
+          masterManifestPromise = null;
+          throw err;
+        });
+    }
+    return masterManifestPromise;
+  }
+
+  function normalizeArray(arr) {
+    return Array.isArray(arr) ? arr.filter(Boolean) : [];
+  }
+
+  function uniquePush(targetArr, value) {
+    if (!targetArr.includes(value)) targetArr.push(value);
+  }
+
+  function buildComponentPath(component) {
+    const order = String(component.order || 0).padStart(2, "0");
+    return `assets/master-files-splitted/components/${order}-${component.id}.md`;
+  }
+
+  function buildSourcePagePaths(component) {
+    return normalizeArray(component.source_files).map((p) => {
+      const cleaned = String(p || "").replace(/^pages\//, "");
+      return `assets/master-files-splitted/pages/${cleaned}`;
+    });
+  }
+
+  function getComponentIdsForForm(form) {
+    const ids = [];
+    // Base narrative for all proposals.
+    uniquePush(ids, "company-overview");
+    uniquePush(ids, "value-pillars-overview");
+
+    if (form.proposalType === "full" || form.proposalType === "scope") {
+      uniquePush(ids, "commercial-packages-and-plan-fit");
+    }
+
+    normalizeArray(form.moduleIds).forEach((moduleId) => {
+      normalizeArray(MODULE_COMPONENT_MAP[moduleId]).forEach((cid) => uniquePush(ids, cid));
+    });
+
+    normalizeArray(form.objectionIds).forEach((objId) => {
+      normalizeArray(OBJECTION_COMPONENT_MAP[objId]).forEach((cid) => uniquePush(ids, cid));
+    });
+
+    // Contextual reinforcement by ERP footprint.
+    if (form.erpEnvironment === "bc-cloud" || form.erpEnvironment === "nav-onprem" || form.erpEnvironment === "gp-legacy") {
+      uniquePush(ids, "customer-proof-integrations-and-support");
+    }
+
+    // Recommended close sections.
+    uniquePush(ids, "security-compliance-and-demo-cta");
+    uniquePush(ids, "customer-proof-integrations-and-support");
+    return ids;
+  }
+
+  function enrichSelectedComponents(selected, reasonMap) {
+    return selected.map((c) => ({
+      order: c.order,
+      id: c.id,
+      title: c.title,
+      page_range: c.page_range,
+      pages: normalizeArray(c.pages),
+      tags: normalizeArray(c.tags),
+      summary: c.summary || "",
+      ae_actions: normalizeArray(c.ae_actions),
+      source_files: normalizeArray(c.source_files),
+      component_path: buildComponentPath(c),
+      source_page_paths: buildSourcePagePaths(c),
+      reasons: normalizeArray(reasonMap[c.id]),
+    }));
+  }
+
+  async function resolveProposalComponents(form) {
+    try {
+      const manifest = await loadMasterManifest();
+      const componentMap = {};
+      normalizeArray(manifest.components).forEach((c) => {
+        componentMap[c.id] = c;
+      });
+
+      const ids = getComponentIdsForForm(form);
+      const reasonMap = {};
+      ids.forEach((id) => {
+        reasonMap[id] = reasonMap[id] || [];
+      });
+
+      normalizeArray(form.moduleIds).forEach((moduleId) => {
+        normalizeArray(MODULE_COMPONENT_MAP[moduleId]).forEach((id) => {
+          if (!reasonMap[id]) reasonMap[id] = [];
+          reasonMap[id].push(`Module selected: ${moduleId}`);
+        });
+      });
+      normalizeArray(form.objectionIds).forEach((objId) => {
+        normalizeArray(OBJECTION_COMPONENT_MAP[objId]).forEach((id) => {
+          if (!reasonMap[id]) reasonMap[id] = [];
+          reasonMap[id].push(`Objection coverage: ${objId}`);
+        });
+      });
+
+      const selectedRaw = ids.map((id) => componentMap[id]).filter(Boolean).sort((a, b) => (a.order || 0) - (b.order || 0));
+      const selected = enrichSelectedComponents(selectedRaw, reasonMap);
+
+      return {
+        manifest_version: manifest.manifest_version || "1.0.0",
+        total_pages: manifest.total_pages || null,
+        selected_count: selected.length,
+        selected,
+      };
+    } catch {
+      return {
+        manifest_version: null,
+        total_pages: null,
+        selected_count: 0,
+        selected: [],
+      };
     }
   }
 
@@ -82,6 +240,7 @@
         : null,
       roiNarratives: (D.roiNarratives || []).slice(0, 4).map((r) => ({ headline: r.headline, points: r.points, ask: r.ask })),
       recommendedAttachments: buildAttachmentHints(form, D, enh),
+      masterComponents: form.masterComponents || null,
     };
   }
 
@@ -107,6 +266,8 @@
     const stage = D.dealStages.find((s) => s.id === form.stage);
     const type = (D.proposalAgent.proposalTypes || []).find((t) => t.id === form.proposalType);
 
+    const masterComponents = await resolveProposalComponents(form);
+
     const payload = {
       form: {
         ...form,
@@ -119,8 +280,9 @@
           })
           .filter(Boolean),
         proposalType: type ? type.label : form.proposalType,
+        selectedComponentIds: normalizeArray(masterComponents.selected).map((c) => c.id),
       },
-      context: buildContext(form, D),
+      context: buildContext({ ...form, masterComponents }, D),
     };
 
     const headers = { "Content-Type": "application/json" };
@@ -139,7 +301,12 @@
       err.status = res.status;
       throw err;
     }
-    return data;
+    return {
+      ...data,
+      automation: {
+        masterComponents,
+      },
+    };
   }
 
   window.DavynProposalAgent = {
@@ -147,6 +314,7 @@
     getAccessKey,
     setAccessKey,
     buildContext,
+    resolveProposalComponents,
     generateProposal,
   };
 })();
