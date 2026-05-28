@@ -679,6 +679,105 @@ textarea {
   font-size: 13px;
 }
 
+/* ——— Microsoft × Factorial ——— */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.kpi {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 12px;
+}
+
+.kpi .k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.kpi .v {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.quote .q {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.flow-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.flow-row {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: start;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--bg);
+}
+
+.flow-dir {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(77, 163, 255, 0.25);
+}
+
+.split-mini {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mini-card {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.mini-card h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.mini-card ol,
+.mini-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .split-mini {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ——— Messaging form ——— */
 .form-grid {
   display: grid;

@@ -17,6 +17,7 @@
     { id: "home", label: "Command center", icon: "⌂" },
     { id: "stages", label: "Deal stage navigator", icon: "◎" },
     { id: "objections", label: "Objection intelligence", icon: "⚡" },
+    { id: "msft-factorial", label: "Microsoft × Factorial", icon: "⊞" },
     { id: "verticals", label: "Vertical playbooks", icon: "▦" },
     { id: "discovery", label: "Discovery frameworks", icon: "◉" },
     { id: "battlecards", label: "Competitive battlecards", icon: "⬡" },
@@ -415,6 +416,68 @@
       <p class="muted" style="margin-top:16px">Full index: <a href="assets/ASSET_INDEX_EN.md">ASSET_INDEX_EN.md</a></p>`;
   }
 
+  /* ——— Microsoft × Factorial ——— */
+  function buildMsftFactorial() {
+    const el = document.getElementById("msft-factorial-content");
+    if (!el) return;
+    const m = D.microsoftFactorial;
+    if (!m) {
+      el.innerHTML = '<p class="muted">Microsoft × Factorial content not loaded.</p>';
+      return;
+    }
+
+    const proof = m.proofPoints
+      .map((p) => `<div class="kpi"><div class="k">${esc(p.k)}</div><div class="v">${esc(p.v)}</div></div>`)
+      .join("");
+
+    const bcFlows = m.integration.bc.flows
+      .map(
+        (f) =>
+          `<div class="flow-row"><span class="flow-dir">${esc(f.dir)}</span><div><strong>${esc(f.name)}</strong><div class="muted">${esc(
+            f.fields.join(", ")
+          )}</div></div></div>`
+      )
+      .join("");
+
+    const bcSetup = "<ol>" + m.integration.bc.setup.map((s) => `<li>${esc(s)}</li>`).join("") + "</ol>";
+
+    const navSetup = "<ol>" + m.integration.nav.setup.map((s) => `<li>${esc(s)}</li>`).join("") + "</ol>";
+
+    el.innerHTML = `
+      <div class="section-intro">
+        <h1>${esc(m.title)}</h1>
+        <p class="lead">${esc(m.whyItMatters[0])}</p>
+      </div>
+
+      <div class="action-banner">${esc(m.salesUse[0])}</div>
+
+      <div class="intel-grid">
+        ${block("Executive proof points", `<div class="kpi-grid">${proof}</div>`, "accent")}
+        ${block(
+          "Executive quote (credibility)",
+          `<div class="quote"><div class="q">“${esc(m.quote.text)}”</div><div class="muted">— ${esc(m.quote.source)}</div></div>`
+        )}
+        ${block(
+          "Business Central integration (cloud)",
+          `<p class="muted"><strong>Connector:</strong> ${esc(m.integration.bc.connector)} · <strong>Constraint:</strong> Cloud only</p>
+           <div class="flow-grid">${bcFlows}</div>
+           <div class="split-mini">
+             <div class="mini-card"><h4>Setup</h4>${bcSetup}</div>
+             <div class="mini-card"><h4>Notes</h4><ul>${m.integration.bc.notes.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+           </div>`
+        )}
+        ${block(
+          "NAV / Navision integration (on‑prem)",
+          `<p class="muted"><strong>Connector:</strong> ${esc(m.integration.nav.connector)} · <strong>Requirement:</strong> NAV 2015+</p>
+           <ul>${m.integration.nav.notes.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+           <p class="muted"><strong>Syncs:</strong> ${esc(m.integration.nav.syncs.join(" · "))}</p>
+           <div class="mini-card"><h4>Setup</h4>${navSetup}</div>`
+        )}
+        ${block("How to use this in a live deal", listItems(m.salesUse))}
+      </div>
+    `;
+  }
+
   /* ——— Messaging generator ——— */
   function buildMessagingForm() {
     const persona = document.getElementById("msg-persona");
@@ -464,6 +527,10 @@
     D.objections.forEach((o) => items.push({ type: "Objection", label: o.title, section: "objections", id: o.id, hay: o.title + " " + o.tags.join(" ") + " " + o.short }));
     D.dealStages.forEach((s) => items.push({ type: "Stage", label: s.label, section: "stages", id: s.id, hay: s.label + " " + s.goal }));
     D.verticals.forEach((v) => items.push({ type: "Vertical", label: v.name, section: "verticals", id: v.id, hay: v.name + " " + v.pains.join(" ") }));
+    if (D.microsoftFactorial) {
+      const m = D.microsoftFactorial;
+      items.push({ type: "Module", label: "Microsoft × Factorial", section: "msft-factorial", hay: m.title + " " + m.proofPoints.map((p) => p.v).join(" ") + " " + m.quote.text });
+    }
     sections.forEach((s) => items.push({ type: "Module", label: s.label, section: s.id, hay: s.label }));
     return items;
   }
@@ -580,6 +647,7 @@
   buildRoi();
   buildCaribbean();
   buildAssets();
+  buildMsftFactorial();
   buildMessagingForm();
   renderObjection();
   renderStage();

@@ -163,6 +163,7 @@ window.DAVYN = {
     { id: "roi", label: "ROI / price pressure", desc: "Finance challenge", route: "roi" },
     { id: "vertical", label: "Industry context", desc: "Need vertical storyline", route: "verticals" },
     { id: "exec", label: "Executive message", desc: "Need C-level wording", route: "messaging" },
+    { id: "msft", label: "Microsoft integration", desc: "BC/NAV, Marketplace, MACC", route: "msft-factorial" },
   ],
 
   customerTypes: [
@@ -255,7 +256,10 @@ window.DAVYN = {
         "Since you're already on Microsoft, the question is usually what still runs outside the stack — and what that costs in reconciliation and risk. Worth 30 minutes to map gaps?",
       risks: ["Treated as duplicate spend", "Missing GP sunset urgency"],
       next: "Pull Microsoft stack expansion map for this vertical.",
-      assets: [{ label: "Competitive battlecards", route: "battlecards" }],
+      assets: [
+        { label: "Microsoft × Factorial (integration)", route: "msft-factorial" },
+        { label: "Competitive battlecards", route: "battlecards" },
+      ],
     },
     {
       id: "budget-cycle",
@@ -586,6 +590,63 @@ window.DAVYN = {
       a: "Leverage Microsoft Trust Center artifacts for ISO/SOC etc.; Davyn adds implementation controls and regional support model.",
     },
   ],
+
+  microsoftFactorial: {
+    title: "Microsoft × Factorial — executive proof + integration reality",
+    whyItMatters: [
+      "This is not 'yet another HR tool' — it is a Microsoft-aligned motion with marketplace procurement and ERP connectivity.",
+      "For Davyn executives: this supports a consultative sale (CFO/IT comfort) and reduces perceived delivery risk.",
+    ],
+    proofPoints: [
+      { k: "Azure-native", v: "Factorial infrastructure migrated 100% to Azure (reported €300K+/month cloud consumption)." },
+      { k: "Co-sell", v: "Co-sell eligible; Azure Marketplace listing active." },
+      { k: "MACC", v: "Purchasing via Azure Marketplace counts toward Azure Consumption Commitment (MACC) for 1–3 year commitments." },
+      { k: "Partner scale", v: "90+ Dynamics partners active (incl. TD SYNNEX). Factorial notes ~50% of partnership revenue via Microsoft." },
+      { k: "AI credibility", v: "Factorial One: AI suite built on Azure + OpenAI; integrated into Teams." },
+      { k: "Executive quote", v: "Satya Nadella highlighted Factorial at AI Tour Madrid (Feb 2026) as a standout AI partner story." },
+    ],
+    quote: {
+      text: "Microsoft CEO Satya Nadella highlighted Factorial as one of the most important companies in Spain and an example of a partner building cutting edge AI solutions for SMBs around Europe and the world.",
+      source: "AI Tour Madrid · February 2026",
+    },
+    integration: {
+      bc: {
+        title: "Dynamics 365 Business Central ↔ Factorial (Cloud only)",
+        connector: "Aciactech (Partner/Connector) via Factorial Marketplace",
+        notes: ["Cloud only — does not support BC on-premise.", "Sync via API — near real-time or scheduled batches."],
+        flows: [
+          { dir: "→", name: "Employees → Business Central", fields: ["First name", "Last name", "Bank account", "Phone", "Email"] },
+          { dir: "←", name: "Projects ← Business Central", fields: ["Project name", "Dates", "Owner", "Subprojects/Tasks"] },
+          { dir: "→", name: "Time tracking → Business Central", fields: ["Day", "Month", "Minutes", "Project/Subproject", "Employee"] },
+          { dir: "→", name: "Expenses → Business Central", fields: ["Date", "Category", "VAT", "Vendor", "Payment method", "Amount", "Receipt"] },
+        ],
+        setup: [
+          "Activate the connector in the Factorial Marketplace",
+          "Provide Business Central Tenant ID + admin account",
+          "Partner configures field mapping",
+          "Test sync + validation",
+          "Enable production",
+        ],
+      },
+      nav: {
+        title: "Dynamics NAV / Navision ↔ Factorial (on‑prem)",
+        connector: "Illusion Studio (Partner/Connector)",
+        notes: [
+          "NAV 2015+ required.",
+          "On‑premise integration via SOAP/OData Web Services (published).",
+          "Separate integration from Business Central (distinct setup).",
+          "Typical implementation: ~3 weeks.",
+        ],
+        syncs: ["Employees", "Projects and subprojects/tasks", "Time records / clock-ins", "Expenses"],
+        setup: ["Configure NAV Web Services (SOAP/OData)", "Field mapping + tests", "Enable production"],
+      },
+    },
+    salesUse: [
+      "When CFO asks: justify value using MACC + marketplace procurement + ERP connectivity.",
+      "When IT asks: show 'cloud-only BC' constraint early; route on-prem to NAV connector path.",
+      "When exec sponsor asks: use Satya quote + Azure-native + Teams-integrated AI story.",
+    ],
+  },
 
   roiNarratives: [
     {
