@@ -13,7 +13,7 @@ window.DAVYN = {
     proposalApiFallback: "https://davynstrategydeck.vercel.app/api/proposal",
   },
 
-  data.js: {
+  proposalAgent: {
     intro:
       "See real Factorial master deck slides as cards. Click to add sections to your proposal strip — reorder left to right. Microsoft attachments preview below.",
     accessKeyDefault: "davyn-proposal-2026",
