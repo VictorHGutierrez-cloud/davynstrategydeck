@@ -150,7 +150,7 @@ window.DAVYN = {
       ],
       risks: ["Implementation drift", "No expansion plan on Microsoft stack"],
       next: "Kickoff within 10 business days — mutual plan published.",
-      assets: ["vertical-playbooks", "roi"],
+      assets: ["verticals", "roi"],
     },
   ],
 
@@ -341,6 +341,49 @@ window.DAVYN = {
       next: "Route to Security hub + schedule Legal/IT session.",
       assets: [{ label: "Security & compliance", route: "security" }],
     },
+    {
+      id: "audit-trail",
+      title: "We need audit trail proof before we move forward",
+      tags: ["finance", "compliance"],
+      short: "Shift to evaluation criteria: what evidence does Compliance need in 90 days?",
+      executive:
+        "You are not asking them to trust marketing — you are proposing a documented path: field mapping, approval logs, and BC sync they can show an auditor.",
+      technical:
+        "Document Factorial approval workflows, export/audit logs, BC integration sync fields (employees, time, expenses), and access controls via Entra ID.",
+      discovery: [
+        "What did auditors flag last time — access, approvals, or records?",
+        "What sample would Compliance accept as proof?",
+        "Who owns sign-off on HR-to-Finance data flows?",
+      ],
+      followup:
+        "You asked for audit trail proof upfront — smart. Can we schedule 45 minutes with Compliance + Finance to agree evaluation criteria and a 90-day proof plan?",
+      risks: ["Endless evidence requests without decision date", "Feature checklist instead of governance criteria"],
+      next: "Book Compliance + Finance workshop with dated exit criteria.",
+      assets: [
+        { label: "Microsoft × Factorial", route: "msft-factorial" },
+        { label: "ROI narratives", route: "roi" },
+      ],
+    },
+    {
+      id: "bc-integration-proof",
+      title: "We need to see Business Central integration working",
+      tags: ["microsoft", "integration"],
+      short: "Confirm BC cloud vs NAV, then show the relevant demo + one-pager — not a generic HR tour.",
+      executive:
+        "You reduce risk by validating the integration path early: which objects sync, who owns mapping, and what success looks like in Finance's close process.",
+      technical:
+        "BC cloud via Aciactech connector: employees, projects, time, expenses. NAV on-prem via Illusion Studio — separate path. Typical validation: test sync + field mapping sign-off.",
+      discovery: [
+        "Is your Business Central environment cloud or on-prem NAV?",
+        "Which sync matters most first — employees, time, or expenses?",
+        "Who on your team signs field mapping?",
+      ],
+      followup:
+        "Following our call — to validate the BC integration path, can you confirm cloud vs on-prem and who owns Finance sign-off on mapping? I'll send the one-pager and the demo clip that matches your priority sync.",
+      risks: ["Demo without BC admin present", "On-prem NAV treated as BC cloud"],
+      next: "Send BC one-pager + targeted demo video; book 30-min technical validation.",
+      assets: [{ label: "Microsoft × Factorial", route: "msft-factorial" }],
+    },
   ],
 
   verticals: [
@@ -371,12 +414,68 @@ window.DAVYN = {
     {
       id: "finance",
       name: "Financial services",
-      microsoft: "Azure Security · Purview · Business Central · Fabric",
-      pains: ["Audit trail gaps", "Data residency scrutiny", "Manual reporting", "Third-party risk"],
-      outcomes: ["Defensible controls", "Faster audit cycles", "Executive risk visibility"],
-      discovery: ["What failed in your last audit?", "How do you prove who approved what?", "What data can't leave jurisdiction?"],
-      davynAngle: "Lead with Security & compliance designations + governance workshops — not feature demos.",
-      assets: ["assets/downloads/industry-verticals/vertical-health-pharma.pdf"],
+      microsoft: "Business Central · Factorial HR · Azure Security · Fabric · Power BI",
+      pains: [
+        "Audit trail gaps on HR and expense approvals",
+        "Data residency and third-party risk scrutiny",
+        "Manual reporting between HR and Finance",
+        "Disconnected time/expense data vs. ERP",
+      ],
+      outcomes: [
+        "Defensible controls and faster audit cycles",
+        "Single employee + expense trail into Business Central",
+        "Reduced month-end reconciliation drag",
+        "Executive visibility without spreadsheet risk",
+      ],
+      discovery: [
+        "What failed in your last audit — approvals, access, or records?",
+        "How do you prove who approved what today?",
+        "What employee or expense data cannot leave jurisdiction?",
+        "Is Business Central cloud or on-prem? Who owns the integration?",
+        "How many hours does Finance spend reconciling HR exports monthly?",
+      ],
+      davynAngle:
+        "You lead with governance and Business Central integration — not HR features. Davyn positions Factorial + BC as one operating story for audit-ready people and finance data.",
+      assets: ["assets/downloads/msft-factorial/pdf/ENG_-_BC_one_pager.pdf"],
+      v2: {
+        triggers: [
+          "Recent audit finding on access or approval traceability",
+          "Board question on data residency or subprocessors",
+          "Finance pressure to close faster with fewer manual exports",
+          "Microsoft stack already in place — gap between M365 and ERP/HR",
+        ],
+        personas: {
+          CFO: "Care about TCO, audit readiness, and not adding another silo.",
+          Compliance: "Care about data classification, DPA path, and documented controls.",
+          IT: "Care about cloud-only BC constraints, identity, and who runs the integration.",
+        },
+        outcomes90: [
+          "Employee master data synced to BC with documented field mapping",
+          "Time and expenses flowing to BC with receipt trail",
+          "Named owners for HR, Finance, IT with weekly checkpoint cadence",
+        ],
+        dealRisks: [
+          "Legal invited late → 60+ day stall",
+          "Procurement/FX friction on international SaaS",
+          "IT capacity assumed but not scoped",
+        ],
+        proofPrompts: [
+          "Capture 3 numbers: admin hours, rework incidents, audit prep hours",
+          "Confirm BC environment (cloud vs NAV on-prem)",
+          "List stakeholders who can block (Legal, IT, Procurement)",
+        ],
+        talkTrack:
+          "You are not selling another HR app — you are reducing audit and reconciliation risk by connecting people operations to Business Central with a partner who knows Caribbean compliance realities.",
+        preCallQuestions: [
+          "What triggered this evaluation now — audit, growth, or ERP gap?",
+          "Who signs off on cross-border data processing?",
+          "What does Finance need from HR weekly that you cannot produce reliably today?",
+          "Are you on Business Central cloud? If not, what ERP and version?",
+          "What would make Legal comfortable in 45 minutes — not 45 days?",
+          "How do you buy international SaaS — direct, distributor, MACC?",
+          "What is the one metric your CFO would accept as a 90-day win?",
+        ],
+      },
     },
     {
       id: "manufacturing",
@@ -537,34 +636,52 @@ window.DAVYN = {
 
   followups: [
     {
-      id: "post-discovery",
-      name: "After discovery call",
-      subject: "Next steps — [Company] × Davyn",
-      body: "Thanks for the conversation today.\n\nRecap:\n• Pain: [X]\n• Stakeholders: [names/roles]\n• Risks to address: [data / IT capacity / timing]\n\nProposed next step: [workshop / demo / governance session] on [date].\n\nWhat did I miss?",
+      id: "recap-map",
+      name: "Recap + Mutual Action Plan",
+      subject: "Next steps — [Company] × Davyn (Factorial + Business Central)",
+      body: "Hi [Name], thanks for your time today.\n\n**Recap**\n• Pain: [1 sentence]\n• Impact: [time / errors / audit risk]\n• Stakeholders: [CFO/CEO], [HR], [IT], [Compliance]\n• Risks to address: [data / integration / procurement]\n\n**Mutual Action Plan**\n| Step | Owner | Date |\n|------|-------|------|\n| [Governance or BC validation workshop] | [You + IT/Legal] | [date] |\n| [Exec recap / commercial review] | [You + CFO] | [date] |\n| Decision gate | [Sponsor] | [date] |\n\n**Decision criteria agreed:** [list or TBD in workshop]\n\nReply with one correction and I'll update the plan.\n\nBest,\n[You]",
+    },
+    {
+      id: "exec-recap",
+      name: "Executive recap (6 lines)",
+      subject: "[Company] — executive summary",
+      body: "Hi [Name],\n\n1. **Problem:** [operational/audit pain in one line]\n2. **Cost of status quo:** [hours, errors, or audit exposure]\n3. **Proposed approach:** Factorial + Business Central integration via Davyn\n4. **90-day outcome:** [audit-ready trail / faster close / less rework]\n5. **Risk addressed:** [data governance / IT capacity / procurement]\n6. **Ask:** 20-minute readout on [date] to confirm go/no-go\n\nBest,\n[You]",
+    },
+    {
+      id: "bc-integration",
+      name: "Business Central integration follow-up",
+      subject: "Factorial ↔ Business Central — validation next step",
+      body: "Hi [Name],\n\nFollowing our discussion, here is what you can expect to sync with Business Central (cloud):\n• Employees → BC\n• Projects ← BC\n• Time tracking → BC\n• Expenses → BC (with receipt trail)\n\n**What you need to confirm:**\n1. BC cloud vs on-prem NAV\n2. Owner for field mapping sign-off (name + role)\n\nOnce confirmed, you will propose a 30-minute technical validation and attach the BC one-pager + relevant demo.\n\nBest,\n[You]",
     },
     {
       id: "post-demo",
       name: "After demo — no reply",
-      subject: "Quick checkpoint — [Company]",
-      body: "Wanted to check if the demo answered your core question on [outcome].\n\nIf helpful, we can do a 20-min exec summary focused on [risk/ROI/residency] — not another feature tour.\n\nStill worth pursuing this quarter?",
+      subject: "Quick checkpoint — still a priority this month?",
+      body: "Hi [Name],\n\nDid the demo answer your core question on [outcome]?\n\nIf helpful, you can offer a **20-minute executive recap** focused on ROI + BC integration — not another feature tour.\n\nIs this still a priority for **this month**, or should you revisit next cycle?\n\nBest,\n[You]",
     },
     {
       id: "legal-intro",
-      name: "Legal / IT introduction",
-      subject: "Governance session — data & controls",
-      body: "Following our business discussion, I'd like to introduce our technical lead to walk through data classification, access controls, and deployment options relevant to [jurisdiction].\n\n45 minutes — no sales deck, just answers for your team.",
+      name: "Legal / IT governance session",
+      subject: "Governance session — data & controls (45 min)",
+      body: "Hi [Name],\n\nFollowing your business discussion, you would like to introduce your technical lead for a **45-minute governance session**:\n• Data classification relevant to [jurisdiction]\n• Access controls and audit expectations\n• Deployment options (no sales deck — answers only)\n\nProposed slots: [option A] / [option B]\n\nBest,\n[You]",
     },
     {
       id: "proposal-sent",
       name: "Proposal follow-up",
       subject: "Commercial questions — [Company]",
-      body: "Proposal sent [date]. Happy to walk Finance through TCO assumptions and phased rollout.\n\nAre there specific commercial or procurement hurdles we should address before [decision date]?",
+      body: "Hi [Name],\n\nYou sent the proposal on [date]. You are happy to walk Finance through TCO assumptions, phased rollout, and BC integration scope.\n\nAre there specific commercial or procurement hurdles to address before **[decision date]**?\n\nBest,\n[You]",
+    },
+    {
+      id: "procurement-fx",
+      name: "Procurement / FX blocker",
+      subject: "Procurement path — [Company]",
+      body: "Hi [Name],\n\nYou want to confirm how **[Company]** purchases international SaaS today:\n• Direct vendor billing vs local partner invoicing\n• Any FX or central bank approval steps\n• Whether Azure Marketplace / MACC applies to your Microsoft commitment\n\nOnce you know the path, you can align contract structure and timeline.\n\nCan you share who owns procurement sign-off and typical lead time?\n\nBest,\n[You]",
     },
     {
       id: "stall-nudge",
-      name: "Stalled deal — executive nudge",
+      name: "Stalled deal — close the loop",
       subject: "Priority check — [initiative name]",
-      body: "We haven't moved since [last step]. Totally understand if timing shifted.\n\nIf still active, what's the one blocker we should solve together this week? If deprioritized, I'll close the loop on our side.",
+      body: "Hi [Name],\n\nYou have not moved since **[last step]**. You understand if timing shifted.\n\nIf still active: what is the **one blocker** you should solve together this week?\nIf deprioritized: you will close the loop on your side — just reply \"pause\".\n\nBest,\n[You]",
     },
   ],
 
@@ -725,6 +842,115 @@ window.DAVYN = {
       "Methodology: Understand → Design → Deploy → Manage",
       "Davyn Academy for certified enablement",
     ],
+  },
+
+  packs: {
+    defaultAgenda: [
+      "0–5 min: Context — why now, what triggered the conversation",
+      "5–20 min: Current process — where it breaks (HR, Finance, IT)",
+      "20–30 min: Stakeholders + decision path + timeline",
+      "30–40 min: Risks (data, integration, procurement) + how you address them",
+      "40–45 min: Agree next step with date and owner",
+    ],
+    personas: ["CFO", "Compliance / Legal", "IT Director", "HR Director", "CEO / Owner"],
+    nextActions: [
+      { id: "governance-workshop", label: "Governance workshop (IT + Legal)" },
+      { id: "bc-validation", label: "BC integration validation (30 min)" },
+      { id: "exec-recap", label: "Executive recap (20 min)" },
+      { id: "demo", label: "Product demo (scoped)" },
+      { id: "commercial-review", label: "Commercial review with Finance" },
+    ],
+    objectionEnhancements: {
+      "data-sovereignty": {
+        smMidFast: "Say: 'Perfect you raised this early. Before cloud vs local, let's agree which data classes are non-negotiable and what controls make your auditor comfortable.'",
+        exitCriteria: "Legal/IT agree on evaluation criteria and workshop date within 7 days.",
+        workshopAgenda: ["Data classification (15 min)", "Subprocessors + regions (10 min)", "Access controls + audit logs (10 min)", "Decision criteria + next step (10 min)"],
+        attachKeys: ["bc-one-pager"],
+      },
+      "no-it-staff": {
+        smMidFast: "Say: 'You don't need a big IT team — you need a clear rollout RACI. We'll show what Davyn runs vs what stays on your side, weekly.'",
+        exitCriteria: "Named internal owner + Davyn delivery contact + 90-day cadence agreed.",
+        workshopAgenda: ["Scope: identity, migration, training (15 min)", "RACI: Davyn vs client (15 min)", "Weekly checkpoint format (10 min)"],
+        attachKeys: [],
+      },
+      "too-expensive": {
+        smMidFast: "Say: 'Let's compare total cost — parallel tools, rework, audit prep — not sticker price. Give me three numbers and I'll send a one-page TCO view.'",
+        exitCriteria: "Finance agrees comparison method and provides 3 baseline numbers.",
+        workshopAgenda: [],
+        attachKeys: ["bc-one-pager"],
+      },
+      "already-microsoft": {
+        smMidFast: "Say: 'M365 keeps people productive. The gap is usually HR ops and ERP — let's map what still lives outside BC and what that costs in reconciliation.'",
+        exitCriteria: "BC cloud confirmed; integration priority sync identified (employees/time/expenses).",
+        workshopAgenda: ["M365 vs BC vs HR footprint (15 min)", "Integration priority (10 min)", "MACC / Marketplace path if relevant (10 min)"],
+        attachKeys: ["bc-one-pager", "video-employee"],
+      },
+      "budget-cycle": {
+        smMidFast: "Say: 'Budget cycles are real. Would a bounded pilot with a hard decision date in [month] work — not an open-ended trial?'",
+        exitCriteria: "Pilot scope + success metrics + decision date on mutual plan.",
+        workshopAgenda: [],
+        attachKeys: [],
+      },
+      "hurricane-continuity": {
+        smMidFast: "Say: 'Continuity is who answers when things break — let's document RTO, backups, and named support, not just vendor SLA slides.'",
+        exitCriteria: "Ops + IT agree on continuity checklist and Davyn support path.",
+        workshopAgenda: ["RTO/RPO expectations (15 min)", "Runbook ownership (15 min)", "Support SLAs (15 min)"],
+        attachKeys: [],
+      },
+      "gp-migration": {
+        smMidFast: "Say: 'GP risk is finance continuity — let's start with what breaks in your close if support disappears, not a big-bang migration pitch.'",
+        exitCriteria: "Finance-led BC fit session scheduled on close/inventory workflows.",
+        workshopAgenda: [],
+        attachKeys: ["bc-one-pager"],
+      },
+      "cloud-act": {
+        smMidFast: "Say: 'Valid question for Caribbean finance buyers. Let's walk controls and deployment options with your security lead — practical, not marketing.'",
+        exitCriteria: "Security lead engaged; data classification workshop scheduled.",
+        workshopAgenda: ["Sensitivity tiers (10 min)", "Architecture + regions (15 min)", "Contractual controls (10 min)", "Open items + owner (10 min)"],
+        attachKeys: ["bc-one-pager"],
+      },
+      "audit-trail": {
+        smMidFast: "Say: 'You shouldn't trust slides — let's agree what evidence Compliance needs in 90 days and map Factorial → BC to that bar.'",
+        exitCriteria: "Compliance + Finance sign evaluation criteria and 90-day proof plan.",
+        workshopAgenda: ["Audit findings context (10 min)", "Required evidence samples (15 min)", "BC sync proof plan (15 min)"],
+        attachKeys: ["bc-one-pager", "video-expenses"],
+      },
+      "bc-integration-proof": {
+        smMidFast: "Say: 'Let's confirm cloud vs NAV first, then I'll send the one-pager and the demo clip for your priority sync — employees, time, or expenses.'",
+        exitCriteria: "BC environment confirmed; technical validation meeting booked with mapping owner.",
+        workshopAgenda: ["Environment check (5 min)", "Priority sync (10 min)", "Field mapping owners (10 min)", "Test plan (5 min)"],
+        attachKeys: ["bc-one-pager", "video-employee"],
+      },
+    },
+    attachmentCatalog: {
+      "bc-one-pager": {
+        label: "BC integration one-pager (EN)",
+        path: "assets/downloads/msft-factorial/pdf/ENG_-_BC_one_pager.pdf",
+      },
+      "video-employee": {
+        label: "Demo: Employee sync",
+        path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_EmployeeSYNC_ENG.mp4",
+      },
+      "video-time": {
+        label: "Demo: Time tracking",
+        path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_TimeTracking_ENG.mp4",
+      },
+      "video-expenses": {
+        label: "Demo: Expenses",
+        path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_Expenses_ENG.mp4",
+      },
+      "video-project": {
+        label: "Demo: New project",
+        path: "assets/downloads/msft-factorial/videos/MicrosoftVideoDemo_BCIntegrations_NewProject_ENG.mp4",
+      },
+    },
+    postCallTemplateMap: {
+      "governance-workshop": "legal-intro",
+      "bc-validation": "bc-integration",
+      "exec-recap": "exec-recap",
+      "demo": "post-demo",
+      "commercial-review": "proposal-sent",
+    },
   },
 
   assets: [

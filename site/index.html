@@ -55,9 +55,20 @@
           <div class="hero-compact">
             <h1>What should you do next?</h1>
             <p>
-              Built for live deals — not document browsing. Answer three questions and get a tactical recommendation. Under
-              pressure on a call? Jump straight to <strong>Objection intelligence</strong>.
+              Built for <strong>pre-call prep</strong> and <strong>post-call follow-up</strong> on SMB and mid-market deals.
+              Start with a pack — or jump to Objection intelligence on a live call.
             </p>
+          </div>
+
+          <div class="pack-mode-actions">
+            <button type="button" class="pack-mode-btn primary" onclick="davynGo('precall')">
+              <strong>Pre-call pack</strong>
+              <span>Agenda + questions + talk track in 2 minutes</span>
+            </button>
+            <button type="button" class="pack-mode-btn primary" onclick="davynGo('postcall')">
+              <strong>Post-call pack</strong>
+              <span>Follow-up email + attachments in 1 minute</span>
+            </button>
           </div>
 
           <div class="triage-block">
@@ -105,6 +116,62 @@
               <span>Sovereignty, FX, continuity</span>
             </button>
           </div>
+        </section>
+
+        <!-- PRE-CALL PACK -->
+        <section data-panel="precall" hidden>
+          <div class="section-intro">
+            <h1>Pre-call pack</h1>
+            <p class="lead">Prepare in 2 minutes. You get agenda, talk track, discovery questions, and what to capture — optimized for Factorial + Business Central deals.</p>
+          </div>
+          <div class="pack-form">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="precall-stage">Deal stage</label>
+                <select id="precall-stage"></select>
+              </div>
+              <div class="form-field">
+                <label for="precall-vertical">Vertical</label>
+                <select id="precall-vertical"></select>
+              </div>
+              <div class="form-field">
+                <label for="precall-objection">Likely objection</label>
+                <select id="precall-objection"></select>
+              </div>
+              <div class="form-field">
+                <label for="precall-persona">Primary persona</label>
+                <select id="precall-persona"></select>
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="precall-generate">Generate pre-call pack</button>
+          </div>
+          <div id="precall-output" class="pack-output"></div>
+        </section>
+
+        <!-- POST-CALL PACK -->
+        <section data-panel="postcall" hidden>
+          <div class="section-intro">
+            <h1>Post-call pack</h1>
+            <p class="lead">Send follow-up in 1 minute. Copy the email, attach the right BC asset, and lock the next step.</p>
+          </div>
+          <div class="pack-form">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="postcall-stage">Deal stage</label>
+                <select id="postcall-stage"></select>
+              </div>
+              <div class="form-field">
+                <label for="postcall-objection">Objection that came up</label>
+                <select id="postcall-objection"></select>
+              </div>
+              <div class="form-field">
+                <label for="postcall-next">Next action</label>
+                <select id="postcall-next"></select>
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="postcall-generate">Generate post-call pack</button>
+          </div>
+          <div id="postcall-output" class="pack-output"></div>
         </section>
 
         <!-- DEAL STAGES -->

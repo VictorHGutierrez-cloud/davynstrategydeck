@@ -15,6 +15,8 @@
 
   const sections = [
     { id: "home", label: "Command center", icon: "⌂" },
+    { id: "precall", label: "Pre-call pack", icon: "◷" },
+    { id: "postcall", label: "Post-call pack", icon: "✉" },
     { id: "stages", label: "Deal stage navigator", icon: "◎" },
     { id: "objections", label: "Objection intelligence", icon: "⚡" },
     { id: "msft-factorial", label: "Microsoft × Factorial", icon: "⊞" },
@@ -69,6 +71,8 @@
     if (section === "stages") renderStage();
     if (section === "verticals") renderVertical();
     if (section === "messaging") updateMessage();
+    if (section === "precall") initPreCallForm();
+    if (section === "postcall") initPostCallForm();
     closeSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -187,10 +191,32 @@
     renderObjection();
   }
 
+  function getObjEnhancement(id) {
+    const p = D.packs && D.packs.objectionEnhancements;
+    return (p && p[id]) || {};
+  }
+
+  function getAttachmentLinks(keys) {
+    if (!keys || !keys.length || !D.packs || !D.packs.attachmentCatalog) return "";
+    return keys
+      .map((k) => {
+        const a = D.packs.attachmentCatalog[k];
+        if (!a) return "";
+        return `<a href="${a.path}" target="_blank" rel="noopener">${esc(a.label)} ↗</a> · <a href="${a.path}" download>Download</a>`;
+      })
+      .filter(Boolean)
+      .join("<br />");
+  }
+
   function renderObjection() {
     const el = document.getElementById("objection-detail");
     const o = D.objections.find((x) => x.id === selectedObjection);
     if (!el || !o) return;
+    const enh = getObjEnhancement(o.id);
+    const smMid = enh.smMidFast || o.short;
+    const exit = enh.exitCriteria || o.next;
+    const workshop = enh.workshopAgenda && enh.workshopAgenda.length ? listItems(enh.workshopAgenda) : "<p class='muted'>Use discovery questions + schedule a focused session.</p>";
+    const attachHtml = getAttachmentLinks(enh.attachKeys);
 
     el.innerHTML = `
       <header class="panel-header">
@@ -199,12 +225,16 @@
       </header>
       <div class="action-banner">${esc(o.next)}</div>
       <div class="intel-grid">
+        ${block("SMB/Mid — say this on the call", `<p class="talk-track-lg">${esc(smMid)}</p>`, "accent")}
         ${block("Short answer (live call)", o.short, "accent")}
         ${block("Executive answer", o.executive)}
         ${block("Technical answer", o.technical)}
         ${block("Discovery questions", listItems(o.discovery))}
-        ${block("Suggested follow-up", `<pre class="copy-block">${esc(o.followup)}</pre><button type="button" class="copy-btn" data-copy="${escAttr(o.followup)}">Copy follow-up</button>`)}
+        ${block("Exit criteria (move forward when…)", esc(exit))}
+        ${block("Workshop agenda (if Legal/IT involved)", workshop)}
+        ${block("Suggested follow-up email", `<pre class="copy-block">${esc(o.followup)}</pre><button type="button" class="copy-btn" data-copy="${escAttr(o.followup)}">Copy follow-up</button>`)}
         ${block("Business risks", listItems(o.risks))}
+        ${attachHtml ? block("Attach now", attachHtml) : ""}
         ${block("Related modules", o.assets.map((a) => `<button type="button" class="link-btn" data-go="${a.route}">${esc(a.label)} →</button>`).join(" "))}
       </div>`;
 
@@ -303,6 +333,21 @@
         ${block("Target outcomes", listItems(v.outcomes))}
         ${block("Discovery prompts", listItems(v.discovery))}
         ${block("Davyn positioning", esc(v.davynAngle))}
+        ${
+          v.v2
+            ? block(
+                "Execution playbook (SMB/Mid)",
+                `<p><strong>Talk track:</strong> ${esc(v.v2.talkTrack)}</p>
+                 <p><strong>Typical triggers:</strong></p>${listItems(v.v2.triggers)}
+                 <p><strong>Personas:</strong></p><ul>${Object.keys(v.v2.personas)
+                   .map((k) => `<li><strong>${esc(k)}:</strong> ${esc(v.v2.personas[k])}</li>`)
+                   .join("")}</ul>
+                 <p><strong>90-day outcomes:</strong></p>${listItems(v.v2.outcomes90)}
+                 <p><strong>Deal risks:</strong></p>${listItems(v.v2.dealRisks)}
+                 <p><strong>Evidence to capture on calls:</strong></p>${listItems(v.v2.proofPrompts)}`
+              )
+            : ""
+        }
         ${block("Downloadable assets", assetLinks)}
       </div>`;
   }
@@ -414,6 +459,150 @@
         )
         .join("")}</div>
       <p class="muted" style="margin-top:16px">Full index: <a href="assets/ASSET_INDEX_EN.md">ASSET_INDEX_EN.md</a></p>`;
+  }
+
+  /* ——— Pre-call / Post-call packs ——— */
+  function initPreCallForm() {
+    const stageSel = document.getElementById("precall-stage");
+    const vertSel = document.getElementById("precall-vertical");
+    const objSel = document.getElementById("precall-objection");
+    const personaSel = document.getElementById("precall-persona");
+    const btn = document.getElementById("precall-generate");
+    if (!stageSel) return;
+
+    if (!stageSel.options.length) {
+      stageSel.innerHTML = D.dealStages.map((s) => `<option value="${s.id}">${esc(s.label)}</option>`).join("");
+      vertSel.innerHTML = D.verticals.map((v) => `<option value="${v.id}">${esc(v.name)}</option>`).join("");
+      objSel.innerHTML =
+        '<option value="">— None / general —</option>' +
+        D.objections.map((o) => `<option value="${o.id}">${esc(o.title)}</option>`).join("");
+      personaSel.innerHTML = (D.packs.personas || []).map((p) => `<option value="${p}">${esc(p)}</option>`).join("");
+      if (vertSel.querySelector('[value="finance"]')) vertSel.value = "finance";
+      btn.addEventListener("click", renderPreCallPack);
+    }
+    renderPreCallPack();
+  }
+
+  function renderPreCallPack() {
+    const out = document.getElementById("precall-output");
+    if (!out) return;
+
+    const stageId = document.getElementById("precall-stage").value;
+    const vertId = document.getElementById("precall-vertical").value;
+    const objId = document.getElementById("precall-objection").value;
+    const persona = document.getElementById("precall-persona").value;
+
+    const stage = D.dealStages.find((s) => s.id === stageId);
+    const vert = D.verticals.find((v) => v.id === vertId);
+    const obj = objId ? D.objections.find((o) => o.id === objId) : null;
+    const enh = obj ? getObjEnhancement(obj.id) : {};
+
+    const agenda = (D.packs && D.packs.defaultAgenda) || [];
+    let questions = vert && vert.v2 && vert.v2.preCallQuestions ? vert.v2.preCallQuestions.slice(0, 7) : vert ? vert.discovery.slice(0, 7) : [];
+    if (questions.length < 7 && stage) questions = questions.concat(stage.questions).slice(0, 7);
+
+    const talkTrack = (vert && vert.v2 && vert.v2.talkTrack) || (obj && (enh.smMidFast || obj.short)) || stage.goal;
+    const capture = vert && vert.v2 ? vert.v2.proofPrompts : stage.actions.slice(0, 4);
+    const attachHtml = getAttachmentLinks(enh.attachKeys || (vertId === "finance" ? ["bc-one-pager"] : []));
+
+    const packText = [
+      "PRE-CALL PACK — " + (vert ? vert.name : "") + " · " + stage.label,
+      "",
+      "CALL AGENDA (45 min)",
+      ...agenda.map((a) => "• " + a),
+      "",
+      "TALK TRACK (open with)",
+      talkTrack,
+      "",
+      "DISCOVERY QUESTIONS",
+      ...questions.map((q, i) => i + 1 + ". " + q),
+      "",
+      "CAPTURE ON THE CALL",
+      ...capture.map((c) => "• " + c),
+      "",
+      obj ? "LIKELY OBJECTION: " + obj.title : "",
+      obj ? "SAY: " + (enh.smMidFast || obj.short) : "",
+      "",
+      "EXIT THIS CALL WITH",
+      "• Stakeholder map · Top risk · Dated next step · Owner",
+    ].join("\n");
+
+    out.innerHTML = `
+      <div class="action-banner">You must leave with: <strong>stakeholder map + top risk + dated next step</strong> (${persona} lens).</div>
+      <div class="intel-grid">
+        ${block("Call agenda (45 min)", listItems(agenda))}
+        ${block("Talk track — open with", `<p class="talk-track-lg">${esc(talkTrack)}</p>`)}
+        ${block("Discovery questions (7)", listItems(questions))}
+        ${block("What to capture", listItems(capture))}
+        ${obj ? block("Likely objection prep", `<p><strong>${esc(obj.title)}</strong></p><p class="talk-track-lg">${esc(enh.smMidFast || obj.short)}</p><p><strong>Exit criteria:</strong> ${esc(enh.exitCriteria || obj.next)}</p>`) : ""}
+        ${attachHtml ? block("Recommended attachments", attachHtml) : ""}
+        ${block("Stage focus", `<p>${esc(stage.goal)}</p><p><strong>Do next after call:</strong> ${esc(stage.next)}</p>`)}
+      </div>
+      <button type="button" class="copy-btn pack-copy-all" data-copy="${escAttr(packText)}" style="margin-top:14px">Copy full pre-call pack</button>`;
+
+    out.querySelector(".pack-copy-all") &&
+      out.querySelector(".pack-copy-all").addEventListener("click", function () {
+        copyText(packText, this);
+      });
+  }
+
+  function initPostCallForm() {
+    const stageSel = document.getElementById("postcall-stage");
+    const objSel = document.getElementById("postcall-objection");
+    const nextSel = document.getElementById("postcall-next");
+    const btn = document.getElementById("postcall-generate");
+    if (!stageSel) return;
+
+    if (!stageSel.options.length) {
+      stageSel.innerHTML = D.dealStages.map((s) => `<option value="${s.id}">${esc(s.label)}</option>`).join("");
+      objSel.innerHTML =
+        '<option value="">— Select if applicable —</option>' +
+        D.objections.map((o) => `<option value="${o.id}">${esc(o.title)}</option>`).join("");
+      nextSel.innerHTML = (D.packs.nextActions || [])
+        .map((n) => `<option value="${n.id}">${esc(n.label)}</option>`)
+        .join("");
+      btn.addEventListener("click", renderPostCallPack);
+    }
+    renderPostCallPack();
+  }
+
+  function renderPostCallPack() {
+    const out = document.getElementById("postcall-output");
+    if (!out) return;
+
+    const stageId = document.getElementById("postcall-stage").value;
+    const objId = document.getElementById("postcall-objection").value;
+    const nextId = document.getElementById("postcall-next").value;
+
+    const stage = D.dealStages.find((s) => s.id === stageId);
+    const obj = objId ? D.objections.find((o) => o.id === objId) : null;
+    const enh = obj ? getObjEnhancement(obj.id) : {};
+
+    const templateId = (D.packs.postCallTemplateMap && D.packs.postCallTemplateMap[nextId]) || "recap-map";
+    let tpl = D.followups.find((f) => f.id === templateId) || D.followups[0];
+    if (obj && obj.followup && (nextId === "governance-workshop" || nextId === "bc-validation")) {
+      tpl = { ...tpl, body: obj.followup + "\n\n" + tpl.body };
+    }
+
+    const emailText = tpl.subject + "\n\n" + tpl.body;
+    const execTpl = D.followups.find((f) => f.id === "exec-recap");
+    const execText = execTpl ? execTpl.subject + "\n\n" + execTpl.body : "";
+    const attachHtml = getAttachmentLinks(
+      enh.attachKeys || (nextId === "bc-validation" ? ["bc-one-pager", "video-employee"] : nextId === "governance-workshop" ? ["bc-one-pager"] : [])
+    );
+
+    out.innerHTML = `
+      <div class="action-banner">${esc(stage.next)}</div>
+      <div class="intel-grid">
+        ${block("Primary follow-up email", `<p><strong>Subject:</strong> ${esc(tpl.subject)}</p><pre class="copy-block">${esc(tpl.body)}</pre><button type="button" class="copy-btn" data-copy="${escAttr(emailText)}">Copy email</button>`)}
+        ${execTpl ? block("Executive recap (optional)", `<pre class="copy-block">${esc(execTpl.body)}</pre><button type="button" class="copy-btn" data-copy="${escAttr(execText)}">Copy exec recap</button>`) : ""}
+        ${obj ? block("Objection note for email", `<p class="talk-track-lg">${esc(enh.smMidFast || obj.short)}</p>`) : ""}
+        ${attachHtml ? block("Attach to this email", attachHtml) : ""}
+      </div>`;
+
+    out.querySelectorAll(".copy-btn").forEach((btn) => {
+      btn.addEventListener("click", () => copyText(btn.getAttribute("data-copy"), btn));
+    });
   }
 
   /* ——— Microsoft × Factorial ——— */
@@ -700,6 +889,8 @@
   buildAssets();
   buildMsftFactorial();
   buildMessagingForm();
+  initPreCallForm();
+  initPostCallForm();
   renderObjection();
   renderStage();
   renderVertical();
