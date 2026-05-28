@@ -648,8 +648,8 @@ window.DAVYN = {
     ],
     enablementAssets: {
       onePagerPdf: {
-        title: "Business Central integration — one-pager (PT)",
-        path: "assets/downloads/msft-factorial/pdf/PT_-_BC_one_pager.pdf",
+        title: "Business Central integration — one-pager (EN)",
+        path: "assets/downloads/msft-factorial/pdf/ENG_-_BC_one_pager.pdf",
         type: "PDF",
       },
       videos: [
