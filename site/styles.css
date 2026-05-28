@@ -835,7 +835,10 @@ textarea {
   font-size: 11px;
 }
 
-.proposal-pdf-success {
+.proposal-pdf-loading {
+  position: relative;
+  z-index: 10000;
+}
   padding: 20px;
   border: 1px solid #86efac;
   border-radius: var(--radius);

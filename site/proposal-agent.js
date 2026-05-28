@@ -323,32 +323,71 @@
     };
   }
 
+  function waitForRender(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async function convertHtmlToPdfBlob(html, filename) {
     if (typeof html2pdf === "undefined") {
       throw new Error("PDF library failed to load. Hard refresh the page and try again.");
     }
 
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = html;
-    wrapper.style.cssText =
-      "position:fixed;left:0;top:0;width:210mm;min-height:297mm;background:#fff;z-index:-1;opacity:0;pointer-events:none;";
-    document.body.appendChild(wrapper);
+    if (!html || String(html).length < 200) {
+      throw new Error("Proposal HTML was empty. Try again or use Generate proposal draft first.");
+    }
+
+    // Full HTML document must load in an iframe — div.innerHTML drops <head> styles.
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("title", "Proposal PDF render");
+    iframe.style.cssText =
+      "position:fixed;left:0;top:0;width:794px;max-height:100vh;overflow:hidden;border:0;" +
+      "z-index:9998;background:#fff;opacity:1;visibility:visible;pointer-events:none;";
+    document.body.appendChild(iframe);
+
+    const frameDoc = iframe.contentDocument || iframe.contentWindow.document;
+    frameDoc.open();
+    frameDoc.write(html);
+    frameDoc.close();
+
+    await new Promise((resolve) => {
+      iframe.onload = () => resolve();
+      setTimeout(resolve, 1200);
+    });
+    await waitForRender(400);
+
+    const target = frameDoc.body;
+    if (!target || !target.textContent || target.textContent.trim().length < 50) {
+      iframe.remove();
+      throw new Error("Proposal content did not render. Hard refresh and try again.");
+    }
 
     try {
       const blob = await html2pdf()
         .set({
-          margin: [12, 12, 14, 12],
+          margin: [10, 10, 12, 10],
           filename,
-          image: { type: "jpeg", quality: 0.92 },
-          html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
+          image: { type: "jpeg", quality: 0.95 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: "#ffffff",
+            windowWidth: 794,
+            scrollX: 0,
+            scrollY: 0,
+          },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
           pagebreak: { mode: ["css", "legacy"] },
         })
-        .from(wrapper)
+        .from(target)
         .outputPdf("blob");
+
+      if (!blob || blob.size < 2000) {
+        throw new Error("PDF file was empty. Try Chrome or Edge, then download again.");
+      }
       return blob;
     } finally {
-      wrapper.remove();
+      iframe.remove();
     }
   }
 

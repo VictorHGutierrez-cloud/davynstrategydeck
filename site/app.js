@@ -742,9 +742,9 @@
     if (statusEl) statusEl.remove();
     const loading = document.createElement("div");
     loading.id = "proposal-pdf-status";
-    loading.className = "proposal-loading";
+    loading.className = "proposal-loading proposal-pdf-loading";
     loading.innerHTML =
-      "<p><strong>Building PDF proposal…</strong></p><p class=\"muted\">Step 1: AI writes your proposal (20–45s). Step 2: your browser saves the PDF (10–20s). Keep this tab open.</p>";
+      "<p><strong>Building PDF proposal…</strong></p><p class=\"muted\">Step 1: AI writes your proposal (20–45s). Step 2: your browser saves the PDF (15–30s). Keep this tab open — do not switch tabs.</p>";
     if (out) out.prepend(loading);
     else if (pdfBtn && pdfBtn.parentElement) pdfBtn.parentElement.after(loading);
 
