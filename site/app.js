@@ -591,10 +591,23 @@
       hint.textContent = "API endpoint: " + DavynProposalAgent.getApiUrl();
     }
 
+    const guideEl = document.getElementById("vercel-vars-guide");
+    if (guideEl && D.proposalAgent && D.proposalAgent.vercelGuide) {
+      guideEl.innerHTML =
+        "<table class='vercel-vars-table'><thead><tr><th>Vercel variable</th><th>Where it goes</th><th>Example</th></tr></thead><tbody>" +
+        D.proposalAgent.vercelGuide
+          .map(
+            (r) =>
+              `<tr><td><code>${esc(r.name)}</code></td><td>${esc(r.where)}</td><td>${esc(r.example)}</td></tr>`
+          )
+          .join("") +
+        "</tbody></table>";
+    }
+
     const keyInput = document.getElementById("proposal-access-key");
     const saveKeyBtn = document.getElementById("proposal-save-key");
     if (keyInput && window.DavynProposalAgent) {
-      keyInput.value = DavynProposalAgent.getAccessKey();
+      keyInput.value = DavynProposalAgent.getAccessKey() || (D.proposalAgent && D.proposalAgent.accessKeyDefault) || "";
       if (saveKeyBtn && !saveKeyBtn.dataset.bound) {
         saveKeyBtn.dataset.bound = "1";
         saveKeyBtn.addEventListener("click", () => {
@@ -691,6 +704,14 @@
     }
     if (!form.discoveryNotes) {
       alert("Add discovery notes so the draft is grounded in the call.");
+      return;
+    }
+
+    const accessKey = window.DavynProposalAgent && DavynProposalAgent.getAccessKey();
+    if (!accessKey) {
+      alert(
+        "Paste the internal password first (PROPOSAL_ACCESS_KEY from Vercel — not your OpenAI key).\n\nDefault: davyn-proposal-2026\n\nClick Save for session, then Generate again."
+      );
       return;
     }
 

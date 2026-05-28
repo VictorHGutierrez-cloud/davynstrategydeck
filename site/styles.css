@@ -631,6 +631,36 @@ textarea {
   background: var(--bg-elevated);
 }
 
+.proposal-access-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.vercel-vars-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 10px 0 14px;
+}
+
+.vercel-vars-table th,
+.vercel-vars-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.vercel-vars-table th {
+  background: var(--bg-hover);
+  font-weight: 600;
+}
+
+.vercel-vars-table code {
+  font-size: 11px;
+  color: #4f46e5;
+}
+
 .proposal-access-row {
   display: flex;
   gap: 8px;

@@ -189,12 +189,15 @@
             <p class="lead" id="proposal-intro"></p>
           </div>
           <div class="proposal-access" id="proposal-access-wrap">
-            <label for="proposal-access-key">Internal access key</label>
+            <h3 class="proposal-access-title">Step 1 — Internal password (not your OpenAI key)</h3>
+            <p class="muted">On the site you only enter <strong>PROPOSAL_ACCESS_KEY</strong>. The OpenAI key stays in Vercel.</p>
+            <div class="vercel-vars-guide" id="vercel-vars-guide"></div>
+            <label for="proposal-access-key">Paste here: value of <code>PROPOSAL_ACCESS_KEY</code> from Vercel</label>
             <div class="proposal-access-row">
-              <input type="password" id="proposal-access-key" placeholder="Set in Vercel as PROPOSAL_ACCESS_KEY" autocomplete="off" />
+              <input type="text" id="proposal-access-key" placeholder="davyn-proposal-2026" autocomplete="off" />
               <button type="button" class="btn-secondary" id="proposal-save-key">Save for session</button>
             </div>
-            <p class="muted">Required if your admin enabled PROPOSAL_ACCESS_KEY on the API. Stored in this browser session only.</p>
+            <p class="muted">Default if you never changed Vercel: <strong>davyn-proposal-2026</strong> — then click Save, then generate.</p>
           </div>
           <div class="pack-form proposal-form">
             <div class="form-grid">

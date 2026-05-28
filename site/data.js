@@ -16,6 +16,12 @@ window.DAVYN = {
   proposalAgent: {
     intro:
       "Internal only — turn discovery notes into a client-ready proposal draft. Uses your deal inputs plus Davyn playbooks (vertical, objections, BC integration). Review before sending.",
+    accessKeyDefault: "davyn-proposal-2026",
+    vercelGuide: [
+      { name: "OPENAI_API_KEY", where: "Vercel only — never paste in this site", example: "sk-proj-… (from platform.openai.com)" },
+      { name: "PROPOSAL_ACCESS_KEY", where: "Vercel + paste the SAME value in the box below", example: "davyn-proposal-2026 (or any password you choose)" },
+      { name: "OPENAI_MODEL", where: "Vercel only — not a secret key", example: "gpt-4o-mini" },
+    ],
     erpOptions: [
       { id: "bc-cloud", label: "Business Central (cloud)" },
       { id: "nav-onprem", label: "Dynamics NAV / Navision (on-prem)" },
