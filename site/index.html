@@ -69,6 +69,10 @@
               <strong>Post-call pack</strong>
               <span>Follow-up email + attachments in 1 minute</span>
             </button>
+            <button type="button" class="pack-mode-btn accent" onclick="davynGo('proposal')">
+              <strong>Proposal agent</strong>
+              <span>AI draft from discovery notes — internal</span>
+            </button>
           </div>
 
           <div class="triage-block">
@@ -176,6 +180,81 @@
             <button type="button" class="btn-primary" id="postcall-generate">Generate post-call pack</button>
           </div>
           <div id="postcall-output" class="pack-output"></div>
+        </section>
+
+        <!-- PROPOSAL AGENT -->
+        <section data-panel="proposal" hidden>
+          <div class="section-intro">
+            <h1>Proposal agent</h1>
+            <p class="lead" id="proposal-intro"></p>
+          </div>
+          <div class="proposal-access" id="proposal-access-wrap">
+            <label for="proposal-access-key">Internal access key</label>
+            <div class="proposal-access-row">
+              <input type="password" id="proposal-access-key" placeholder="Set in Vercel as PROPOSAL_ACCESS_KEY" autocomplete="off" />
+              <button type="button" class="btn-secondary" id="proposal-save-key">Save for session</button>
+            </div>
+            <p class="muted">Required if your admin enabled PROPOSAL_ACCESS_KEY on the API. Stored in this browser session only.</p>
+          </div>
+          <div class="pack-form proposal-form">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="proposal-client">Client name *</label>
+                <input id="proposal-client" type="text" placeholder="e.g. Acme Holdings Ltd" required />
+              </div>
+              <div class="form-field">
+                <label for="proposal-country">Country / market</label>
+                <input id="proposal-country" type="text" placeholder="e.g. Trinidad, Barbados, Curaçao" />
+              </div>
+              <div class="form-field">
+                <label for="proposal-headcount">Employees</label>
+                <input id="proposal-headcount" type="text" placeholder="e.g. 85" />
+              </div>
+              <div class="form-field">
+                <label for="proposal-vertical">Vertical</label>
+                <select id="proposal-vertical"></select>
+              </div>
+              <div class="form-field">
+                <label for="proposal-stage">Deal stage</label>
+                <select id="proposal-stage"></select>
+              </div>
+              <div class="form-field">
+                <label for="proposal-persona">Primary persona</label>
+                <select id="proposal-persona"></select>
+              </div>
+              <div class="form-field">
+                <label for="proposal-erp">ERP / Microsoft footprint</label>
+                <select id="proposal-erp"></select>
+              </div>
+              <div class="form-field">
+                <label for="proposal-type">Proposal type</label>
+                <select id="proposal-type"></select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Factorial modules in scope</label>
+              <div class="checkbox-grid" id="proposal-modules"></div>
+            </div>
+            <div class="form-field">
+              <label>Objections to address in proposal</label>
+              <div class="checkbox-grid" id="proposal-objections"></div>
+            </div>
+            <div class="form-field">
+              <label for="proposal-discovery">Discovery notes *</label>
+              <textarea id="proposal-discovery" rows="6" placeholder="Paste call notes: pains, stakeholders, timeline, budget signals, BC environment, risks…"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="proposal-pricing">Commercial notes (internal)</label>
+              <textarea id="proposal-pricing" rows="3" placeholder="Ballpark pricing, discount authority, pilot vs full rollout — or leave blank for placeholders"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="proposal-next">Next step to propose</label>
+              <input id="proposal-next" type="text" placeholder="e.g. Commercial review call — June 12 with CFO + IT" />
+            </div>
+            <button type="button" class="btn-primary" id="proposal-generate">Generate proposal draft</button>
+            <p class="muted proposal-api-hint" id="proposal-api-hint"></p>
+          </div>
+          <div id="proposal-output" class="pack-output proposal-output" hidden></div>
         </section>
 
         <!-- DEAL STAGES -->
@@ -326,6 +405,7 @@
     </div>
 
     <script src="data.js"></script>
+    <script src="proposal-agent.js"></script>
     <script src="pitch-viewer.js"></script>
     <script src="app.js"></script>
   </body>

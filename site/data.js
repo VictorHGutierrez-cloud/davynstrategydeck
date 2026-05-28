@@ -9,6 +9,25 @@ window.DAVYN = {
       "Microsoft Solution Partner — Business Applications, Security, Data & AI, Infrastructure, Modern Work",
       "Dynamics 365 · Azure · Power Platform · Microsoft Fabric · Copilot",
     ],
+    proposalApiUrl: "",
+    proposalApiFallback: "https://davynstrategydeck.vercel.app/api/proposal",
+  },
+
+  proposalAgent: {
+    intro:
+      "Internal only — turn discovery notes into a client-ready proposal draft. Uses your deal inputs plus Davyn playbooks (vertical, objections, BC integration). Review before sending.",
+    erpOptions: [
+      { id: "bc-cloud", label: "Business Central (cloud)" },
+      { id: "nav-onprem", label: "Dynamics NAV / Navision (on-prem)" },
+      { id: "gp-legacy", label: "GP / legacy ERP" },
+      { id: "m365-only", label: "Microsoft 365 only (no ERP yet)" },
+      { id: "other", label: "Other / unknown" },
+    ],
+    proposalTypes: [
+      { id: "full", label: "Full proposal (default)" },
+      { id: "exec", label: "Executive summary only (2 pages)" },
+      { id: "scope", label: "Scope + timeline only" },
+    ],
   },
 
   dealStages: [

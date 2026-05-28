@@ -17,6 +17,7 @@
     { id: "home", label: "Command center", icon: "⌂" },
     { id: "precall", label: "Pre-call pack", icon: "◷" },
     { id: "postcall", label: "Post-call pack", icon: "✉" },
+    { id: "proposal", label: "Proposal agent", icon: "✎" },
     { id: "stages", label: "Deal stage navigator", icon: "◎" },
     { id: "objections", label: "Objection intelligence", icon: "⚡" },
     { id: "msft-factorial", label: "Microsoft × Factorial", icon: "⊞" },
@@ -78,6 +79,7 @@
     if (section === "messaging") updateMessage();
     if (section === "precall") initPreCallForm();
     if (section === "postcall") initPostCallForm();
+    if (section === "proposal") initProposalForm();
     closeSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -577,6 +579,154 @@
     renderProductPitchDetail();
   }
 
+  /* ——— Proposal agent ——— */
+  let proposalFormInitialized = false;
+
+  function initProposalForm() {
+    const intro = document.getElementById("proposal-intro");
+    if (intro && D.proposalAgent) intro.textContent = D.proposalAgent.intro;
+
+    const hint = document.getElementById("proposal-api-hint");
+    if (hint && window.DavynProposalAgent) {
+      hint.textContent = "API endpoint: " + DavynProposalAgent.getApiUrl();
+    }
+
+    const keyInput = document.getElementById("proposal-access-key");
+    const saveKeyBtn = document.getElementById("proposal-save-key");
+    if (keyInput && window.DavynProposalAgent) {
+      keyInput.value = DavynProposalAgent.getAccessKey();
+      if (saveKeyBtn && !saveKeyBtn.dataset.bound) {
+        saveKeyBtn.dataset.bound = "1";
+        saveKeyBtn.addEventListener("click", () => {
+          DavynProposalAgent.setAccessKey(keyInput.value.trim());
+          saveKeyBtn.textContent = "Saved ✓";
+          setTimeout(() => {
+            saveKeyBtn.textContent = "Save for session";
+          }, 1500);
+        });
+      }
+    }
+
+    if (proposalFormInitialized) return;
+    proposalFormInitialized = true;
+
+    const vertSel = document.getElementById("proposal-vertical");
+    const stageSel = document.getElementById("proposal-stage");
+    const personaSel = document.getElementById("proposal-persona");
+    const erpSel = document.getElementById("proposal-erp");
+    const typeSel = document.getElementById("proposal-type");
+    const modEl = document.getElementById("proposal-modules");
+    const objEl = document.getElementById("proposal-objections");
+    const btn = document.getElementById("proposal-generate");
+
+    if (vertSel) {
+      vertSel.innerHTML = D.verticals.map((v) => `<option value="${v.id}">${esc(v.name)}</option>`).join("");
+      if (vertSel.querySelector('[value="finance"]')) vertSel.value = "finance";
+    }
+    if (stageSel) {
+      stageSel.innerHTML = D.dealStages.map((s) => `<option value="${s.id}">${esc(s.label)}</option>`).join("");
+      if (stageSel.querySelector('[value="alignment"]')) stageSel.value = "alignment";
+    }
+    if (personaSel) {
+      personaSel.innerHTML = (D.packs.personas || ["CFO", "HR Director", "IT Director"]).map(
+        (p) => `<option value="${esc(p)}">${esc(p)}</option>`
+      ).join("");
+    }
+    if (erpSel && D.proposalAgent) {
+      erpSel.innerHTML = D.proposalAgent.erpOptions.map((o) => `<option value="${o.id}">${esc(o.label)}</option>`).join("");
+    }
+    if (typeSel && D.proposalAgent) {
+      typeSel.innerHTML = D.proposalAgent.proposalTypes.map((t) => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
+    }
+    if (modEl && D.productPitches) {
+      modEl.innerHTML = D.productPitches.decks
+        .map(
+          (d) =>
+            `<label class="check-label"><input type="checkbox" name="proposal-mod" value="${d.id}" /> ${esc(d.title)}</label>`
+        )
+        .join("");
+    }
+    if (objEl) {
+      objEl.innerHTML = D.objections
+        .map((o) => `<label class="check-label"><input type="checkbox" name="proposal-obj" value="${o.id}" /> ${esc(o.title)}</label>`)
+        .join("");
+    }
+    if (btn) {
+      btn.addEventListener("click", runProposalGeneration);
+    }
+  }
+
+  function collectProposalForm() {
+    const moduleIds = [];
+    document.querySelectorAll('input[name="proposal-mod"]:checked').forEach((el) => moduleIds.push(el.value));
+    const objectionIds = [];
+    document.querySelectorAll('input[name="proposal-obj"]:checked').forEach((el) => objectionIds.push(el.value));
+
+    return {
+      clientName: (document.getElementById("proposal-client").value || "").trim(),
+      country: (document.getElementById("proposal-country").value || "").trim(),
+      employeeCount: (document.getElementById("proposal-headcount").value || "").trim(),
+      vertical: document.getElementById("proposal-vertical").value,
+      stage: document.getElementById("proposal-stage").value,
+      persona: document.getElementById("proposal-persona").value,
+      erpEnvironment: document.getElementById("proposal-erp").value,
+      proposalType: document.getElementById("proposal-type").value,
+      moduleIds,
+      objectionIds,
+      discoveryNotes: (document.getElementById("proposal-discovery").value || "").trim(),
+      pricingNotes: (document.getElementById("proposal-pricing").value || "").trim(),
+      nextStep: (document.getElementById("proposal-next").value || "").trim(),
+    };
+  }
+
+  async function runProposalGeneration() {
+    const out = document.getElementById("proposal-output");
+    const btn = document.getElementById("proposal-generate");
+    if (!out || !window.DavynProposalAgent) return;
+
+    const form = collectProposalForm();
+    if (!form.clientName) {
+      alert("Client name is required.");
+      return;
+    }
+    if (!form.discoveryNotes) {
+      alert("Add discovery notes so the draft is grounded in the call.");
+      return;
+    }
+
+    out.hidden = false;
+    out.innerHTML = '<div class="proposal-loading"><p><strong>Generating proposal…</strong></p><p class="muted">This usually takes 20–45 seconds. Do not close this tab.</p></div>';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Generating…";
+    }
+
+    try {
+      const data = await DavynProposalAgent.generateProposal(form, D);
+      const proposal = data.proposal || "";
+      out.innerHTML = `
+        <div class="action-banner">Review before sending — AI draft uses your notes + Davyn playbooks. You own accuracy and pricing.</div>
+        <div class="proposal-result-header">
+          <span class="muted">Model: ${esc(data.model || "OpenAI")}</span>
+          <button type="button" class="copy-btn" id="proposal-copy">Copy full proposal</button>
+        </div>
+        <pre class="proposal-markdown" id="proposal-text">${esc(proposal)}</pre>`;
+      document.getElementById("proposal-copy").addEventListener("click", function () {
+        copyText(proposal, this);
+      });
+    } catch (err) {
+      let msg = err.message || "Unknown error";
+      if (err.status === 401) msg += " — Check your internal access key above.";
+      if (err.status === 503) msg += " — Ask admin to set OPENAI_API_KEY on Vercel.";
+      out.innerHTML = `<div class="proposal-error"><strong>Could not generate proposal</strong><p>${esc(msg)}</p><p class="muted">If the site is on GitHub Pages, the API must be deployed on Vercel and reachable.</p></div>`;
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Generate proposal draft";
+      }
+    }
+  }
+
   /* ——— Pre-call / Post-call packs ——— */
   function initPreCallForm() {
     const stageSel = document.getElementById("precall-stage");
@@ -898,6 +1048,7 @@
         })
       );
     }
+    items.push({ type: "Module", label: "Proposal agent", section: "proposal", hay: "proposal agent AI draft commercial" });
     sections.forEach((s) => items.push({ type: "Module", label: s.label, section: s.id, hay: s.label }));
     return items;
   }
