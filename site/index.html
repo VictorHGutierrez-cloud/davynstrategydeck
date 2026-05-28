@@ -115,6 +115,10 @@
               <strong>◐ Caribbean context</strong>
               <span>Sovereignty, FX, continuity</span>
             </button>
+            <button type="button" class="quick-btn" onclick="davynGo('product-pitches')">
+              <strong>▣ Product pitches</strong>
+              <span>View PPTX decks in browser — no PDF</span>
+            </button>
           </div>
         </section>
 
@@ -297,6 +301,19 @@
           <div id="caribbean-content"></div>
         </section>
 
+        <!-- PRODUCT PITCHES -->
+        <section data-panel="product-pitches" hidden>
+          <div class="section-intro">
+            <h1>Product pitch decks</h1>
+            <p class="lead" id="product-pitches-intro"></p>
+          </div>
+          <div class="pitch-filters" id="pitch-category-filters"></div>
+          <div class="split-panel pitch-split">
+            <div class="list-panel" id="pitch-list"></div>
+            <div class="detail-panel" id="pitch-detail"></div>
+          </div>
+        </section>
+
         <!-- ASSETS -->
         <section data-panel="assets" hidden>
           <div class="section-intro">
@@ -309,6 +326,7 @@
     </div>
 
     <script src="data.js"></script>
+    <script src="pitch-viewer.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

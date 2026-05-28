@@ -20,6 +20,7 @@
     { id: "stages", label: "Deal stage navigator", icon: "◎" },
     { id: "objections", label: "Objection intelligence", icon: "⚡" },
     { id: "msft-factorial", label: "Microsoft × Factorial", icon: "⊞" },
+    { id: "product-pitches", label: "Product pitch decks", icon: "▣" },
     { id: "verticals", label: "Vertical playbooks", icon: "▦" },
     { id: "discovery", label: "Discovery frameworks", icon: "◉" },
     { id: "battlecards", label: "Competitive battlecards", icon: "⬡" },
@@ -35,6 +36,8 @@
   let selectedObjection = D.objections[0].id;
   let selectedStage = D.dealStages[0].id;
   let selectedVertical = D.verticals[0].id;
+  let selectedPitch = (D.productPitches && D.productPitches.decks[0] && D.productPitches.decks[0].id) || null;
+  let pitchCategoryFilter = "all";
 
   /* ——— Navigation ——— */
   function buildNav() {
@@ -66,10 +69,12 @@
       if (section === "objections") selectObjection(param);
       if (section === "stages") selectStage(param);
       if (section === "verticals") selectVertical(param);
+      if (section === "product-pitches") selectProductPitch(param);
     }
     if (section === "objections") renderObjection();
     if (section === "stages") renderStage();
     if (section === "verticals") renderVertical();
+    if (section === "product-pitches") renderProductPitches();
     if (section === "messaging") updateMessage();
     if (section === "precall") initPreCallForm();
     if (section === "postcall") initPostCallForm();
@@ -447,6 +452,7 @@
     if (!el) return;
     el.innerHTML = `
       <p class="lead">Downloadable files linked to sales motions — not a file dump. Use after discovery aligns.</p>
+      <p class="muted">For Factorial product decks, use <button type="button" class="link-btn" data-go="product-pitches">Product pitch decks →</button> to view .pptx in browser.</p>
       <div class="asset-table">${D.assets
         .map(
           (a) => `
@@ -459,6 +465,116 @@
         )
         .join("")}</div>
       <p class="muted" style="margin-top:16px">Full index: <a href="assets/ASSET_INDEX_EN.md">ASSET_INDEX_EN.md</a></p>`;
+    el.querySelectorAll("[data-go]").forEach((btn) => {
+      btn.addEventListener("click", () => go(btn.getAttribute("data-go")));
+    });
+  }
+
+  /* ——— Product pitch decks ——— */
+  function getFilteredPitches() {
+    if (!D.productPitches) return [];
+    const decks = D.productPitches.decks || [];
+    if (pitchCategoryFilter === "all") return decks;
+    return decks.filter((d) => d.category === pitchCategoryFilter);
+  }
+
+  function buildPitchCategoryFilters() {
+    const el = document.getElementById("pitch-category-filters");
+    if (!el || !D.productPitches) return;
+    el.innerHTML = D.productPitches.categories
+      .map(
+        (c) =>
+          `<button type="button" class="triage-chip ${c.id === pitchCategoryFilter ? "is-selected" : ""}" data-pitch-cat="${c.id}">${esc(c.label)}</button>`
+      )
+      .join("");
+    el.querySelectorAll("[data-pitch-cat]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        pitchCategoryFilter = btn.getAttribute("data-pitch-cat");
+        buildPitchCategoryFilters();
+        buildPitchList();
+        const filtered = getFilteredPitches();
+        if (filtered.length && !filtered.find((d) => d.id === selectedPitch)) {
+          selectProductPitch(filtered[0].id);
+        } else {
+          renderProductPitchDetail();
+        }
+      });
+    });
+  }
+
+  function buildPitchList() {
+    const list = document.getElementById("pitch-list");
+    if (!list) return;
+    const decks = getFilteredPitches();
+    list.innerHTML = decks
+      .map(
+        (d) =>
+          `<button type="button" class="list-item ${d.id === selectedPitch ? "is-active" : ""}" data-pitch="${d.id}">
+            <span>${esc(d.title)}</span>
+            <span class="tags">${d.tags.slice(0, 2).join(" · ")}</span>
+          </button>`
+      )
+      .join("");
+    list.querySelectorAll("[data-pitch]").forEach((b) => {
+      b.addEventListener("click", () => selectProductPitch(b.getAttribute("data-pitch")));
+    });
+  }
+
+  function selectProductPitch(id) {
+    if (!id) return;
+    selectedPitch = id;
+    buildPitchList();
+    renderProductPitchDetail();
+  }
+
+  function renderProductPitchDetail() {
+    const el = document.getElementById("pitch-detail");
+    const deck = D.productPitches && D.productPitches.decks.find((d) => d.id === selectedPitch);
+    if (!el || !deck) return;
+
+    const cat = D.productPitches.categories.find((c) => c.id === deck.category);
+    el.innerHTML = `
+      <header class="panel-header">
+        <h2>${esc(deck.title)}</h2>
+        <div class="tag-row">
+          <span class="tag">${esc(cat ? cat.label : deck.category)}</span>
+          ${deck.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}
+        </div>
+      </header>
+      <div class="action-banner">Use when: ${esc(deck.useWhen)}</div>
+      <div class="pitch-viewer-shell" id="pitch-viewer-shell">
+        <div class="pitch-canvas-wrap" id="pitch-viewer-wrap" tabindex="0" aria-label="Slide viewer — use arrow keys">
+          <canvas id="pitch-canvas" width="1280" height="720"></canvas>
+        </div>
+        <div class="pitch-toolbar">
+          <button type="button" class="btn-secondary" id="pitch-prev" aria-label="Previous slide">← Prev</button>
+          <button type="button" class="btn-secondary" id="pitch-next" aria-label="Next slide">Next →</button>
+          <span class="pitch-slide-counter" id="pitch-slide-counter">Loading…</span>
+          <span class="pitch-viewer-status muted" id="pitch-viewer-status"></span>
+          <a class="dl-link pitch-dl" href="${deck.path}" download>Download .pptx</a>
+        </div>
+      </div>
+      <p class="muted pitch-tip">Tip: first load downloads the full deck (~5–35 MB). Stay on Wi‑Fi. If rendering fails, use Download.</p>`;
+
+    if (window.DavynPitchViewer) {
+      window.DavynPitchViewer.destroy();
+      window.DavynPitchViewer.loadPitch(deck);
+    }
+  }
+
+  function buildProductPitchesShell() {
+    const intro = document.getElementById("product-pitches-intro");
+    if (intro && D.productPitches) intro.textContent = D.productPitches.intro;
+    if (!selectedPitch && D.productPitches && D.productPitches.decks.length) {
+      selectedPitch = D.productPitches.decks[0].id;
+    }
+    buildPitchCategoryFilters();
+    buildPitchList();
+  }
+
+  function renderProductPitches() {
+    buildProductPitchesShell();
+    renderProductPitchDetail();
   }
 
   /* ——— Pre-call / Post-call packs ——— */
@@ -771,6 +887,17 @@
       const m = D.microsoftFactorial;
       items.push({ type: "Module", label: "Microsoft × Factorial", section: "msft-factorial", hay: m.title + " " + m.proofPoints.map((p) => p.v).join(" ") + " " + m.quote.text });
     }
+    if (D.productPitches) {
+      D.productPitches.decks.forEach((d) =>
+        items.push({
+          type: "Pitch deck",
+          label: d.title,
+          section: "product-pitches",
+          id: d.id,
+          hay: d.title + " " + d.tags.join(" ") + " " + d.useWhen,
+        })
+      );
+    }
     sections.forEach((s) => items.push({ type: "Module", label: s.label, section: s.id, hay: s.label }));
     return items;
   }
@@ -887,6 +1014,7 @@
   buildRoi();
   buildCaribbean();
   buildAssets();
+  buildProductPitchesShell();
   buildMsftFactorial();
   buildMessagingForm();
   initPreCallForm();
