@@ -1109,6 +1109,8 @@ window.DAVYN = {
     { title: "Getting started with Introw", type: "PPTX", path: "assets/downloads/introw/getting-started-with-introw-2026-en.pptx", tags: ["onboarding"] },
     { title: "Partner visual quick guide", type: "PPTX", path: "assets/downloads/introw/partner-quick-guide-visual-en-2026.pptx", tags: ["onboarding"] },
     { title: "Partner playbook (EN)", type: "MD", path: "assets/PARTNER_PLAYBOOK_DAVYN_EN.md", tags: ["strategy"] },
+    { title: "Master split guide (EN)", type: "MD", path: "assets/master-files-splitted/README.md", tags: ["proposal", "source-of-truth"] },
+    { title: "Master split manifest", type: "JSON", path: "assets/master-files-splitted/manifest.json", tags: ["proposal", "metadata"] },
     { title: "Competitive map — light", type: "PNG", path: "assets/downloads/competitive/products-vs-competitor-light-2026-02.png", tags: ["battlecard"] },
     { title: "Competitive map — dark", type: "PNG", path: "assets/downloads/competitive/products-vs-competitor-dark-2026-02.png", tags: ["battlecard"] },
     { title: "Hospitality vertical PDF", type: "PDF", path: "assets/downloads/industry-verticals/vertical-hospitality.pdf", tags: ["vertical"] },

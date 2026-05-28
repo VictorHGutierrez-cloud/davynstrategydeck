@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Davyn Master Split Manifest",
+  "type": "object",
+  "required": [
+    "manifest_version",
+    "document_id",
+    "total_pages",
+    "components"
+  ],
+  "properties": {
+    "manifest_version": {
+      "type": "string"
+    },
+    "document_id": {
+      "type": "string"
+    },
+    "document_source": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "total_pages": {
+      "type": "integer"
+    },
+    "naming_convention": {
+      "type": "object"
+    },
+    "schema_note": {
+      "type": "string"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "order",
+          "id",
+          "title",
+          "page_range",
+          "pages",
+          "summary",
+          "source_files"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "page_range": {
+            "type": "string"
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "summary": {
+            "type": "string"
+          },
+          "ae_actions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

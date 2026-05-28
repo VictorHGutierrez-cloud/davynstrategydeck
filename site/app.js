@@ -655,14 +655,32 @@
       modEl.innerHTML = D.productPitches.decks
         .map(
           (d) =>
-            `<label class="check-label"><input type="checkbox" name="proposal-mod" value="${d.id}" /> ${esc(d.title)}</label>`
+            `<label class="check-label check-card check-card-module">
+              <input type="checkbox" name="proposal-mod" value="${d.id}" />
+              <span class="check-card-body">
+                <span class="check-card-title">${esc(d.title)}</span>
+                <span class="check-card-meta">${esc(d.tags.slice(0, 3).join(" · "))}</span>
+                <span class="check-card-note">${esc(d.useWhen)}</span>
+              </span>
+            </label>`
         )
         .join("");
+      decorateProposalChecks(modEl);
     }
     if (objEl) {
       objEl.innerHTML = D.objections
-        .map((o) => `<label class="check-label"><input type="checkbox" name="proposal-obj" value="${o.id}" /> ${esc(o.title)}</label>`)
+        .map(
+          (o) =>
+            `<label class="check-label check-card check-card-objection">
+              <input type="checkbox" name="proposal-obj" value="${o.id}" />
+              <span class="check-card-body">
+                <span class="check-card-title">${esc(o.title)}</span>
+                <span class="check-card-meta">${esc(o.tags.slice(0, 3).join(" · "))}</span>
+              </span>
+            </label>`
+        )
         .join("");
+      decorateProposalChecks(objEl);
     }
     if (btn) {
       btn.addEventListener("click", runProposalGeneration);
@@ -725,13 +743,25 @@
     try {
       const data = await DavynProposalAgent.generateProposal(form, D);
       const proposal = data.proposal || "";
+      const moduleCount = form.moduleIds.length;
+      const objectionCount = form.objectionIds.length;
       out.innerHTML = `
         <div class="action-banner">Review before sending — AI draft uses your notes + Davyn playbooks. You own accuracy and pricing.</div>
+        <div class="proposal-summary-row">
+          <span class="proposal-summary-pill">Client: ${esc(form.clientName)}</span>
+          <span class="proposal-summary-pill">Type: ${esc(form.proposalType)}</span>
+          <span class="proposal-summary-pill">Modules: ${moduleCount}</span>
+          <span class="proposal-summary-pill">Objections: ${objectionCount}</span>
+        </div>
         <div class="proposal-result-header">
           <span class="muted">Model: ${esc(data.model || "OpenAI")}</span>
           <button type="button" class="copy-btn" id="proposal-copy">Copy full proposal</button>
         </div>
-        <pre class="proposal-markdown" id="proposal-text">${esc(proposal)}</pre>`;
+        <article class="proposal-document" id="proposal-text">${renderProposalMarkdown(proposal)}</article>
+        <details class="proposal-raw-wrap">
+          <summary>View raw markdown</summary>
+          <pre class="proposal-markdown">${esc(proposal)}</pre>
+        </details>`;
       document.getElementById("proposal-copy").addEventListener("click", function () {
         copyText(proposal, this);
       });
@@ -1161,6 +1191,100 @@
 
   function block(title, body, mod) {
     return `<section class="intel-block ${mod || ""}"><h3>${esc(title)}</h3><div class="intel-body">${body}</div></section>`;
+  }
+
+  function decorateProposalChecks(container) {
+    if (!container) return;
+    container.querySelectorAll(".check-label").forEach((label) => {
+      const input = label.querySelector('input[type="checkbox"]');
+      if (!input) return;
+      const sync = () => label.classList.toggle("is-selected", input.checked);
+      sync();
+      input.addEventListener("change", sync);
+    });
+  }
+
+  function renderProposalMarkdown(markdown) {
+    const lines = String(markdown || "")
+      .replace(/\r\n?/g, "\n")
+      .split("\n");
+    let html = "";
+    let inUl = false;
+    let inOl = false;
+
+    function closeLists() {
+      if (inUl) {
+        html += "</ul>";
+        inUl = false;
+      }
+      if (inOl) {
+        html += "</ol>";
+        inOl = false;
+      }
+    }
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        closeLists();
+        return;
+      }
+
+      const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+      if (heading) {
+        closeLists();
+        const level = Math.min(6, Math.max(1, heading[1].length));
+        html += `<h${level}>${formatInline(heading[2])}</h${level}>`;
+        return;
+      }
+
+      const bullet = trimmed.match(/^[-*]\s+(.+)$/);
+      if (bullet) {
+        if (inOl) {
+          html += "</ol>";
+          inOl = false;
+        }
+        if (!inUl) {
+          html += "<ul>";
+          inUl = true;
+        }
+        html += `<li>${formatInline(bullet[1])}</li>`;
+        return;
+      }
+
+      const numbered = trimmed.match(/^\d+\.\s+(.+)$/);
+      if (numbered) {
+        if (inUl) {
+          html += "</ul>";
+          inUl = false;
+        }
+        if (!inOl) {
+          html += "<ol>";
+          inOl = true;
+        }
+        html += `<li>${formatInline(numbered[1])}</li>`;
+        return;
+      }
+
+      closeLists();
+      html += `<p>${formatInline(trimmed)}</p>`;
+    });
+
+    closeLists();
+    return html || "<p class='muted'>No content returned.</p>";
+  }
+
+  function formatInline(text) {
+    return String(text)
+      .split(/(\*\*[^*]+\*\*)/g)
+      .filter(Boolean)
+      .map((part) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return `<strong>${esc(part.slice(2, -2))}</strong>`;
+        }
+        return esc(part);
+      })
+      .join("");
   }
 
   function copyText(text, btn) {

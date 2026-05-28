@@ -1,0 +1,94 @@
+001: ⚠ | REMEMBER! You you are meant to edit this pitch! | Pick only the slides relevant to your prospect.
+002: Let’s | Collaborate | +
+003: 01 Who are we? | 02 Why Factorial? | 03 How we help companies like yours
+004: We share investors with: | Who are we? | Factorial was founded in 2016 in Barcelona, Spain.
+005: Why Factorial? | Here’s what we offer | Tailored plans to ﬁt your needs
+006: Why Factorial? | Save time and focus on what really matters. | 78,9%
+007: [no extractable text]
+008: Make better business decisions | We provide real-time data so that both HR and | managers can carry out beneﬁcial projects,
+009: Automate the basics | Automate time management to save hours and | give your teams access to projects, documents,
+010: Build high-performance teams | Quickly ﬁnd and onboard top talent. Equip them | with the right tools to unlock their full potential
+011: Costs, under control | Upload and approve expenses, assign them, and | analyze spending data all from one place to
+012: IT operations in sync with HR | Provision devices, manage app access and | automate compliance, all from one place. Reduce
+013: We provide real-time insights to strengthen your | business decisions. You will always have the data you | need to decide with conﬁdence and security.
+014: Our proposal | We base our calculations on an average | annual salary of €35,000. We calculate
+015: Your plan, in detail
+016: [no extractable text]
+017: Essentials PRO | The ideal plan to help your teams grow and cover | compliance.
+018: Starter | Productivity | The ideal plan to simplify manual processes and
+019: Productivity PRO | The ideal plan to simplify your teams’ management | and foster their growth from start to ﬁnish.
+020: Starter | Consulting | The ideal plan to efﬁciently manage your teams
+021: Consulting PRO | The ideal plan to measure your projects' | proﬁtability and promote your teams'
+022: Starter | Planning | The ideal plan to efﬁciently schedule your teams’
+023: Planning PRO | The ideal plan to efﬁciently manage your teams and | support their development.
+024: Starter | People | The ideal plan to grow your teams from start to
+025: Details about modules and features
+026: Designed to make your life | easier and manage your | teams more efﬁciently
+027: Highlighted features | Employee database & Job Catalog | Custom roles and permissions
+028: Simplify compensation | management and avoid | payroll errors
+029: Key features | Synchronization of time off, schedule, | beneﬁts, and expenses with payroll
+030: Enhance your team’s | experience with ﬂexible | compensation
+031: Highlighted features | Automatic approvals | Preconﬁgured quotes and categories
+032: Sync movements and data | created in Factorial with your | payroll program
+033: Highlighted features | Employee onboarding synchronization | Absences and temporary disability
+034: Comply with regulations and | provide an internal space to | report irregularities
+035: Highlighted features | Conﬁdential and anonymous report | Two-way communication
+036: Comply with the law by | managing time accurately | and compensating overtime
+037: Key features | Time tracking for your teams | Clock-in location via geolocation
+038: Key features | Time tracking for your teams | Clock-in location via geolocation
+039: Effortlessly coordinate your | team's time off with a uniﬁed | dashboard
+040: Highlighted features | Manage and approve requests anytime, | anywhere
+041: Highlighted features | Manage and approve requests anytime, | anywhere
+042: Transform shift management | with intuitive, easy-to-use | planning tools
+043: Creating shifts individually and in bulk | Simple and rotating management of breaks and shifts | Shift planning with an intuitive drag-and-drop feature
+044: Manage area and ofﬁce | bookings and make the most | of your workspace
+045: Hire top talent in no | time—without ever leaving | the platform
+046: Highlighted features | Tags, ﬁlters, and notes for candidate | management
+047: Highlighted features | Tags, ﬁlters, and notes for candidate | management
+048: Performance Management | Create a culture of | continuous feedback and
+049: Highlighted features | Review agreements | 180 and 360 reviews
+050: Highlighted features | Review agreements | 180 and 360 reviews
+051: Formaciones | Take your team's knowledge | to the next level with our
+052: Highlighted features | Training catalog | Training request and approval
+053: Centralize learning, | automate progress, and | make growth simple.
+054: Highlighted features | Native course builder | Multi-step modules with text, video,
+055: Create and promote a better | work environment to improve | retention in your teams
+056: Highlighted features | eNPS surveys | Team pulse
+057: Highlighted features | eNPS surveys | Team pulse
+058: Automate expenses, eliminate | admin work, and stay in control | Scan expense receipts via mobile or computer with AI and eliminate paper
+059: Highlighted features | Ticket scanning and AI autoﬁll for forms | in app and web
+060: Highlighted features | Ticket scanning and AI autoﬁll for forms | in app and web
+061: Plan smarter, track costs and | turn projects into proﬁt | Create projects, allocate resources and ensure centralization
+062: Highlighted features | Global and detailed project proﬁt view | with cost and hour tracking
+063: Highlighted features | Global and detailed project proﬁt view | with cost and hour tracking
+064: Easy invoice generation and editing for every deal | Invoice preview before sending | Invoice sending directly from Factorial
+065: Control spending before it happens, | automate purchase requests, and | prevent overspending
+066: Highlighted features | Approval workﬂows by request type | Bank digitization and reconciliation
+067: Automate device management, | from deployment to security | Standardize setup and access to keep equipment secure and
+068: Grant, update and revoke | permissions automatically | Choose the right setup for each tool — automate with an AI
+069: Connect inventory to HR data | and automate provisioning | Order or rent devices from the marketplace, or assign from
+070: Device creation, editing, assignment and retirement with structured workflows | Device bulk import with the Guided Universal Importer | Complete device proﬁle management: type, model, serial number, etc.
+071: Latest product updates
+072: René, our Design Lead, shows you how we | redesigned Factorial to be more connected, more | insightful, and more human.
+073: Co-create surveys and courses, and let One handle your teams' most frequent | questions, so work moves faster and delivers better results. | The AI Agent that multiplies
+074: Turn feedback into action every week | Empower your managers to lead 1:1 meetings with AI assistance | and no prior preparation needed.
+075: A scalable solution to manage | every square meter | Easily manage desks, meeting rooms, and shared areas directly from the same platform your
+076: Design a learning experience that | drives team performance | Create essential courses, track progress, ensure compliance, and empower managers to
+077: Create projects directly | from quotes | Save time and manual back and forth with one click
+078: Yourquote
+079: Subscription quote | The plan that best ﬁts your company | PLANNING ENTERPRISE
+080: Subscription quote | The plan that best ﬁts your company | PLANNING ENTERPRISE
+081: Onboarding quote | The plan that best ﬁts your company | Implementation sessions with
+082: Subscription quote | The plan that best ﬁts your company | Implementation sessions with
+083: Our clients | More than 15,000 clients from various industries trust us
+084: Our clients Over 14,000 clients from various sectors trust us | Food Professional services Industrial Health | Retail
+085: Integrations | Connect Factorial with the applications you already use | More than 68 integrations
+086: Call center & ticket support | Have a question? Need help? Submit a | request anytime through our integrated
+087: Questions?Troubles? We are here | Consistently leading in coverage, response speed, and channel inclusivity. | Average response time:
+088: Security at Factorial | Your data is safe with us | At Factorial, safeguarding our clients' data is our top priority. We understand that
+089: Data Protection & Compliance | Complying with GDPR is our priority | Data Processing Agreement (DPA) Data Protection Ofﬁcer (DPO)
+090: Certiﬁcations | Complying with GDPR is our priority | ISO/IEC 27001:2017
+091: Product security | Secure, modern cloud architecture | Cloud infrastructure
+092: Network-level security monitoring and protection | We protect our users from data leaks by monitoring and blocking brute force attacks. | Single sign-on (SSO) is available using Google, Microsoft, and LinkedIn accounts.
+093: Access your demo | Your personalized demo is ready. | Log into a fully conﬁgured environment tailored to your
+094: Where people grow
